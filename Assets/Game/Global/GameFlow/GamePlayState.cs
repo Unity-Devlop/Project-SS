@@ -1,25 +1,40 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using UnityToolkit;
+using Object = UnityEngine.Object;
 
 namespace Game.Flow
 {
+    [Serializable]
     public class GamePlayState : IState<GameFlow>
     {
-        private GameObject bindedGameObject;
+        [SerializeField] private GameObject bindedGameObject;
+        public bool entered { get; private set; } = false;
 
         public void OnInit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
         }
 
-        public async void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
+        public void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            await Addressables.LoadSceneAsync(Global.Get<GameConfig>().playScene);
-            var prefab = await Global.Get<GameConfig>().playMgrPrefab.LoadAssetAsync<GameObject>();
-            bindedGameObject = Object.Instantiate(prefab);
-            await UniTask.DelayFrame(1, cancellationToken: owner.destroyCancellationToken);
+            entered = false;
+            Addressables.LoadSceneAsync(Global.Get<GameConfig>().playScene).Completed += operation =>
+            {
+                // Global.Get<AudioSystem>().PlayBGM(FMODName.Event.BGM_game_home, out _);
+                Addressables.LoadAssetAsync<GameObject>(Global.Get<GameConfig>().playMgrPrefab).Completed +=
+                    operation =>
+                    {
+                        GameLogger.Log("GamePlayState OnEnter");
+
+                        bindedGameObject = Object.Instantiate(operation.Result);
+                        entered = true;
+                    };
+            };
         }
 
         public void Transition(GameFlow owner, IStateMachine<GameFlow> stateMachine)
@@ -28,10 +43,13 @@ namespace Game.Flow
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
+            if (!entered) return;
+            Assert.IsNotNull(bindedGameObject);
         }
 
         public void OnExit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
+            GameLogger.Log("GamePlayState OnExit");
             if (bindedGameObject != null)
             {
                 Object.Destroy(bindedGameObject);

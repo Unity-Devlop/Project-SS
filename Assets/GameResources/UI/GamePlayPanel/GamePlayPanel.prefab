@@ -86,8 +86,8 @@ GameObject:
   - component: {fileID: 8672672636331793980}
   - component: {fileID: 889311163059310597}
   - component: {fileID: 2639655627625309464}
-  - component: {fileID: 8965012767127141237}
   - component: {fileID: 1923815231980046901}
+  - component: {fileID: 2435755939470373557}
   m_Layer: 5
   m_Name: GamePlayPanel
   m_TagString: Untagged
@@ -155,20 +155,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
---- !u!114 &8965012767127141237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9033528903481924888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08f6254dff6c40088d76bb289fbec90b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <state>k__BackingField: 0
-  sortingOrder: 0
 --- !u!222 &1923815231980046901
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -177,3 +163,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9033528903481924888}
   m_CullTransparentMesh: 1
+--- !u!114 &2435755939470373557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9033528903481924888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1837ea14c2a34e8baf50d8aa435078de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <state>k__BackingField: 0
+  <layerConfig>k__BackingField: 2
+  <sortingOrder>k__BackingField: 0

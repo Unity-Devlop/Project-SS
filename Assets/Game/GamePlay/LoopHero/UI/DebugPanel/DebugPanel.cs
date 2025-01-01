@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityToolkit;
-namespace Game
+namespace Game.LoopHero
 {
     public class DebugPanel : UIPanel
     {

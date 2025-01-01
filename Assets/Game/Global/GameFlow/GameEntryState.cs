@@ -1,5 +1,5 @@
+using System;
 using System.Threading;
-using Game.GamePlay.GameEntry;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
@@ -8,11 +8,15 @@ using Object = UnityEngine.Object;
 
 namespace Game.Flow
 {
+    [Serializable]
     public class GameEntryState : IState<GameFlow>
     {
         private CancellationTokenSource _cancellationTokenSource;
         private bool _loginSuccess;
         private GameObject _bindObject;
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+#endif
         private IGameEntry _gameEntry;
 
         public void OnInit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
@@ -23,16 +27,15 @@ namespace Game.Flow
 
         public void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            UIRoot.Singleton.OpenPanel<VersionPanel>();
-            UIRoot.Singleton.OpenPanel<DebugPanel>();
             _loginSuccess = true;
             // _loginSuccess = false;
             _cancellationTokenSource = new CancellationTokenSource();
             // LoginTask().Forget();
-            var prefab  = Addressables.LoadAssetAsync<GameObject>(Global.Config.gameEntry).WaitForCompletion();
+            var prefab = Addressables.LoadAssetAsync<GameObject>(Global.Config.gameEntry).WaitForCompletion();
             _bindObject = Object.Instantiate(prefab);
             bool assert = _bindObject.TryGetComponent(out _gameEntry);
             Assert.IsTrue(assert);
+            _gameEntry.OnInit();
         }
 
         // private async UniTask LoginTask()
@@ -51,8 +54,8 @@ namespace Game.Flow
 
         public void Transition(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            if(_gameEntry == null) return;
-            if(_gameEntry.initialized) return;
+            if (_gameEntry == null) return;
+            if (!_gameEntry.initialized) return;
             if (_loginSuccess)
             {
                 stateMachine.Change<GameHomeState>();
@@ -68,7 +71,7 @@ namespace Game.Flow
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
             _gameEntry = null;
-            Addressables.ReleaseInstance(_bindObject);
+            Object.Destroy(_bindObject);
         }
     }
 }

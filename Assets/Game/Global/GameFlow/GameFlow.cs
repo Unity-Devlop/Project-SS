@@ -14,7 +14,12 @@ namespace Game.Flow
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly] [NonSerialized]
         private string _currentState;
 #endif
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly] [NonSerialized]
+        private IState<GameFlow> _currentStateInstance;
+#endif
         public bool running => _stateMachine.running;
+
         public void OnInit()
         {
             _blackboard = new Blackboard();
@@ -24,8 +29,6 @@ namespace Game.Flow
             _stateMachine.Add<GameEntryState>();
             _stateMachine.Add<GameHomeState>();
             _stateMachine.Add<GamePlayState>();
-
-            
         }
 
         public void Run()
@@ -40,8 +43,9 @@ namespace Game.Flow
 
         private void Update()
         {
-            if(!running) return;
+            if (!running) return;
 #if UNITY_EDITOR
+            _currentStateInstance = _stateMachine.currentState;
             _currentState = _stateMachine.currentState.GetType().Name;
 #endif
             _stateMachine.OnUpdate();
@@ -51,6 +55,11 @@ namespace Game.Flow
         private void ToGameHome()
         {
             _stateMachine.Change<GameHomeState>();
+        }
+
+        public void Change<T>() where T : IState<GameFlow>
+        {
+            _stateMachine.Change<T>();
         }
 
         #region Fast Access

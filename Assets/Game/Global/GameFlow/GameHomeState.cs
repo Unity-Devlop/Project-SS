@@ -1,7 +1,7 @@
-using FMOD;
-using Game.Home;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
 using UnityToolkit;
 
 namespace Game.Flow
@@ -9,6 +9,7 @@ namespace Game.Flow
     public class GameHomeState : IState<GameFlow>
     {
         public GameObject bindedGameObject;
+        public bool entered { get; private set; } = false;
 
         public void OnInit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
@@ -17,28 +18,36 @@ namespace Game.Flow
 
         public void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            Addressables.LoadSceneAsync(Global.Get<GameConfig>().homeScene).WaitForCompletion();
-            // Global.Get<AudioSystem>().PlayBGM(FMODName.Event.BGM_game_home, out _);
-            UIRoot.Singleton.OpenPanel<GameHomePanel>();
-            var prefab = Addressables.LoadAssetAsync<GameObject>(Global.Get<GameConfig>().homeMgrPrefab)
-                .WaitForCompletion();
-            bindedGameObject = Object.Instantiate(prefab);
+            entered = false;
+
+            Addressables.LoadSceneAsync(Global.Get<GameConfig>().homeScene).Completed += operation =>
+            {
+                // Global.Get<AudioSystem>().PlayBGM(FMODName.Event.BGM_game_home, out _);
+                Addressables.LoadAssetAsync<GameObject>(Global.Get<GameConfig>().homeMgrPrefab).Completed +=
+                    operation =>
+                    {
+                        GameLogger.Log("GameHomeState OnEnter");
+                        bindedGameObject = Object.Instantiate(operation.Result);
+                        entered = true;
+                    };
+            };
         }
 
         public void Transition(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            stateMachine.Change<GamePlayState>();
+            // stateMachine.Change<GamePlayState>();
         }
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
+            if (!entered) return;
             // throw new System.NotImplementedException();
+            Assert.IsNotNull(bindedGameObject);
         }
 
         public void OnExit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            // Global.Get<AudioSystem>().DisposeBGM(FMODName.Event.BGM_game_home);
-            UIRoot.Singleton.Dispose<GameHomePanel>();
+            GameLogger.Log("GameHomeState OnExit");
             if (bindedGameObject != null)
             {
                 Object.Destroy(bindedGameObject);

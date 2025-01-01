@@ -1,13 +1,26 @@
+using System;
 using UnityEngine;
+using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class LoopHeroEntry : MonoBehaviour,IGameEntry
+    [Serializable]
+    public class LoopHeroEntry : MonoBehaviour, IGameEntry
     {
-        public bool initialized { get; private set; }
+        [field: SerializeField] public bool initialized { get; private set; }
+
         public void OnInit()
         {
+            UIRoot.Singleton.OpenPanel<VersionPanel>();
+            UIRoot.Singleton.OpenPanel<DebugPanel>();
+            GameLogger.Log("LoopHeroEntry OnInit");
             initialized = true;
+        }
+
+        private void OnDestroy()
+        {
+            initialized = false;
+            GameLogger.Log("LoopHeroEntry OnDestroy");
         }
     }
 }

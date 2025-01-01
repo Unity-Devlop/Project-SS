@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityToolkit;
 
-namespace Game.GamePlay.GameEntry
+namespace Game.LoopHero
 {
     public class VersionPanel : UIPanel
     {
