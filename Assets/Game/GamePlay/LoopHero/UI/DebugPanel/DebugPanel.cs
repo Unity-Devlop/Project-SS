@@ -6,21 +6,29 @@ namespace Game.LoopHero
 {
     public class DebugPanel : UIPanel
     {
-        public Button dragButton;
-        
-        [SerializeField] private CanvasGroup _contentCanvasGroup;
+        // public Button dragButton;
+        [SerializeField] private  GameObject ingameDebugConsole;
+        // [SerializeField] private CanvasGroup _contentCanvasGroup;
         public override void OnLoaded()
         {
             base.OnLoaded();
-            _contentCanvasGroup.alpha = 0;
-            _contentCanvasGroup.blocksRaycasts = false;
-            _contentCanvasGroup.interactable = false;
-            dragButton.onClick.AddListener(() =>
-            {
-                _contentCanvasGroup.blocksRaycasts = !_contentCanvasGroup.blocksRaycasts;
-                _contentCanvasGroup.interactable = !_contentCanvasGroup.interactable;
-                _contentCanvasGroup.alpha = _contentCanvasGroup.alpha > 0 ? 0 : 1;
-            });
+            // _contentCanvasGroup.alpha = 0;
+            // _contentCanvasGroup.blocksRaycasts = false;
+            // _contentCanvasGroup.interactable = false;
+            // dragButton.onClick.AddListener(() =>
+            // {
+            //     _contentCanvasGroup.blocksRaycasts = !_contentCanvasGroup.blocksRaycasts;
+            //     _contentCanvasGroup.interactable = !_contentCanvasGroup.interactable;
+            //     _contentCanvasGroup.alpha = _contentCanvasGroup.alpha > 0 ? 0 : 1;
+            // });
+            ingameDebugConsole.transform.SetParent(null);
+            DontDestroyOnLoad(ingameDebugConsole);
+        }
+
+        public override void OnDispose()
+        {
+            ingameDebugConsole.transform.SetParent(this.transform);
+            base.OnDispose();
         }
     }
 }
