@@ -1,0 +1,25 @@
+{
+    "name": "LoopHero",
+    "rootNamespace": "LoopHero",
+    "references": [
+        "Game",
+        "GameCore",
+        "UnityToolkit",
+        "UniTask",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.Mathematics",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Luban.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
