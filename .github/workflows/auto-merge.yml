@@ -19,6 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.NICO_TOKEN }}
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Verify required status checks
@@ -30,9 +31,9 @@ jobs:
             const { owner, repo } = context.repo;
             const pr = context.payload.pull_request || context.payload.check_suite.pull_requests[0];
             const sha = pr.head.sha;
-            
+
             console.log(`Processing PR #${pr.number}, HEAD SHA: ${sha}`);
-            
+
             // Get required status checks for the base branch
             const { data: branch } = await github.rest.repos.getBranch({
               owner,
