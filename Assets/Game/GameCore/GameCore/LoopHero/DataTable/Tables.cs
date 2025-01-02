@@ -14,14 +14,20 @@ namespace cfg
 {
 public partial class Tables
 {
+    public PokemonTable PokemonTable {get; }
+    public ItemTable ItemTable {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
+        PokemonTable = new PokemonTable(loader("pokemontable"));
+        ItemTable = new ItemTable(loader("itemtable"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
+        PokemonTable.ResolveRef(this);
+        ItemTable.ResolveRef(this);
     }
 }
 

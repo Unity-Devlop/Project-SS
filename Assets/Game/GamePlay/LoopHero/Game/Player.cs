@@ -4,6 +4,6 @@ namespace Game.LoopHero
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField] private PlayerData _data;
+        [field: SerializeField] public PlayerData data { get; private set; }
     }
 }
