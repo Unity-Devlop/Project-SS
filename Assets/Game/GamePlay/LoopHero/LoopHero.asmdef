@@ -15,7 +15,8 @@
         "ProCamera2D.Runtime",
         "NodeCanvas",
         "ParadoxNotion",
-        "IngameDebugConsole.Runtime"
+        "IngameDebugConsole.Runtime",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -7,10 +7,10 @@ namespace Game.LoopHero
     public class GameMgrConfig : ScriptableObject
     {
         
-        [SerializeField] private AssetReferenceT<GameObject> playerPrefab;
-        [SerializeField] private AssetReference bigMapScene;
-        [SerializeField] private AssetReference campScene;
-        [SerializeField] private AssetReference fightScene;
+        [SerializeField] public AssetReferenceT<GameObject> playerPrefab;
+        [SerializeField] public AssetReference bigMapScene;
+        [SerializeField] public AssetReference campScene;
+        [SerializeField] public AssetReference fightScene;
 
     }
 }

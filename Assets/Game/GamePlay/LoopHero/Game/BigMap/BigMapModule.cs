@@ -8,6 +8,7 @@ namespace Game.LoopHero
 
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            machine = new StateMachine<BigMapModule>(this);
             machine.Add<PauseState>();
             machine.Add<WaitForStartState>();
             machine.Add<WalkState>();

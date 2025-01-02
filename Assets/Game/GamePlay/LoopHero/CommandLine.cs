@@ -15,9 +15,16 @@ namespace Game.LoopHero
         }
 
         [ConsoleMethod( "to_fight", "进入战斗" )]
-        public static void ToGame()
+        public static void ToFight()
         {
-            GameMgr.Singleton.ToGame();
+            GameMgr.Singleton.ToFight();
+        }
+        
+        
+        [ConsoleMethod( "to_bigmap", "进入大地图" )]
+        public static void ToBigMap()
+        {
+            GameMgr.Singleton.ToBigMap();
         }
     }
 }

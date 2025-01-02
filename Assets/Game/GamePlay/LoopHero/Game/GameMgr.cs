@@ -1,6 +1,10 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 using UnityToolkit;
 
 namespace Game.LoopHero
@@ -45,15 +49,33 @@ namespace Game.LoopHero
         public BigMapModule bigMapModule { get; private set; }
         public CampModule campModule { get; private set; }
 
-        protected override void OnInit()
+        private AsyncOperationHandle<SceneInstance> _bigMapSceneHandle;
+        private AsyncOperationHandle<SceneInstance> _campSceneHandle;
+        private AsyncOperationHandle<SceneInstance> _fightSceneHandle;
+
+        protected override async void OnInit()
         {
             GameLogger.Log("LoopHeroGameMgr OnInit");
+            stateMachine = new StateMachine<GameMgr>(this);
             stateMachine.Add<BigMapModule>();
             stateMachine.Add<CampModule>();
             stateMachine.Add<FightModule>();
+            _bigMapSceneHandle = Addressables.LoadSceneAsync(config.bigMapScene, LoadSceneMode.Additive);
+            _campSceneHandle = Addressables.LoadSceneAsync(config.campScene, LoadSceneMode.Additive);
+            _fightSceneHandle = Addressables.LoadSceneAsync(config.fightScene, LoadSceneMode.Additive);
+
+            await _bigMapSceneHandle.ToUniTask(this);
+            await _campSceneHandle.ToUniTask(this);
+            await _fightSceneHandle.ToUniTask(this);
+            
+            CampMgr.Singleton.enabled = false;
+            BigMapMgr.Singleton.enabled = false;
+            FightMgr.Singleton.enabled = false;
 
             bigMapModule = stateMachine.GetState<BigMapModule>();
             campModule = stateMachine.GetState<CampModule>();
+
+            // Additive 加载三个模块的场景
 
 
             stateMachine.Run<CampModule>();
@@ -78,22 +100,36 @@ namespace Game.LoopHero
             {
                 UIRoot.Singleton.Dispose<GamePlayPanel>();
             }
+
+            Addressables.UnloadSceneAsync(_bigMapSceneHandle);
+            Addressables.UnloadSceneAsync(_campSceneHandle);
+            Addressables.UnloadSceneAsync(_fightSceneHandle);
         }
 
         public void ToCamp()
         {
+            CampMgr.Singleton.enabled = true;
+            BigMapMgr.Singleton.enabled = false;
+            FightMgr.Singleton.enabled = false;
             stateMachine.Change<CampModule>();
         }
-
-        public void ToGame()
-        {
-            stateMachine.Change<BigMapModule>();
-        }
-
+        
         public void ToFight()
         {
             // TODO 传递数据
+            CampMgr.Singleton.enabled = false;
+            BigMapMgr.Singleton.enabled = false;
+            FightMgr.Singleton.enabled = true;
+            
             stateMachine.Change<FightModule>();
+        }
+
+        public void ToBigMap()
+        {
+            CampMgr.Singleton.enabled = false;
+            BigMapMgr.Singleton.enabled = true;
+            FightMgr.Singleton.enabled = false;
+            stateMachine.Change<BigMapModule>();
         }
     }
 }

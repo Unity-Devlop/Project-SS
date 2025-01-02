@@ -6,27 +6,27 @@ namespace Game.LoopHero
     {
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            CampMgr.Singleton.enabled = true;
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void OnUpdate(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            CampMgr.Singleton.enabled = false;
         }
     }
 }
