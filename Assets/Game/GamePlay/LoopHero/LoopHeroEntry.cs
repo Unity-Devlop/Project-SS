@@ -15,6 +15,8 @@ namespace Game.LoopHero
             UIRoot.Singleton.OpenPanel<DebugPanel>();
             GameLogger.Log("LoopHeroEntry OnInit");
             initialized = true;
+            var core = new GameObject(nameof(LoopHeroCore));
+            core.AddComponent<LoopHeroCore>();
         }
 
         private void OnDestroy()

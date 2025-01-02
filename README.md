@@ -1,5 +1,31 @@
-# Loop Hero
-
-
-## 美术资源
-Github Action
+## 文件夹结构
+- .github : github CI/CD自动化工作流配置
+- Assets : Unity 资源文件夹
+  - AddressableAssetsData : Addressbles配置文件夹
+  - <span style='color: #ff22dd;'>Art: 美术资源文件夹</span>
+    - Remote : 远程美术资源文件夹 每天凌晨自动同步
+  - Editor Default Resources : 编辑器默认资源文件夹
+    - FMODBanks : FMOD导出文件夹
+  - <span style='color: #c1f80a;'>Framework : 框架文件夹</span>
+  - <span style='color: #c1f80a;'>Game : 游戏文件夹</span>
+    - Components : 通用MonoBehaviour组件文件夹
+    - GameCore: 游戏核心文件夹，和引擎无关，主要是一些数据结构，便于后期和服务器公用一套核心代码
+    - GamePlay: 游戏玩法文件夹
+      - LoopHero : LoopHero游戏文件夹
+    - Global : 全局核心文件夹
+    - Settings : 存储生成的配置代码
+  - <span style='color: #ff22dd;'>GameResources : 游戏资源文件夹</span>
+    - FMODBanks : FMOD生成的音频文件夹
+  - Gizmos : Gizmos文件夹
+  - LocalResources : 本地资源文件夹 打包时删除
+  - Packages : Nuget包文件夹
+  - Plugins : 插件文件夹
+  - Scenes : 默认启动场景文件夹，包含一个Entry启动场景
+  - Settings : 设置文件夹 存储URP，InputSystem ...等配置文件
+  - TextMesh Pro : TextMesh Pro文件夹
+- Excel : Excel表格文件夹
+- FMOD : FMOD音频文件夹
+- LICENSE : 开源协议
+- Packages : Unity Package Manager 包文件夹
+- Tools : 工具文件夹
+- .gitignore : git忽略文件配置

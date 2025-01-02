@@ -6,7 +6,7 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class LoopHeroMgr : MonoSingleton<LoopHeroMgr>
+    public class LoopHeroCore : MonoSingleton<LoopHeroCore>
     {
         /// <summary>
         /// 数据表
