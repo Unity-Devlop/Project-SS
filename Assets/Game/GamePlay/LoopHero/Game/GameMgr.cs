@@ -16,8 +16,8 @@ namespace Game.LoopHero
     public class GameMgr : MonoSingleton<GameMgr>
     {
         // protected override bool DontDestroyOnLoad() => true;
+        [field: SerializeField] public GameMgrConfig config { get; private set; }
         public StateMachine<GameMgr> stateMachine { get; private set; }
-        [SerializeField] private AssetReferenceT<Player> playerPrefab;
 
         public GameState gameState
         {

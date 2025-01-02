@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446cbf2c2c7479994762508b63df1a2, type: 3}
+  m_Name: GameMgrConfig
+  m_EditorClassIdentifier: 
+  playerPrefab:
+    m_AssetGUID: 0670d66e922c149fd8f0afff82f9bfe7
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bigMapScene:
+    m_AssetGUID: c1fbb48a4bb364bec982f81e3537a8ef
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  campScene:
+    m_AssetGUID: 3070d145820954419bb91b26ad7a4516
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  fightScene:
+    m_AssetGUID: 076297a2c1a394338b655527db37ece0
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
