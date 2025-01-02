@@ -1,5 +1,6 @@
 {
     "name": "NodeCanvas",
+    "rootNamespace": "",
     "references": [
         "GUID:66c2eb417c67ad849907d0769db96dbf"
     ],

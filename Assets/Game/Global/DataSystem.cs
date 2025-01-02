@@ -14,6 +14,13 @@ namespace Game
 
         public void Dispose()
         {
+            // TODO 保存数据
+        }
+
+        public T Load<T>(string token) where T : new()
+        {
+            // TODO 加载数据
+            return new T();
         }
     }
 }

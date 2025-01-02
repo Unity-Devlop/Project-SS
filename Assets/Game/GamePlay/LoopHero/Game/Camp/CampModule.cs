@@ -2,7 +2,7 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class FightWinState : IState<GameMgr>
+    public class CampModule : IState<GameMgr>
     {
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {

@@ -2,31 +2,38 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class PauseState : IState<GameMgr>
+    public class BigMapModule : IState<GameMgr>
     {
+        public StateMachine<BigMapModule> machine { get; private set; }
+
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            machine.Add<PauseState>();
+            machine.Add<WaitForStartState>();
+            machine.Add<WalkState>();
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            machine.Run<WaitForStartState>();
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void OnUpdate(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            if (machine.running)
+            {
+                machine.OnUpdate();
+            }
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            throw new System.NotImplementedException();
+            machine.Stop();
         }
     }
 }

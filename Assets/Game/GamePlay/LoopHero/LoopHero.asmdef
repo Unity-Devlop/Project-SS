@@ -13,7 +13,9 @@
         "Unity.InputSystem",
         "Luban.Runtime",
         "ProCamera2D.Runtime",
-        ""
+        "NodeCanvas",
+        "ParadoxNotion",
+        "IngameDebugConsole.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
