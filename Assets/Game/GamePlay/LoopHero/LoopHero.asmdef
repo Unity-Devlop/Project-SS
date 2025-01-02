@@ -11,7 +11,9 @@
         "Unity.Mathematics",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Luban.Runtime"
+        "Luban.Runtime",
+        "ProCamera2D.Runtime",
+        ""
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
