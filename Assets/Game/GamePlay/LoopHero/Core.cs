@@ -34,7 +34,7 @@ namespace Game.LoopHero
         }
 
         protected override bool DontDestroyOnLoad() => true;
-        private const int GameDataID = 1;
+        internal const int GameDataID = 1;
         public GamePlayData playData { get; private set; }
 
         protected override void OnInit()
