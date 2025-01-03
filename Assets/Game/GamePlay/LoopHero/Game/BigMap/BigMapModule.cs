@@ -16,6 +16,7 @@ namespace Game.LoopHero
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            BigMapMgr.Singleton.enabled = true;
             machine.Run<WaitForStartState>();
         }
 
@@ -34,6 +35,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            BigMapMgr.Singleton.enabled = false;
             machine.Stop();
         }
     }

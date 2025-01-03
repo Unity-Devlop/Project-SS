@@ -21,5 +21,27 @@ namespace Game.LoopHero
         {
             
         }
+
+        public void UnbindData()
+        {
+           
+        }
+
+        public void BindData(FightModuleData data)
+        {
+            
+        }
+
+
+#if UNITY_EDITOR
+        
+        public FightModuleData fightModuleData;
+
+        [Sirenix.OdinInspector.Button]
+        private void DebugFight()
+        {
+            GameMgr.Singleton.ToFight(fightModuleData);
+        }
+#endif
     }
 }

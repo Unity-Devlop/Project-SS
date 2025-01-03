@@ -2,31 +2,34 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class FightModule: IState<GameMgr>
+    public class FightModule : IState<GameMgr>
     {
+        private FightModuleData _data;
+
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
+            FightMgr.Singleton.enabled = true;
+            _data = stateMachine.GetParam<FightModuleData>(nameof(FightModuleData));
+            stateMachine.RemoveParam(nameof(FightModuleData));
+            FightMgr.Singleton.BindData(_data);
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
         }
 
         public void OnUpdate(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
+            FightMgr.Singleton.UnbindData();
+            FightMgr.Singleton.enabled = false;
         }
     }
 }

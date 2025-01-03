@@ -7,6 +7,9 @@ namespace Game.LoopHero
     [Serializable]
     public class PlayerData
     {
-        [field: SerializeField] public PackageData package { get; private set; }
+        /// <summary>
+        /// 玩家只是特殊的一种Pokemon
+        /// </summary>
+        public PokemonData self;
     }
 }

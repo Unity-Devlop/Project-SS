@@ -56,10 +56,9 @@ namespace Game.LoopHero
         protected override async void OnInit()
         {
             GameLogger.Log("LoopHeroGameMgr OnInit");
+            
             stateMachine = new StateMachine<GameMgr>(this);
-            stateMachine.Add<BigMapModule>();
-            stateMachine.Add<CampModule>();
-            stateMachine.Add<FightModule>();
+            
             _bigMapSceneHandle = Addressables.LoadSceneAsync(config.bigMapScene, LoadSceneMode.Additive);
             _campSceneHandle = Addressables.LoadSceneAsync(config.campScene, LoadSceneMode.Additive);
             _fightSceneHandle = Addressables.LoadSceneAsync(config.fightScene, LoadSceneMode.Additive);
@@ -71,6 +70,11 @@ namespace Game.LoopHero
             CampMgr.Singleton.enabled = false;
             BigMapMgr.Singleton.enabled = false;
             FightMgr.Singleton.enabled = false;
+            
+            
+            stateMachine.Add<BigMapModule>();
+            stateMachine.Add<CampModule>();
+            stateMachine.Add<FightModule>();
 
             bigMapModule = stateMachine.GetState<BigMapModule>();
             campModule = stateMachine.GetState<CampModule>();
@@ -108,27 +112,18 @@ namespace Game.LoopHero
 
         public void ToCamp()
         {
-            CampMgr.Singleton.enabled = true;
-            BigMapMgr.Singleton.enabled = false;
-            FightMgr.Singleton.enabled = false;
             stateMachine.Change<CampModule>();
         }
-        
-        public void ToFight()
+
+        public void ToFight(FightModuleData data)
         {
             // TODO 传递数据
-            CampMgr.Singleton.enabled = false;
-            BigMapMgr.Singleton.enabled = false;
-            FightMgr.Singleton.enabled = true;
-            
+            stateMachine.SetParam(nameof(FightModuleData), data);
             stateMachine.Change<FightModule>();
         }
 
         public void ToBigMap()
         {
-            CampMgr.Singleton.enabled = false;
-            BigMapMgr.Singleton.enabled = true;
-            FightMgr.Singleton.enabled = false;
             stateMachine.Change<BigMapModule>();
         }
     }
