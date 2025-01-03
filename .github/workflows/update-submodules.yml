@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab or through HTTP API
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # Run every day at 00:00 UTC
+#    - cron: '0 */1 * * *' # 每间隔一小时运行一次
 
 jobs:  
   sync:
@@ -36,4 +37,4 @@ jobs:
           git config --global user.name 'Git bot'
           git config --global user.email 'bot@noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.NICO_TOKEN }}@github.com/${{ github.repository }}
-          git commit -am "Auto updated submodule references" && git push || echo "No changes to commit"
+          git commit -am "[自动化流程]-同步美术工程" && git push || echo "No changes to commit"

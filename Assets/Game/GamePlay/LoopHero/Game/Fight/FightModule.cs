@@ -15,7 +15,7 @@ namespace Game.LoopHero
             FightMgr.Singleton.enabled = true;
             _data = stateMachine.GetParam<FightModuleData>(nameof(FightModuleData));
             stateMachine.RemoveParam(nameof(FightModuleData));
-            FightMgr.Singleton.BindData(_data);
+            FightMgr.Singleton.StartFight(_data);
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
@@ -28,7 +28,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            FightMgr.Singleton.UnbindData();
+            FightMgr.Singleton.Clear();
             FightMgr.Singleton.enabled = false;
         }
     }

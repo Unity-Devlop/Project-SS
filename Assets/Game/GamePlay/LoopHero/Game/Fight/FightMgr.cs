@@ -22,12 +22,12 @@ namespace Game.LoopHero
             
         }
 
-        public void UnbindData()
+        public void Clear()
         {
            
         }
 
-        public void BindData(FightModuleData data)
+        public void StartFight(FightModuleData data)
         {
             
         }
