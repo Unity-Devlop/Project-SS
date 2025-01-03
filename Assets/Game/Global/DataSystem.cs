@@ -7,7 +7,7 @@ namespace Game
 {
     public class DataSystem : MonoBehaviour, ISystem, IOnInit
     {
-        private LiteDatabase _database;
+        public LiteDatabase database { get; private set; }
 
         internal static string dbPath
         {
@@ -24,31 +24,29 @@ namespace Game
         public void OnInit()
         {
             GameLogger.Log("DataSystem OnInit");
-            _database = new LiteDatabase(dbPath);
+            database = new LiteDatabase(dbPath);
         }
 
 
         public void Dispose()
         {
             // TODO 保存数据
-            _database.Dispose();
+            database.Dispose();
         }
 
-        public T Query<T>(string collectionName, int id, T defaultValue)
+        public T GetOrDefault<T>(int id) where T : new()
         {
-            var collection = _database.GetCollection<T>(collectionName);
-
-            if (typeof(T).IsAssignableFrom(typeof(IIndexable)))
-            {
-                collection.EnsureIndex(x => ((IIndexable)x).index);
-            }
-
+            var collection = database.GetCollection<T>();
             var result = collection.FindById(id);
-
             if (result == null)
             {
-                collection.Insert(defaultValue);
-                return defaultValue;
+                result = new T();
+                GameLogger.Log($"[{nameof(DataSystem)}]:Create {id} {result}");
+                collection.Insert(id, result);
+            }
+            else
+            {
+                GameLogger.Log($"[{nameof(DataSystem)}]:Get {id} {result}");
             }
 
             return result;

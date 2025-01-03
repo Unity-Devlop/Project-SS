@@ -109,3 +109,8 @@ Audio/.cache/**
 .DS_Store
 Assets/AddressableAssetsData/link.xml
 Assets/AddressableAssetsData/link.xml.meta
+
+
+# LiteDB Log
+*.db.log
+*.db.log.meta

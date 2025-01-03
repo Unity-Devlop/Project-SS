@@ -9,6 +9,7 @@ namespace Game.LoopHero
     [Serializable]
     public class GamePlayData
     {
+        public int index;
         [field: SerializeField] public bool newGame { get; private set; }
         [field: SerializeField] public TeamData teamData { get; private set; }
 

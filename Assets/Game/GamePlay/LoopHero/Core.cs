@@ -34,14 +34,17 @@ namespace Game.LoopHero
         }
 
         protected override bool DontDestroyOnLoad() => true;
-
+        private const int GameDataID = 1;
         public GamePlayData playData { get; private set; }
-        private const string GameDataCollectionName = "a";
 
         protected override void OnInit()
         {
             _tables = new Tables(TableLoad);
-            playData = Global.Get<DataSystem>().Query<GamePlayData>(GameDataCollectionName,0, new GamePlayData());
+            playData = Global.Get<DataSystem>().GetOrDefault<GamePlayData>(GameDataID);
+            if (playData.newGame)
+            {
+                playData.index = GameDataID;
+            }
         }
 
         protected override void OnDispose()
