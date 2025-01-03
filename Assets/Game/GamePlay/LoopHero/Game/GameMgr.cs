@@ -75,6 +75,7 @@ namespace Game.LoopHero
             stateMachine.Add<BigMapModule>();
             stateMachine.Add<CampModule>();
             stateMachine.Add<FightModule>();
+            stateMachine.Add<FightSettlementModule>();
 
             bigMapModule = stateMachine.GetState<BigMapModule>();
             campModule = stateMachine.GetState<CampModule>();
