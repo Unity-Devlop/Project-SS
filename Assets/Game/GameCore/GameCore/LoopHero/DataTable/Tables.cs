@@ -16,11 +16,13 @@ public partial class Tables
 {
     public PokemonTable PokemonTable {get; }
     public ItemTable ItemTable {get; }
+    public BuffTable BuffTable {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
         PokemonTable = new PokemonTable(loader("pokemontable"));
         ItemTable = new ItemTable(loader("itemtable"));
+        BuffTable = new BuffTable(loader("bufftable"));
         ResolveRef();
     }
     
@@ -28,6 +30,7 @@ public partial class Tables
     {
         PokemonTable.ResolveRef(this);
         ItemTable.ResolveRef(this);
+        BuffTable.ResolveRef(this);
     }
 }
 

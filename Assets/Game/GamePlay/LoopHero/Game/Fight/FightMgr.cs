@@ -37,8 +37,9 @@ namespace Game.LoopHero
         
         public FightModuleData fightModuleData;
 
+        [Obsolete]
         [Sirenix.OdinInspector.Button]
-        private void DebugFight()
+        internal void DebugFight()
         {
             GameMgr.Singleton.ToFight(fightModuleData);
         }

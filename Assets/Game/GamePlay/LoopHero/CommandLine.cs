@@ -14,10 +14,10 @@ namespace Game.LoopHero
             GameMgr.Singleton.ToCamp();
         }
 
-        [ConsoleMethod( "to_fight", "进入战斗" )]
+        [ConsoleMethod( "to_debug_fight", "进入战斗" )]
         public static void ToFight()
         {
-            GameMgr.Singleton.ToFight();
+            FightMgr.Singleton.DebugFight();
         }
         
         
