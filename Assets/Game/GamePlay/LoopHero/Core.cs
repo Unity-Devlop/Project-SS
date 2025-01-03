@@ -36,12 +36,12 @@ namespace Game.LoopHero
         protected override bool DontDestroyOnLoad() => true;
 
         public GamePlayData playData { get; private set; }
-        private const string GameDataToken = "LoopHero.GameData";
+        private const string GameDataCollectionName = "a";
 
         protected override void OnInit()
         {
             _tables = new Tables(TableLoad);
-            playData = Global.Get<DataSystem>().Load<GamePlayData>(GameDataToken);
+            playData = Global.Get<DataSystem>().Query<GamePlayData>(GameDataCollectionName,0, new GamePlayData());
         }
 
         protected override void OnDispose()

@@ -5,23 +5,20 @@ using UnityEditor;
 
 namespace Framework.Editor
 {
-    
-    
-    public class FrameworkEditor : OdinMenuEditorWindow 
+    public class FrameworkEditor : OdinMenuEditorWindow
     {
-
         [MenuItem("Framework/Editor")]
         public static void OpenWindow()
         {
             var window = GetWindow<FrameworkEditor>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
         }
-        
+
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree();
-            tree.Add("FMOD", new FMODEditor(),EditorIcons.Microphone);
-            
+            tree.Add("FMOD", new FMODEditor(), EditorIcons.Microphone);
+            tree.Add("Data", new DataEditor(), EditorIcons.SettingsCog);
             return tree;
         }
     }

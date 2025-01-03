@@ -5,4 +5,9 @@ namespace Game
         public bool initialized { get; }
         public void OnInit();
     }
+    
+    public interface IIndexable
+    {
+        public int index { get; }
+    }
 }
