@@ -112,5 +112,5 @@ Assets/AddressableAssetsData/link.xml.meta
 
 
 # LiteDB Log
-*.db.log
-*.db.log.meta
+Assets/Editor Default Resources/data-log.db
+Assets/Editor Default Resources/data-log.db.meta

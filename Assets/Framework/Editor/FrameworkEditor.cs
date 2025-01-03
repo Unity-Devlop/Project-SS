@@ -14,12 +14,20 @@ namespace Framework.Editor
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
         }
 
+        private DataEditor _dataEditor;
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree();
             tree.Add("FMOD", new FMODEditor(), EditorIcons.Microphone);
-            tree.Add("Data", new DataEditor(), EditorIcons.SettingsCog);
+            _dataEditor = new DataEditor();
+            tree.Add("Data", _dataEditor, EditorIcons.SettingsCog);
             return tree;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _dataEditor.OnDestroy();
         }
     }
 }

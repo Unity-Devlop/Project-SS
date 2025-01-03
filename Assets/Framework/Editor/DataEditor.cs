@@ -15,37 +15,51 @@ namespace Framework.Editor
         public DataEditor()
         {
             _database = new LiteDatabase(DataSystem.dbPath);
+            gamePlayData = GetOrDefault<GamePlayData>(Core.GameDataID);
         }
 
         ~DataEditor()
         {
-            _database.Dispose();
+            if (_database != null) _database.Dispose();
         }
 
         [Sirenix.OdinInspector.ShowInInspector, HorizontalGroup("1")]
         public bool loaded => _database != null;
 
-        [Button("删除数据库"), HorizontalGroup("1")]
+        [Button("清空数据库"), HorizontalGroup("1")]
         private void ClearDatabase()
         {
-            _database.Dispose();
+            if (_database != null) _database.Dispose();
             // TODO 清空数据库
             if (File.Exists(DataSystem.dbPath))
             {
                 File.Delete(DataSystem.dbPath);
             }
+
+            LoadData();
         }
 
 
-        [Button("加载数据库"), HorizontalGroup("1")]
+        // [Button("加载数据库"), HorizontalGroup("1")]
         private void LoadData()
         {
+            if (_database != null) _database.Dispose();
             _database = new LiteDatabase(DataSystem.dbPath);
             gamePlayData = GetOrDefault<GamePlayData>(Core.GameDataID);
         }
 
+        [Button("保存"), HorizontalGroup("1")]
+        private void SaveData()
+        {
+            if (gamePlayData != null)
+            {
+                var collection = _database.GetCollection<GamePlayData>();
+                collection.Update(Core.GameDataID, gamePlayData);
+            }
+        }
 
-        [ShowIf("loaded"),Sirenix.OdinInspector.PropertyOrder(2)] public GamePlayData gamePlayData;
+        [ShowIf("loaded"), Sirenix.OdinInspector.PropertyOrder(2)]
+        public GamePlayData gamePlayData;
 
         private T GetOrDefault<T>(int id) where T : new()
         {
@@ -58,6 +72,11 @@ namespace Framework.Editor
             }
 
             return result;
+        }
+
+        public void OnDestroy()
+        {
+            if (_database != null) _database.Dispose();
         }
     }
 }
