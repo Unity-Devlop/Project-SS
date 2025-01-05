@@ -32,11 +32,11 @@ namespace Game.LoopHero
         {
         }
 
-        private void OnFightEnd(bool isSelfWin)
+        private void OnFightEnd(in FightMgr.FightResult result)
         {
             // TODO 结算数据 恢复一些Buff状态
             _isFightEnd = true;
-            _isSelfWin = isSelfWin;
+            _isSelfWin = result.isSelfWin;
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)

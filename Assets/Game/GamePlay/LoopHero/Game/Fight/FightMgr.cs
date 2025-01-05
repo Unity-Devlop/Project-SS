@@ -1,60 +1,99 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
+using UnityEngine;
 using UnityToolkit;
 
 namespace Game.LoopHero
 {
     public sealed partial class FightMgr : MonoSingleton<FightMgr>
     {
-        private FightModuleData _data;
+        #region Define
 
-        public delegate void OnFightEnd(bool isSelfWin);
+        public delegate void OnFightEnd(in FightResult result);
 
-        public struct FightCheckResult
+        public struct FightResult
         {
             public bool isSelfWin;
             public bool isFightEnd;
 
-            public FightCheckResult(bool isSelfWin, bool isFightEnd)
+            public FightResult(bool isSelfWin, bool isFightEnd)
             {
                 this.isSelfWin = isSelfWin;
                 this.isFightEnd = isFightEnd;
             }
         }
 
+        #endregion
 
+
+        // TODO 后面删除掉 读表
+        [Obsolete]
+        public GameObject pokemonPrefab;
+        
+        private FightModuleData _data;
+
+        private CinemachineCamera _camera;
+
+
+        protected override void OnInit()
+        {
+            _camera = GetComponent<CinemachineCamera>();
+        }
+
+        protected override void OnDispose()
+        {
+        }
+
+        
+        
         public async void /*UniTask*/ StartFight(FightModuleData data, OnFightEnd onFightEnd)
         {
-            GetComponent<CinemachineCamera>().enabled = true;
-            await FightStart();
-            var check = new FightCheckResult(false, false);
-            while (check.isFightEnd == false)
+            await StartFight();
+            var result = new FightResult(false, false);
+            while (result.isFightEnd == false)
             {
                 await UniTask.DelayFrame(1);
-                await DoAutoFight();
-                check = await CheckFightEnd();
+                await RoundStart();
+                await UniTask.DelayFrame(1);
+                await Rounding();
+                await UniTask.DelayFrame(1);
+                await RoundEnd();
+                result = await GetFightResult();
             }
 
             await EndFight();
-            onFightEnd(check.isSelfWin);
+            onFightEnd(in result);
         }
 
 
-        private async UniTask FightStart()
+        private async UniTask RoundStart()
         {
             await UniTask.CompletedTask;
         }
 
-        private async UniTask DoAutoFight()
+        private async UniTask Rounding()
         {
             await UniTask.CompletedTask;
         }
 
-        private async UniTask<FightCheckResult> CheckFightEnd()
+        private async UniTask RoundEnd()
         {
             await UniTask.CompletedTask;
-            return new FightCheckResult()
+        }
+
+
+        private async UniTask StartFight()
+        {
+            _camera.enabled = true;
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask<FightResult> GetFightResult()
+        {
+            await UniTask.CompletedTask;
+            return new FightResult()
             {
                 isFightEnd = true,
                 isSelfWin = true
@@ -63,12 +102,12 @@ namespace Game.LoopHero
 
         private async UniTask EndFight()
         {
+            _camera.enabled = false;
             await UniTask.CompletedTask;
         }
 
         public void DisableLogic()
         {
-            GetComponent<CinemachineCamera>().enabled = false;
         }
     }
 #if UNITY_EDITOR
