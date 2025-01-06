@@ -16,7 +16,9 @@
         "NodeCanvas",
         "ParadoxNotion",
         "IngameDebugConsole.Runtime",
-        "Unity.Cinemachine"
+        "Unity.Cinemachine",
+        "DOTween.Modules",
+        "UniTask.DOTween"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

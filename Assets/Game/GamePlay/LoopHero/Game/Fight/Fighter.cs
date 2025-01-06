@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -64,6 +65,12 @@ namespace Game.LoopHero
         private async UniTask EnterBattle(PokemonData pokemon, Transform target, GameObject prefab)
         {
             var go = Instantiate(prefab, target.position, Quaternion.identity, target);
+            // DOTWEEN 移动
+            Vector3 targetPosition = go.transform.localPosition;
+            Vector3 startPosition = targetPosition - new Vector3(2, 0, 0);
+            go.transform.localPosition = startPosition;
+            go.transform.DOLocalMoveX(targetPosition.x, 0.5f).SetEase(Ease.Linear);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
             var p = go.GetComponent<Pokemon>();
             await p.Bind(pokemon);
             _pokemons.Add(p);
