@@ -16,8 +16,13 @@ namespace Game.LoopHero
 
         [Obsolete("TODO 后面删除掉 读表")] // TODO
         public GameObject pokemonPrefab;
+        
+        
+        [Obsolete("TODO 后面删除掉 读表")] // TODO
+        public GameObject trainerPrefab;
 
         private Transform[] _positions;
+        private Transform _trainerPos;
         private List<Pokemon> _pokemons;
 
         private void Awake()
@@ -32,6 +37,8 @@ namespace Game.LoopHero
             _positions[3] = transform.Find("P3");
             _positions[4] = transform.Find("P4");
             _positions[5] = transform.Find("P5");
+
+            _trainerPos = transform.Find("Trainer");
         }
 
         public async UniTask Bind(FighterData data)
@@ -44,16 +51,18 @@ namespace Game.LoopHero
 
         public async UniTask RoundStart()
         {
+            // 训练家入场
+            await EnterBattle(_data.teamData.playerData.self, _trainerPos, trainerPrefab);
+            // 宝可梦入场
             for (var i = 0; i < _data.teamData.battlePokemonList.Count; i++)
             {
-                await EnterBattle(_data.teamData.battlePokemonList[i], i);
+                await EnterBattle(_data.teamData.battlePokemonList[i], _positions[i], pokemonPrefab);
             }
         }
 
-        private async UniTask EnterBattle(PokemonData pokemon, int idx)
+        private async UniTask EnterBattle(PokemonData pokemon, Transform target,GameObject prefab)
         {
-            Transform target = _positions[idx];
-            var go = Instantiate(pokemonPrefab, target.position, Quaternion.identity, target);
+            var go = Instantiate(prefab, target.position, Quaternion.identity, target);
             var p = go.GetComponent<Pokemon>();
             await p.Bind(pokemon);
             _pokemons.Add(p);

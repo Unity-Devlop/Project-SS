@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 296142fdaf2724256b6108de6a27937a
+guid: b5e5c0b12ea0c46ac9e827b389d4bbd0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Orc-Idle_0
+      name: Soldier-Idle_0
       rect:
         serializedVersion: 2
-        x: 44
+        x: 41
         y: 43
-        width: 22
-        height: 15
+        width: 15
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b6adee4362da4ad695ab241824ed362
-      internalID: 1757613693
+      spriteID: 76f9381e3ea54479ea3c465f7744cf4b
+      internalID: -2030729559
       vertices: []
       indices: 
       edges: []
@@ -141,12 +141,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Orc-Idle_0: 1757613693
-      Orc-Idle_1: -1040916122
-      Orc-Idle_2: 1789493427
-      Orc-Idle_3: -5862005
-      Orc-Idle_4: 465083127
-      Orc-Idle_5: -777869339
+      Soldier-Idle_0: -2030729559
+      Soldier-Idle_1: -949340659
+      Soldier-Idle_2: -1601175488
+      Soldier-Idle_3: 165070244
+      Soldier-Idle_4: -27411234
+      Soldier-Idle_5: -1565633680
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

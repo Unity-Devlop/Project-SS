@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.LoopHero
@@ -7,7 +8,7 @@ namespace Game.LoopHero
     {
         [field: SerializeField] public PokemonData data { get; private set; }
 
-        public async Task Bind(PokemonData data)
+        public virtual async UniTask Bind(PokemonData data)
         {
             this.data = data;
         }

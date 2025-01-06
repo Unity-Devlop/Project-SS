@@ -14,11 +14,12 @@ namespace Game.Flow
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly] [NonSerialized]
         private string _currentState;
 #endif
-#if UNITY_EDITOR
-        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly] [NonSerialized]
-        private IState<GameFlow> _currentStateInstance;
-#endif
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        [field: NonSerialized]
+        public IState<GameFlow> currentState { get; private set; }
+
         public bool running => _stateMachine.running;
+
 
         public void OnInit()
         {
@@ -45,7 +46,7 @@ namespace Game.Flow
         {
             if (!running) return;
 #if UNITY_EDITOR
-            _currentStateInstance = _stateMachine.currentState;
+            currentState = _stateMachine.currentState;
             _currentState = _stateMachine.currentState.GetType().Name;
 #endif
             _stateMachine.OnUpdate();
