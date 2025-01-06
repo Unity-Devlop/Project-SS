@@ -8,6 +8,15 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
+    public enum FightState
+    {
+        FightStart,
+        RoundStart,
+        Rounding,
+        RoundEnd,
+        EndFight
+    }
+
     public sealed partial class FightMgr : MonoSingleton<FightMgr>
     {
         #region Define
@@ -27,15 +36,16 @@ namespace Game.LoopHero
         }
 
         #endregion
-        
+
         private FightModuleData _data;
+
+        [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
+        public FightState fightState { get; private set; }
 
         private CinemachineCamera _camera;
 
-        [SerializeField]
-        private Fighter self;
-        [SerializeField]
-        private Fighter enemy;
+        [SerializeField] private Fighter self;
+        [SerializeField] private Fighter enemy;
 
 
         protected override void OnInit()
@@ -47,26 +57,30 @@ namespace Game.LoopHero
         {
         }
 
-        
-        
+
         public async void /*UniTask*/ StartFight(FightModuleData data, OnFightEnd onFightEnd)
         {
             Assert.IsNull(_data);
             _data = data;
             await StartFight();
+            fightState = FightState.FightStart;
             var result = new FightResult(false, false);
             while (result.isFightEnd == false)
             {
                 await UniTask.DelayFrame(1);
                 await RoundStart();
+                fightState = FightState.RoundStart;
                 await UniTask.DelayFrame(1);
                 await Rounding();
+                fightState = FightState.Rounding;
                 await UniTask.DelayFrame(1);
                 await RoundEnd();
+                fightState = FightState.RoundEnd;
                 result = await GetFightResult();
             }
 
             await EndFight();
+            fightState = FightState.EndFight;
             onFightEnd(in result);
             _data = null;
         }
@@ -74,9 +88,6 @@ namespace Game.LoopHero
 
         private async UniTask RoundStart()
         {
-            var t1 = self.RoundStart();
-            var t2 =  enemy.RoundStart();
-            await UniTask.WhenAll(t1, t2);
         }
 
         private async UniTask Rounding()
@@ -95,7 +106,10 @@ namespace Game.LoopHero
             _camera.enabled = true;
             await self.Bind(_data.self);
             await enemy.Bind(_data.enemy);
-            await UniTask.CompletedTask;
+
+            var t1 = self.FightStart();
+            var t2 = enemy.FightStart();
+            await UniTask.WhenAll(t1, t2);
         }
 
         private async UniTask<FightResult> GetFightResult()
@@ -121,7 +135,7 @@ namespace Game.LoopHero
 #if UNITY_EDITOR
     public partial class FightMgr
     {
-        [SerializeField,Sirenix.OdinInspector.LabelText("DEBUG")]
+        [SerializeField, Sirenix.OdinInspector.LabelText("DEBUG")]
         private FightModuleData fightModuleData;
 
         [Obsolete]
@@ -130,6 +144,13 @@ namespace Game.LoopHero
         {
             GameMgr.Singleton.ToFight(fightModuleData);
         }
+        //
+        // private void OnGUI()
+        // {
+        //     if (_data == null) return;
+        //     // show fightState
+        //     GUI.Label(new Rect(10, 10, 100, 20), fightState.ToString());
+        // }
     }
 #endif
 }

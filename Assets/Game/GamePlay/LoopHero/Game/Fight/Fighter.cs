@@ -49,7 +49,7 @@ namespace Game.LoopHero
         }
 
 
-        public async UniTask RoundStart()
+        public async UniTask FightStart()
         {
             // 训练家入场
             await EnterBattle(_data.teamData.playerData.self, _trainerPos, trainerPrefab);
