@@ -8,18 +8,21 @@ namespace Game.Buttons
 {
     public class BtnDebugFight : Button
     {
-        public override void OnPointerClick(PointerEventData eventData)
+        public override async void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
             if (Global.Get<GameFlow>().currentState is not GamePlayState)
             {
                 Global.Get<GameFlow>().Change<GamePlayState>();
+                await UniTask.WaitUntil(() => Global.Get<GameFlow>().currentState is GamePlayState,
+                    cancellationToken: destroyCancellationToken);
+                await UniTask.DelayFrame(60, cancellationToken: destroyCancellationToken);
+                await UniTask.WaitUntil(() => FightMgr.SingletonNullable != null,
+                    cancellationToken: destroyCancellationToken);
             }
 
-            UniTask.WaitUntil(() => Global.Get<GameFlow>().currentState is GamePlayState).ContinueWith(() =>
-            {
-                FightMgr.Singleton.DebugFight();
-            });
+
+            FightMgr.Singleton.DebugFight();
         }
     }
 }
