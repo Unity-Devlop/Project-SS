@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityToolkit;
 
 namespace Game.LoopHero
@@ -26,15 +27,15 @@ namespace Game.LoopHero
         }
 
         #endregion
-
-
-        // TODO 后面删除掉 读表
-        [Obsolete]
-        public GameObject pokemonPrefab;
         
         private FightModuleData _data;
 
         private CinemachineCamera _camera;
+
+        [SerializeField]
+        private Fighter self;
+        [SerializeField]
+        private Fighter enemy;
 
 
         protected override void OnInit()
@@ -50,6 +51,8 @@ namespace Game.LoopHero
         
         public async void /*UniTask*/ StartFight(FightModuleData data, OnFightEnd onFightEnd)
         {
+            Assert.IsNull(_data);
+            _data = data;
             await StartFight();
             var result = new FightResult(false, false);
             while (result.isFightEnd == false)
@@ -65,12 +68,15 @@ namespace Game.LoopHero
 
             await EndFight();
             onFightEnd(in result);
+            _data = null;
         }
 
 
         private async UniTask RoundStart()
         {
-            await UniTask.CompletedTask;
+            var t1 = self.RoundStart();
+            var t2 =  enemy.RoundStart();
+            await UniTask.WhenAll(t1, t2);
         }
 
         private async UniTask Rounding()
@@ -87,6 +93,8 @@ namespace Game.LoopHero
         private async UniTask StartFight()
         {
             _camera.enabled = true;
+            await self.Bind(_data.self);
+            await enemy.Bind(_data.enemy);
             await UniTask.CompletedTask;
         }
 
@@ -113,7 +121,8 @@ namespace Game.LoopHero
 #if UNITY_EDITOR
     public partial class FightMgr
     {
-        public FightModuleData fightModuleData;
+        [SerializeField,Sirenix.OdinInspector.LabelText("DEBUG")]
+        private FightModuleData fightModuleData;
 
         [Obsolete]
         [Sirenix.OdinInspector.Button]

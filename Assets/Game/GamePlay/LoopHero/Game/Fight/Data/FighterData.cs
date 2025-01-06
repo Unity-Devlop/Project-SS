@@ -6,7 +6,17 @@ namespace Game.LoopHero
     [Serializable]
     public class FighterData
     {
-        public List<PokemonData> currentRoundPokemonList;
+        public TeamData teamData;
+
+        private FighterData()
+        {
+            
+        }
+        
+        public FighterData(TeamData teamData)
+        {
+            this.teamData = teamData;
+        }
     }
 
 }

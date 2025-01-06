@@ -245,8 +245,12 @@ PrefabInstance:
       value: Global
       objectReference: {fileID: 0}
     - target: {fileID: 6119944372200252343, guid: 5bfc919cf500c403b8f0ede9cf097dff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119944372200252343, guid: 5bfc919cf500c403b8f0ede9cf097dff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6738876517669680959, guid: 5bfc919cf500c403b8f0ede9cf097dff, type: 3}
       propertyPath: DefaultBlend.Style
