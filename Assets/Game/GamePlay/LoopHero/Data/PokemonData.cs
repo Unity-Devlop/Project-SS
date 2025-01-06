@@ -8,13 +8,12 @@ namespace Game.LoopHero
     {
         public PokemonEnum id;
         public PokemonConfig config => Core.Tables.PokemonTable.Get(id);
-
+        public bool alive => health > 0;
         public ushort level;
         public int health;
         public int power;
         public int defense;
         public int adaptability;
         public int speed;
-        
     }
 }

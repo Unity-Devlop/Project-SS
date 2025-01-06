@@ -39,7 +39,7 @@ namespace Game.LoopHero
 
         private FightModuleData _data;
 
-        [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public FightState fightState { get; private set; }
 
         private CinemachineCamera _camera;
@@ -69,14 +69,22 @@ namespace Game.LoopHero
             {
                 await UniTask.DelayFrame(1);
                 await RoundStart();
+                result = await GetFightResult();
+                if (result.isFightEnd) break;
                 fightState = FightState.RoundStart;
+
                 await UniTask.DelayFrame(1);
                 await Rounding();
+                result = await GetFightResult();
+                if (result.isFightEnd) break;
                 fightState = FightState.Rounding;
+
+
                 await UniTask.DelayFrame(1);
                 await RoundEnd();
-                fightState = FightState.RoundEnd;
                 result = await GetFightResult();
+                if (result.isFightEnd) break;
+                fightState = FightState.RoundEnd;
             }
 
             await EndFight();
@@ -115,11 +123,27 @@ namespace Game.LoopHero
         private async UniTask<FightResult> GetFightResult()
         {
             await UniTask.CompletedTask;
-            return new FightResult()
+
+            bool selfAlive = _data.self.canFight;
+            bool enemyAlive = _data.enemy.canFight;
+
+            if (!selfAlive && !enemyAlive)
             {
-                isFightEnd = true,
-                isSelfWin = true
-            };
+                throw new NotImplementedException($@"[{nameof(FightMgr)}]:双方都死了");
+            }
+
+            if (selfAlive && !enemyAlive)
+            {
+                return new FightResult(true, true);
+            }
+            
+            if (!selfAlive && enemyAlive)
+            {
+                return new FightResult(false, true);
+            }
+            
+            // 双方都活着
+            return new FightResult(false, false);
         }
 
         private async UniTask EndFight()

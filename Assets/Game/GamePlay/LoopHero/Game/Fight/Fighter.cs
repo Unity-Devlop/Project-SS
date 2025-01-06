@@ -4,25 +4,26 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Game.LoopHero
 {
     public class Fighter : MonoBehaviour
     {
-        public List<Pokemon> current;
-
         [NonSerialized, Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         private FighterData _data;
 
-        [Obsolete("TODO 后面删除掉 读表")] // TODO
+        [Sirenix.OdinInspector.HorizontalGroup("DEBUG")] [Obsolete("TODO 后面删除掉 读表")] // TODO
         public GameObject pokemonPrefab;
-        
-        
-        [Obsolete("TODO 后面删除掉 读表")] // TODO
+
+
+        [Sirenix.OdinInspector.HorizontalGroup("DEBUG")] [Obsolete("TODO 后面删除掉 读表")] // TODO
         public GameObject trainerPrefab;
 
         private Transform[] _positions;
         private Transform _trainerPos;
+
+        private Trainer _trainer;
         private List<Pokemon> _pokemons;
 
         private void Awake()
@@ -60,7 +61,7 @@ namespace Game.LoopHero
             }
         }
 
-        private async UniTask EnterBattle(PokemonData pokemon, Transform target,GameObject prefab)
+        private async UniTask EnterBattle(PokemonData pokemon, Transform target, GameObject prefab)
         {
             var go = Instantiate(prefab, target.position, Quaternion.identity, target);
             var p = go.GetComponent<Pokemon>();
