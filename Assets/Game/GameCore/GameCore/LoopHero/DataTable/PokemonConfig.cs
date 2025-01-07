@@ -19,8 +19,10 @@ public sealed partial class PokemonConfig : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (PokemonEnum)_buf["id"].AsInt; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
+        { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (PokemonTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
-        { if(!_buf["elements"].IsNumber) { throw new SerializationException(); }  Elements = (ElementEnum)_buf["elements"].AsInt; }
+        { if(!_buf["elementA"].IsNumber) { throw new SerializationException(); }  ElementA = (ElementEnum)_buf["elementA"].AsInt; }
+        { if(!_buf["elementB"].IsNumber) { throw new SerializationException(); }  ElementB = (ElementEnum)_buf["elementB"].AsInt; }
         { if(!_buf["base_hp"].IsNumber) { throw new SerializationException(); }  BaseHp = _buf["base_hp"]; }
         { if(!_buf["max_hp"].IsNumber) { throw new SerializationException(); }  MaxHp = _buf["max_hp"]; }
         { if(!_buf["base_atk"].IsNumber) { throw new SerializationException(); }  BaseAtk = _buf["base_atk"]; }
@@ -47,13 +49,21 @@ public sealed partial class PokemonConfig : Luban.BeanBase
     /// </summary>
     public readonly string Name;
     /// <summary>
+    /// 类型
+    /// </summary>
+    public readonly PokemonTypeEnum Type;
+    /// <summary>
     /// 描述
     /// </summary>
     public readonly string Desc;
     /// <summary>
     /// 属性
     /// </summary>
-    public readonly ElementEnum Elements;
+    public readonly ElementEnum ElementA;
+    /// <summary>
+    /// 属性
+    /// </summary>
+    public readonly ElementEnum ElementB;
     /// <summary>
     /// 基础生命值
     /// </summary>
@@ -114,6 +124,8 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         
         
         
+        
+        
     }
 
     public override string ToString()
@@ -121,8 +133,10 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "name:" + Name + ","
+        + "type:" + Type + ","
         + "desc:" + Desc + ","
-        + "elements:" + Elements + ","
+        + "elementA:" + ElementA + ","
+        + "elementB:" + ElementB + ","
         + "baseHp:" + BaseHp + ","
         + "maxHp:" + MaxHp + ","
         + "baseAtk:" + BaseAtk + ","

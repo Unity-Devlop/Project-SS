@@ -10,4 +10,9 @@ namespace Game
     {
         public int index { get; }
     }
+
+    public interface IJsonData
+    {
+        
+    }
 }

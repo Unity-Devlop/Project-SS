@@ -85,7 +85,7 @@ namespace Game
             _systemLocator.Register<AudioSystem>(GetComponentInChildren<AudioSystem>());
             _systemLocator.Register<SceneSystem>(GetComponentInChildren<SceneSystem>());
             _systemLocator.Register<GameFlow>(GetComponentInChildren<GameFlow>());
-            _systemLocator.Register<DataSystem>(GetComponentInChildren<DataSystem>());
+            _systemLocator.Register<DataSystem>(new DataSystem());
             _systemLocator.Register<ResourceSystem>(GetComponentInChildren<ResourceSystem>());
             _systemLocator.Register<LocalizationSystem>(GetComponentInChildren<LocalizationSystem>());
             _systemLocator.Register<UserTraceSystem>();

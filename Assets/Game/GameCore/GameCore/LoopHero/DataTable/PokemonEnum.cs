@@ -14,6 +14,7 @@ namespace cfg
     public enum PokemonEnum
     {
         NO1 = 0,
+        玩家 = 1,
     }
 
 } 

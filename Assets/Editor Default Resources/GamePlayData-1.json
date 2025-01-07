@@ -1,0 +1,104 @@
+{
+  "newGame": false,
+  "teamData": {
+    "playerData": {
+      "id": 0,
+      "level": 30,
+      "health": 5,
+      "basePower": 93,
+      "baseDefense": 35,
+      "baseAdaptability": 39,
+      "baseSpeed": 27,
+      "guid": "00000000-0000-0000-0000-000000000000",
+      "additionalPower": 0,
+      "additionalDefense": 0,
+      "additionalAdaptability": 0,
+      "additionalSpeed": 0
+    },
+    "package": {
+      "items": [
+        {
+          "id": 0,
+          "count": 1
+        },
+        {
+          "id": 0,
+          "count": 2
+        },
+        {
+          "id": 0,
+          "count": 3
+        }
+      ]
+    },
+    "battlePokemonList": [
+      {
+        "id": 0,
+        "level": 34,
+        "health": 58,
+        "basePower": 84,
+        "baseDefense": 92,
+        "baseAdaptability": 25,
+        "baseSpeed": 74,
+        "guid": "00000000-0000-0000-0000-000000000000",
+        "additionalPower": 0,
+        "additionalDefense": 0,
+        "additionalAdaptability": 0,
+        "additionalSpeed": 0
+      },
+      {
+        "id": 0,
+        "level": 65,
+        "health": 73,
+        "basePower": 47,
+        "baseDefense": 96,
+        "baseAdaptability": 48,
+        "baseSpeed": 83,
+        "guid": "00000000-0000-0000-0000-000000000000",
+        "additionalPower": 0,
+        "additionalDefense": 0,
+        "additionalAdaptability": 0,
+        "additionalSpeed": 0
+      }
+    ],
+    "candidatePokemonList": [],
+    "currentBuffList": [
+      {
+        "id": 0,
+        "targetGuids": null,
+        "leftTime": 3.0,
+        "config": {
+          "Id": 0,
+          "TargetType": 0,
+          "Type": 0,
+          "Name": "",
+          "OnlyInBattle": false
+        }
+      },
+      {
+        "id": 0,
+        "targetGuids": null,
+        "leftTime": 4.0,
+        "config": {
+          "Id": 0,
+          "TargetType": 0,
+          "Type": 0,
+          "Name": "",
+          "OnlyInBattle": false
+        }
+      },
+      {
+        "id": 0,
+        "targetGuids": null,
+        "leftTime": 1.0,
+        "config": {
+          "Id": 0,
+          "TargetType": 0,
+          "Type": 0,
+          "Name": "",
+          "OnlyInBattle": false
+        }
+      }
+    ]
+  }
+}

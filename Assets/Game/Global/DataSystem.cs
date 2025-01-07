@@ -1,62 +1,171 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using LiteDB;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityToolkit;
 
 namespace Game
 {
-    public class DataSystem : MonoBehaviour, ISystem, IOnInit
+    public class DataSystem : ISystem, IOnInit
     {
         public LiteDatabase database { get; private set; }
+
+        private static string prefixPath
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return Application.dataPath + "/Editor Default Resources/";
+#else
+                return Application.persistentDataPath + "/";
+#endif
+            }
+        }
 
         internal static string dbPath
         {
             get
             {
 #if UNITY_EDITOR
-                return Application.dataPath + "/Editor Default Resources/data.db";
+                return prefixPath + "data.db";
 #else
-                return Application.persistentDataPath + "/data.db";
+                return prefixPath + "data.db";
 #endif
             }
         }
 
+        private bool _initialized;
+
         public void OnInit()
         {
-            GameLogger.Log("DataSystem OnInit");
+            if (_initialized) return;
             database = new LiteDatabase(dbPath);
+            _initialized = true;
         }
 
 
         public void Dispose()
         {
             // TODO 保存数据
-            database.Dispose();
+            if (database != null)
+            {
+                database.Dispose();
+                database = null;
+            }
+
+            _initialized = false;
         }
+
 
         public T GetOrDefault<T>(int id) where T : new()
         {
-            var collection = database.GetCollection<T>();
-            var result = collection.FindById(id);
-            if (result == null)
+            if (typeof(IJsonData).IsAssignableFrom(typeof(T)))
             {
-                result = new T();
-                GameLogger.Log($"[{nameof(DataSystem)}]:Create {id} {result}");
-                collection.Insert(id, result);
+                return GetOrDefaultJson<T>(id);
+            }
+
+            return GetOrDefaultLiteDB<T>(id);
+        }
+
+        private T GetOrDefaultJson<T>(int id) where T : new()
+        {
+            string path = prefixPath + typeof(T).Name + "-" + id + ".json";
+            if (!File.Exists(path))
+            {
+                GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:GetOrDefault<Json> {path} {null}");
+                return new T();
+            }
+
+            var str = File.ReadAllText(path);
+            GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:GetOrDefault<Json> {path} {str}");
+            var obj = JsonConvert.DeserializeObject<T>(str);
+            // var str2 = JsonConvert.SerializeObject(obj);
+            // GameLogger.Log($"{str2}");
+            return obj;
+        }
+
+        private T GetOrDefaultLiteDB<T>(int id) where T : new()
+        {
+            throw new NotImplementedException();
+            // var collection = database.GetCollection<T>();
+            // var result = collection.FindById(id);
+            // GameLogger.Log($"[{nameof(DataSystem)}]:GetOrDefault<LiteDB> {id} {result}");
+            // if (result == null)
+            // {
+            //     result = new T();
+            //     GameLogger.Log($"[{nameof(DataSystem)}]:Create {id} {result}");
+            //     collection.Insert(id, result);
+            // }
+            // else
+            // {
+            //     GameLogger.Log($"[{nameof(DataSystem)}]:Get {id} {result}");
+            // }
+            //
+            // return result;
+        }
+
+        public void Save<T>(int id, T data)
+        {
+            if (typeof(IJsonData).IsAssignableFrom(typeof(T)))
+            {
+                SaveJson(id, data);
             }
             else
             {
-                GameLogger.Log($"[{nameof(DataSystem)}]:Get {id} {result}");
+                SaveLiteDB(id, data);
+            }
+        }
+
+        private void SaveLiteDB<T>(int id, T data)
+        {
+            // GameLogger.Log($"[{nameof(DataSystem)}]:Save {id} {data}");
+            // var collection = database.GetCollection<T>();
+            // collection.Upsert(id, data);
+        }
+
+        private void SaveJson<T>(int id, T data)
+        {
+            string path = prefixPath + typeof(T).Name + "-" + id + ".json";
+            var str = JsonConvert.SerializeObject(data,Formatting.Indented);
+// #if UNITY_EDITOR
+            GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:SaveJson {path} {str}");
+// #endif
+            File.WriteAllText(path, str);
+        }
+
+        #region FastAccess
+
+        internal static DataSystem Shared
+        {
+            get
+            {
+                if (Application.isPlaying)
+                {
+                    GameLogger.Exception(new System.Exception("请勿在运行时访问DataSystem.Shared 仅仅在编辑器中使用"));
+                }
+
+                if (_shared != null) return _shared;
+                _shared = new DataSystem();
+                _shared.OnInit();
+                return _shared;
+            }
+        }
+
+        internal static DataSystem _shared;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void ResetStatic()
+        {
+            if (_shared != null)
+            {
+                _shared.Dispose();
             }
 
-            return result;
+            _shared = null;
         }
-        
-        public void Save<T>(int id, T data)
-        {
-            GameLogger.Log($"[{nameof(DataSystem)}]:Save {id} {data}");
-            var collection = database.GetCollection<T>();
-            collection.Upsert(id, data);
-        }
+
+        #endregion
     }
 }

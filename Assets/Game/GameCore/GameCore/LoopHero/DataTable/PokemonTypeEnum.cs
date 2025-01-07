@@ -11,10 +11,10 @@
 
 namespace cfg
 { 
-    public enum ElementEnum
+    public enum PokemonTypeEnum
     {
-        None = 0,
-        水 = 1,
+        玩家 = 0,
+        非玩家 = 1,
     }
 
 } 

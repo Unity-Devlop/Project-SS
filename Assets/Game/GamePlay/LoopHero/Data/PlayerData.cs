@@ -10,6 +10,6 @@ namespace Game.LoopHero
         /// <summary>
         /// 玩家只是特殊的一种Pokemon
         /// </summary>
-        public PokemonData self;
+        
     }
 }

@@ -54,7 +54,7 @@ namespace Game.LoopHero
         public async UniTask FightStart()
         {
             // 训练家入场
-            await EnterBattle(_data.teamData.playerData.self, _trainerPos, trainerPrefab);
+            await EnterBattle(_data.teamData.playerData, _trainerPos, trainerPrefab);
             // 宝可梦入场
             for (var i = 0; i < _data.teamData.battlePokemonList.Count; i++)
             {
