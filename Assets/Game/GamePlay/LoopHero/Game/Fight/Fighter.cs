@@ -60,6 +60,14 @@ namespace Game.LoopHero
             {
                 await EnterBattle(_data.teamData.battlePokemonList[i], _positions[i], pokemonPrefab);
             }
+
+            await InitializeFight();
+        }
+
+        private async UniTask InitializeFight()
+        {
+            // TODO 战斗开始效果结算
+            await UniTask.CompletedTask;
         }
 
         private async UniTask EnterBattle(PokemonData pokemon, Transform target, GameObject prefab)
@@ -69,11 +77,16 @@ namespace Game.LoopHero
             Vector3 targetPosition = go.transform.localPosition;
             Vector3 startPosition = targetPosition - new Vector3(2, 0, 0);
             go.transform.localPosition = startPosition;
-            go.transform.DOLocalMoveX(targetPosition.x, 0.5f).SetEase(Ease.Linear);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+            await go.transform.DOLocalMoveX(targetPosition.x, 0.5f).SetEase(Ease.Linear);
             var p = go.GetComponent<Pokemon>();
             await p.Bind(pokemon);
             _pokemons.Add(p);
+        }
+
+        public async UniTask RoundStart()
+        {
+            //TODO 回合开始效果结算
+            await UniTask.CompletedTask;
         }
     }
 }

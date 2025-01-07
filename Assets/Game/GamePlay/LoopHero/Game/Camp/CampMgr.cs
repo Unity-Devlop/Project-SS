@@ -3,7 +3,7 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class CampMgr : MonoSingleton<CampMgr>
+    public class CampMgr : LoopHeroModuleMgr<CampMgr>
     {
         private void OnEnable()
         {
@@ -17,6 +17,11 @@ namespace Game.LoopHero
 
         private void Update()
         {
+        }
+
+        public override void OnUpdate()
+        {
+            
         }
     }
 }

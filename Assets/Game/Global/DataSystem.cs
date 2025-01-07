@@ -51,5 +51,12 @@ namespace Game
 
             return result;
         }
+        
+        public void Save<T>(int id, T data)
+        {
+            GameLogger.Log($"[{nameof(DataSystem)}]:Save {id} {data}");
+            var collection = database.GetCollection<T>();
+            collection.Upsert(id, data);
+        }
     }
 }

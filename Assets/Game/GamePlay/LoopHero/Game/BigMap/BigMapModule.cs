@@ -5,6 +5,7 @@ namespace Game.LoopHero
     public class BigMapModule : IState<GameMgr>
     {
         public StateMachine<BigMapModule> machine { get; private set; }
+        private BigMapMgr _mgr;
 
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
@@ -12,11 +13,12 @@ namespace Game.LoopHero
             machine.Add<PauseState>();
             machine.Add<WaitForStartState>();
             machine.Add<WalkState>();
+            _mgr = BigMapMgr.Singleton;
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            BigMapMgr.Singleton.enabled = true;
+            _mgr.enabled = true;
             machine.Run<WaitForStartState>();
         }
 
@@ -31,11 +33,13 @@ namespace Game.LoopHero
             {
                 machine.OnUpdate();
             }
+
+            _mgr.OnUpdate();
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            BigMapMgr.Singleton.enabled = false;
+            _mgr.enabled = false;
             machine.Stop();
         }
     }

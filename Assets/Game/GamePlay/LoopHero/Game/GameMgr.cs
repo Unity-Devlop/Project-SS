@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -53,12 +54,20 @@ namespace Game.LoopHero
         private AsyncOperationHandle<SceneInstance> _campSceneHandle;
         private AsyncOperationHandle<SceneInstance> _fightSceneHandle;
 
+        private GamePlayData _data;
+
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        private BuffTicker _buffTicker;
+
         protected override async void OnInit()
         {
             GameLogger.Log("LoopHeroGameMgr OnInit");
-            
+
+            _data = Core.Singleton.playData;
+            _buffTicker = new BuffTicker(_data.teamData);
+
             stateMachine = new StateMachine<GameMgr>(this);
-            
+
             _bigMapSceneHandle = Addressables.LoadSceneAsync(config.bigMapScene, LoadSceneMode.Additive);
             _campSceneHandle = Addressables.LoadSceneAsync(config.campScene, LoadSceneMode.Additive);
             _fightSceneHandle = Addressables.LoadSceneAsync(config.fightScene, LoadSceneMode.Additive);
@@ -66,12 +75,12 @@ namespace Game.LoopHero
             await _bigMapSceneHandle.ToUniTask(this);
             await _campSceneHandle.ToUniTask(this);
             await _fightSceneHandle.ToUniTask(this);
-            
+
             CampMgr.Singleton.enabled = false;
             BigMapMgr.Singleton.enabled = false;
             FightMgr.Singleton.enabled = false;
-            
-            
+
+
             stateMachine.Add<BigMapModule>();
             stateMachine.Add<CampModule>();
             stateMachine.Add<FightModule>();
@@ -90,10 +99,9 @@ namespace Game.LoopHero
 
         private void Update()
         {
-            if (stateMachine.running)
-            {
-                stateMachine.OnUpdate();
-            }
+            if (!stateMachine.running) return;
+            stateMachine.OnUpdate();
+            _buffTicker.OnUpdate(Time.deltaTime);
         }
 
         protected override void OnDispose()

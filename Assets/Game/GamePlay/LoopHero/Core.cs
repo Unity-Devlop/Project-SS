@@ -44,6 +44,7 @@ namespace Game.LoopHero
             if (playData.newGame)
             {
                 playData.index = GameDataID;
+                Global.Get<DataSystem>().Save(GameDataID, playData);
             }
         }
 

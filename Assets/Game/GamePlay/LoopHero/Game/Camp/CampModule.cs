@@ -4,14 +4,16 @@ namespace Game.LoopHero
 {
     public class CampModule : IState<GameMgr>
     {
+        private CampMgr _mgr;
+
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
+            _mgr = CampMgr.Singleton;
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            CampMgr.Singleton.enabled = true;
+            _mgr.enabled = true;
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
@@ -21,12 +23,12 @@ namespace Game.LoopHero
 
         public void OnUpdate(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            // throw new System.NotImplementedException();
+            _mgr.OnUpdate();
         }
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            CampMgr.Singleton.enabled = false;
+            _mgr.enabled = false;
         }
     }
 }

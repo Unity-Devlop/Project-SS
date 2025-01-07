@@ -8,7 +8,7 @@ using Random = System.Random;
 
 namespace Game.LoopHero
 {
-    public class BigMapMgr : MonoSingleton<BigMapMgr>
+    public class BigMapMgr : LoopHeroModuleMgr<BigMapMgr>
     {
         public Tilemap tileMap;
         public Tile drawTile;
@@ -34,10 +34,6 @@ namespace Game.LoopHero
         private void OnDisable()
         {
             GetComponent<CinemachineCamera>().enabled = false;
-        }
-        private void Update()
-        {
-            
         }
 
 
@@ -181,5 +177,9 @@ namespace Game.LoopHero
             return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
         }
 
+        public override void OnUpdate()
+        {
+            
+        }
     }
 }

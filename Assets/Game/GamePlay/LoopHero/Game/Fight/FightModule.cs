@@ -7,21 +7,22 @@ namespace Game.LoopHero
         private FightModuleData _data;
         private bool _isSelfWin;
         private bool _isFightEnd;
-
+        private FightMgr _mgr;
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            _mgr = FightMgr.Singleton;
         }
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
             _data = stateMachine.GetParam<FightModuleData>(nameof(FightModuleData));
             stateMachine.RemoveParam(nameof(FightModuleData));
-            FightMgr.Singleton.StartFight(_data, OnFightEnd); // TODO
+            _mgr.StartFight(_data, OnFightEnd); // TODO
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            if(_isFightEnd)
+            if (_isFightEnd)
             {
                 // TODO 传递战斗结果
                 stateMachine.Change<FightSettlementModule>();
@@ -30,6 +31,7 @@ namespace Game.LoopHero
 
         public void OnUpdate(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            _mgr.OnUpdate();
         }
 
         private void OnFightEnd(in FightMgr.FightResult result)
@@ -41,7 +43,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            FightMgr.Singleton.DisableLogic();
+            _mgr.DisableLogic();
         }
     }
 }

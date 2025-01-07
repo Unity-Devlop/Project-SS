@@ -17,7 +17,7 @@ namespace Game.LoopHero
         EndFight
     }
 
-    public sealed partial class FightMgr : MonoSingleton<FightMgr>
+    public sealed partial class FightMgr : LoopHeroModuleMgr<FightMgr>
     {
         #region Define
 
@@ -96,6 +96,10 @@ namespace Game.LoopHero
 
         private async UniTask RoundStart()
         {
+            var t1 = self.RoundStart();
+            var t2 = enemy.RoundStart();
+
+            await UniTask.WhenAll(t1, t2);
         }
 
         private async UniTask Rounding()
@@ -136,12 +140,12 @@ namespace Game.LoopHero
             {
                 return new FightResult(true, true);
             }
-            
+
             if (!selfAlive && enemyAlive)
             {
                 return new FightResult(false, true);
             }
-            
+
             // 双方都活着
             return new FightResult(false, false);
         }
@@ -154,6 +158,11 @@ namespace Game.LoopHero
 
         public void DisableLogic()
         {
+        }
+
+        public override void OnUpdate()
+        {
+            
         }
     }
 #if UNITY_EDITOR
