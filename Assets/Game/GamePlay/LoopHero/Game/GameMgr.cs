@@ -56,15 +56,11 @@ namespace Game.LoopHero
 
         private GamePlayData _data;
 
-        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
-        private BuffTicker _buffTicker;
-
         protected override async void OnInit()
         {
             GameLogger.Log("LoopHeroGameMgr OnInit");
 
             _data = Core.Singleton.playData;
-            _buffTicker = new BuffTicker(_data.teamData);
 
             stateMachine = new StateMachine<GameMgr>(this);
 
@@ -101,7 +97,6 @@ namespace Game.LoopHero
         {
             if (!stateMachine.running) return;
             stateMachine.OnUpdate();
-            _buffTicker.OnUpdate(Time.deltaTime);
         }
 
         protected override void OnDispose()

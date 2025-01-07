@@ -1,15 +1,19 @@
+using System.Collections.Generic;
 using UnityToolkit;
 
 namespace Game.LoopHero
 {
     public class BuffTicker : IOnUpdate
     {
-        private TeamData _localPlayer;
+        private List<PokemonData> allPokemonList;
+        private List<BuffData> allBuffList;
 
-        public BuffTicker(TeamData localPlayer)
+        public BuffTicker(List<PokemonData> allPokemonList, List<BuffData> allBuffList)
         {
-            _localPlayer = localPlayer;
+            this.allPokemonList = allPokemonList;
+            this.allBuffList = allBuffList;
         }
+        
 
         public void OnUpdate(float deltaTime)
         {
