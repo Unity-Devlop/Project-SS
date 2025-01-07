@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,6 +18,10 @@ namespace Game.LoopHero
         public virtual async UniTask Action()
         {
             Assert.IsNotNull(data);
+            float localY = transform.localPosition.y;
+            // TODO 占位攻击动作
+            await transform.DOLocalMoveY(localY+ 0.5f, 0.5f);
+            await transform.DOLocalMoveY(localY, 0.5f);
             await UniTask.CompletedTask;
         }
     }
