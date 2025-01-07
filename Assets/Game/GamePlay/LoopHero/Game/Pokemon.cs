@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Game.LoopHero
 {
@@ -11,6 +12,12 @@ namespace Game.LoopHero
         public virtual async UniTask Bind(PokemonData data)
         {
             this.data = data;
+        }
+
+        public virtual async UniTask Action()
+        {
+            Assert.IsNotNull(data);
+            await UniTask.CompletedTask;
         }
     }
 }

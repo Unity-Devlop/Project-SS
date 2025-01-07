@@ -88,5 +88,12 @@ namespace Game.LoopHero
             //TODO 回合开始效果结算
             await UniTask.CompletedTask;
         }
+
+        public async UniTask Action(PokemonData action)
+        {
+            var view = _pokemons.Find(p => p.data == action);
+            Assert.IsNotNull(view);
+            await view.Action();
+        }
     }
 }

@@ -80,10 +80,19 @@ namespace Game
 
             var str = File.ReadAllText(path);
             GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:GetOrDefault<Json> {path} {str}");
-            var obj = JsonConvert.DeserializeObject<T>(str);
-            // var str2 = JsonConvert.SerializeObject(obj);
-            // GameLogger.Log($"{str2}");
-            return obj;
+            try
+            {
+                var obj = JsonConvert.DeserializeObject<T>(str);
+                // var str2 = JsonConvert.SerializeObject(obj);
+                // GameLogger.Log($"{str2}");
+                return obj;
+            }
+            catch (JsonSerializationException e)
+            {
+                GameLogger.Warning($"<color=red>[{nameof(DataSystem)}]</color>:数据不兼容! {path} {str}");
+                File.Delete(path);
+                return new T();
+            }
         }
 
         private T GetOrDefaultLiteDB<T>(int id) where T : new()
@@ -128,7 +137,7 @@ namespace Game
         private void SaveJson<T>(int id, T data)
         {
             string path = prefixPath + typeof(T).Name + "-" + id + ".json";
-            var str = JsonConvert.SerializeObject(data,Formatting.Indented);
+            var str = JsonConvert.SerializeObject(data, Formatting.Indented);
 // #if UNITY_EDITOR
             GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:SaveJson {path} {str}");
 // #endif

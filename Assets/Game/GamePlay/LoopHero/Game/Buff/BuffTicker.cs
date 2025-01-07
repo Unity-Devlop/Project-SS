@@ -3,20 +3,15 @@ using UnityToolkit;
 
 namespace Game.LoopHero
 {
-    public class BuffTicker : IOnUpdate
+    public struct BuffTicker : IOnUpdate
     {
-        private List<PokemonData> allPokemonList;
-        private List<BuffData> allBuffList;
-
-        public BuffTicker(List<PokemonData> allPokemonList, List<BuffData> allBuffList)
+        public BuffTicker(IEnumerator<PokemonData> pokemonEnumerator, IEnumerator<BuffData> buffEnumerator)
         {
-            this.allPokemonList = allPokemonList;
-            this.allBuffList = allBuffList;
         }
-        
 
         public void OnUpdate(float deltaTime)
         {
+            // TODO 更新Buff 执行效果
         }
     }
 }

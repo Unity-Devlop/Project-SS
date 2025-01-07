@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game.LoopHero
 {
     [Serializable]
-    public class PokemonData : IEquatable<PokemonData>
+    public class PokemonData //: IEquatable<PokemonData>
     {
         public PokemonEnum id;
 
@@ -16,8 +16,10 @@ namespace Game.LoopHero
         /// 唯一标识
         /// </summary>
         public Guid guid { get; private set; }
+        
+        public int trainerId;
 
-        [JsonIgnore] [LiteDB.BsonIgnore] public bool alive => health > 0;
+        [JsonIgnore] public bool alive => health > 0;
         public ushort level;
 
         public int health;
@@ -27,13 +29,19 @@ namespace Game.LoopHero
         public int baseSpeed;
 
 
-        [field: SerializeField] public int additionalPower { get; private set; }
+        public int additionalPower;
 
-        [field: SerializeField] public int additionalDefense { get; private set; }
+        public int additionalDefense;
 
-        [field: SerializeField] public int additionalAdaptability { get; private set; }
+        public int additionalAdaptability;
 
-        [field: SerializeField] public int additionalSpeed { get; private set; }
+        public int additionalSpeed;
+
+
+        [JsonIgnore] public int finalPower => basePower + additionalPower;
+        [JsonIgnore] public int finalDefense => baseDefense + additionalDefense;
+        [JsonIgnore] public int finalAdaptability => baseAdaptability + additionalAdaptability;
+        [JsonIgnore] public int finalSpeed => baseSpeed + additionalSpeed;
 
 
         public static PokemonData New(PokemonEnum id)
@@ -45,26 +53,26 @@ namespace Game.LoopHero
             };
         }
 
-        public override int GetHashCode()
-        {
-            return guid.GetHashCode();
-        }
-
-
-        public bool Equals(PokemonData other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return guid == other.guid;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((PokemonData)obj);
-        }
+        // public override int GetHashCode()
+        // {
+        //     return guid.GetHashCode();
+        // }
+        //
+        //
+        // public bool Equals(PokemonData other)
+        // {
+        //     if (ReferenceEquals(null, other)) return false;
+        //     if (ReferenceEquals(this, other)) return true;
+        //     return guid == other.guid;
+        // }
+        //
+        // public override bool Equals(object obj)
+        // {
+        //     if (ReferenceEquals(null, obj)) return false;
+        //     if (ReferenceEquals(this, obj)) return true;
+        //     if (obj.GetType() != this.GetType()) return false;
+        //     return Equals((PokemonData)obj);
+        // }
 
 
         #region Editor

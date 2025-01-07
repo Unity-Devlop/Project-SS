@@ -12,6 +12,8 @@ namespace Game.LoopHero
     [Serializable]
     public sealed class TeamData
     {
+        [JsonRequired] public int trainerId;
+
         [JsonRequired]
         [field: UnityEngine.SerializeField]
         public PokemonData playerData { get; private set; } // 玩家数据

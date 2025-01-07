@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityToolkit;
 
 namespace Game.LoopHero
@@ -8,6 +9,7 @@ namespace Game.LoopHero
         private bool _isSelfWin;
         private bool _isFightEnd;
         private FightMgr _mgr;
+
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
             _mgr = FightMgr.Singleton;
@@ -16,8 +18,9 @@ namespace Game.LoopHero
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
             _data = stateMachine.GetParam<FightModuleData>(nameof(FightModuleData));
+            _data.CreateTempData();
             stateMachine.RemoveParam(nameof(FightModuleData));
-            _mgr.StartFight(_data, OnFightEnd); // TODO
+            _mgr.StartFight(_data, OnFightEnd).Forget(); // TODO
         }
 
         public void Transition(GameMgr owner, IStateMachine<GameMgr> stateMachine)
@@ -34,16 +37,18 @@ namespace Game.LoopHero
             _mgr.OnUpdate();
         }
 
+
+        public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
+        {
+            _data.DestroyTempData();
+            _mgr.ExitFight();
+        }
+
         private void OnFightEnd(in FightMgr.FightResult result)
         {
             // TODO 结算数据 恢复一些Buff状态
             _isFightEnd = true;
             _isSelfWin = result.isSelfWin;
-        }
-
-        public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
-        {
-            _mgr.DisableLogic();
         }
     }
 }

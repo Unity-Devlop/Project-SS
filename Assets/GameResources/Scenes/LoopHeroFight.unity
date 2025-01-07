@@ -174,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4bd2f5217f43178d53bd69ba33249e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current: []
   pokemonPrefab: {fileID: 5706739140518435938, guid: 86cd649114659436caa1aeff95714c71, type: 3}
   trainerPrefab: {fileID: 5706739140518435938, guid: aa06aa355889d48aeb861bf07e4c2d34, type: 3}
 --- !u!1 &416491943
@@ -302,65 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   self: {fileID: 399744604}
   enemy: {fileID: 1450223790}
-  fightModuleData:
-    self:
-      teamData:
-        <playerData>k__BackingField:
-          self:
-            id: 0
-            level: 0
-            health: 0
-            power: 0
-            defense: 0
-            adaptability: 0
-            speed: 0
-        <package>k__BackingField:
-          items: []
-        <battlePokemonList>k__BackingField:
-        - id: 0
-          level: 100
-          health: 100
-          power: 100
-          defense: 100
-          adaptability: 100
-          speed: 100
-        - id: 0
-          level: 100
-          health: 100
-          power: 100
-          defense: 100
-          adaptability: 100
-          speed: 100
-        <candidatePokemonList>k__BackingField: []
-    enemy:
-      teamData:
-        <playerData>k__BackingField:
-          self:
-            id: 0
-            level: 0
-            health: 0
-            power: 0
-            defense: 0
-            adaptability: 0
-            speed: 0
-        <package>k__BackingField:
-          items: []
-        <battlePokemonList>k__BackingField:
-        - id: 0
-          level: 100
-          health: 100
-          power: 100
-          defense: 100
-          adaptability: 100
-          speed: 100
-        - id: 0
-          level: 100
-          health: 100
-          power: 100
-          defense: 100
-          adaptability: 100
-          speed: 100
-        <candidatePokemonList>k__BackingField: []
+  so: {fileID: 11400000, guid: 59555b1d0627749c2969a4cf63099421, type: 2}
 --- !u!4 &859978283
 Transform:
   m_ObjectHideFlags: 0
@@ -625,7 +566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4bd2f5217f43178d53bd69ba33249e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current: []
   pokemonPrefab: {fileID: 5706739140518435938, guid: 86cd649114659436caa1aeff95714c71, type: 3}
   trainerPrefab: {fileID: 5706739140518435938, guid: aa06aa355889d48aeb861bf07e4c2d34, type: 3}
 --- !u!1 &1453290081
