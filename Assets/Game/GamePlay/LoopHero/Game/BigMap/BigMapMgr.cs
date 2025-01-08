@@ -20,14 +20,17 @@ namespace Game.LoopHero
         int mapStartX = -9;
         int mapStartY = -6;
 
-        List<int> OptionOfPath = new List<int> { 18,20};
+        List<int> OptionOfPath = new List<int> { 18,20,22,24};
 
         private Vector2Int start = new Vector2Int(0, 5);
         private Vector2Int end = new Vector2Int(0, 4);
 
+        private int pathBound = 6;// 在中心6*6区域生成
+
         private void OnEnable()
         {
             GetComponent<CinemachineCamera>().enabled = true;
+            InitTile();
             InitMap();
         }
 
@@ -36,6 +39,10 @@ namespace Game.LoopHero
             GetComponent<CinemachineCamera>().enabled = false;
         }
 
+        private void InitTile()
+        {
+          //  drawTile = assetd
+        }
 
         private void InitMap()
         {
@@ -63,7 +70,7 @@ namespace Game.LoopHero
             if (path == null) return;
             foreach(var pos in path)
             {
-                tileMap.SetTile(new Vector3Int(pos.x + mapStartX, pos.y + mapStartY, 0), drawTile);
+                tileMap.SetTile(new Vector3Int(pos.x -pathBound/2, pos.y- pathLength/2, 0), drawTile);
             }
             
         }
@@ -74,12 +81,12 @@ namespace Game.LoopHero
             HashSet<Vector2Int> visited = new HashSet<Vector2Int> { start };
 
             // Start the path with the first move to (1, 5)
-            path.Add(new Vector2Int(1, 5));
-            visited.Add(new Vector2Int(1, 5));
-            path.Add(new Vector2Int(2, 5));
-            visited.Add(new Vector2Int(2, 5)); // 第二步也不可能是向下，这样会和回去的路连通
+            path.Add(start + new Vector2Int(1,0));
+            visited.Add(start + new Vector2Int(1, 0));
+            path.Add(start + new Vector2Int(2, 0));
+            visited.Add(start + new Vector2Int(2, 0)); // 第二步也不可能是向下，这样会和回去的路连通
 
-            List<Vector2Int> finalPath = FindRandomPath(new Vector2Int(2, 5), end, path, visited, pathLength);
+            List<Vector2Int> finalPath = FindRandomPath(start + new Vector2Int(2, 0), end, path, visited, pathLength);
 
             return finalPath;
         }
@@ -134,7 +141,7 @@ namespace Game.LoopHero
 
         private bool IsValidMove(List<Vector2Int> path,Vector2Int position, HashSet<Vector2Int> visited)
         {
-            var inBox =  position.x >= 0 && position.x <= 5 && position.y >= 0 && position.y <= 5 && !visited.Contains(position);
+            var inBox =  position.x >= 0 && position.x < pathBound && position.y >= 0 && position.y < pathBound && !visited.Contains(position);
             if (path.Count > 3 && position != end)
             {
                
