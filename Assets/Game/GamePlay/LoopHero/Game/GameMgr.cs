@@ -90,7 +90,7 @@ namespace Game.LoopHero
 
             stateMachine.Run<CampModule>();
 
-            UIRoot.Singleton.OpenPanel<GamePlayPanel>();
+            UIRoot.Singleton.OpenPanel<GameOperationPanel>();
         }
 
         private void Update()
@@ -113,7 +113,7 @@ namespace Game.LoopHero
 
             if (UIRoot.SingletonNullable != null)
             {
-                UIRoot.Singleton.Dispose<GamePlayPanel>();
+                UIRoot.Singleton.Dispose<GameOperationPanel>();
             }
 
             try

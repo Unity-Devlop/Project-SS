@@ -22,6 +22,7 @@ namespace Game.LoopHero
             Assert.IsNull(this.data);
             this.data = data;
             OnEnterBattle?.Invoke(data);
+            await UniTask.CompletedTask;
         }
 
         public virtual async UniTask Action(Pokemon target)

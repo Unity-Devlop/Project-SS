@@ -18,6 +18,7 @@ public sealed partial class ItemCardConfig : Luban.BeanBase
     public ItemCardConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
+        { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (CardTypeEnum)_buf["type"].AsInt; }
     }
 
     public static ItemCardConfig DeserializeItemCardConfig(JSONNode _buf)
@@ -29,6 +30,10 @@ public sealed partial class ItemCardConfig : Luban.BeanBase
     /// ID
     /// </summary>
     public readonly ItemEnum Id;
+    /// <summary>
+    /// 牌的类型
+    /// </summary>
+    public readonly CardTypeEnum Type;
    
     public const int __ID__ = 1813251589;
     public override int GetTypeId() => __ID__;
@@ -36,12 +41,14 @@ public sealed partial class ItemCardConfig : Luban.BeanBase
     public  void ResolveRef(Tables tables)
     {
         
+        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
+        + "type:" + Type + ","
         + "}";
     }
 }

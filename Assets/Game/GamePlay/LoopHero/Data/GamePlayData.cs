@@ -13,5 +13,7 @@ namespace Game.LoopHero
         [field: SerializeField] public bool newGame { get; private set; }
         [JsonRequired]
         [field: SerializeField] public TeamData teamData { get; private set; }
+        
+        // TODO 场景数据 包括上一次生成的地图 玩家当前位置等等等等
     }
 }

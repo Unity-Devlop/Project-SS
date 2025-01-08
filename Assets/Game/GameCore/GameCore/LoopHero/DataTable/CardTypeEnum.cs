@@ -11,10 +11,10 @@
 
 namespace cfg
 { 
-    public enum ItemTypeEnum
+    public enum CardTypeEnum
     {
-        卡牌 = 0,
-        不知道 = 1,
+        地形卡 = 0,
+        道具卡 = 1,
     }
 
 } 
