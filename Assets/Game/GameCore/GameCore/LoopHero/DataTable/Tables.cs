@@ -17,12 +17,22 @@ public partial class Tables
     public PokemonTable PokemonTable {get; }
     public ItemTable ItemTable {get; }
     public BuffTable BuffTable {get; }
+    public PassiveTable PassiveTable {get; }
+    public EnemyPowerTable EnemyPowerTable {get; }
+    public TerrainCardTable TerrainCardTable {get; }
+    public ItemCardTable ItemCardTable {get; }
+    public BuildingCardTable BuildingCardTable {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
         PokemonTable = new PokemonTable(loader("pokemontable"));
         ItemTable = new ItemTable(loader("itemtable"));
         BuffTable = new BuffTable(loader("bufftable"));
+        PassiveTable = new PassiveTable(loader("passivetable"));
+        EnemyPowerTable = new EnemyPowerTable(loader("enemypowertable"));
+        TerrainCardTable = new TerrainCardTable(loader("terraincardtable"));
+        ItemCardTable = new ItemCardTable(loader("itemcardtable"));
+        BuildingCardTable = new BuildingCardTable(loader("buildingcardtable"));
         ResolveRef();
     }
     
@@ -31,6 +41,11 @@ public partial class Tables
         PokemonTable.ResolveRef(this);
         ItemTable.ResolveRef(this);
         BuffTable.ResolveRef(this);
+        PassiveTable.ResolveRef(this);
+        EnemyPowerTable.ResolveRef(this);
+        TerrainCardTable.ResolveRef(this);
+        ItemCardTable.ResolveRef(this);
+        BuildingCardTable.ResolveRef(this);
     }
 }
 

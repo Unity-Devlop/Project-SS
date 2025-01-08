@@ -21,6 +21,7 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (PokemonTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
+        { if(!_buf["passive"].IsNumber) { throw new SerializationException(); }  Passive = (PassiveEnum)_buf["passive"].AsInt; }
         { if(!_buf["elementA"].IsNumber) { throw new SerializationException(); }  ElementA = (ElementEnum)_buf["elementA"].AsInt; }
         { if(!_buf["elementB"].IsNumber) { throw new SerializationException(); }  ElementB = (ElementEnum)_buf["elementB"].AsInt; }
         { if(!_buf["raceA"].IsNumber) { throw new SerializationException(); }  RaceA = (RaceEnum)_buf["raceA"].AsInt; }
@@ -58,6 +59,10 @@ public sealed partial class PokemonConfig : Luban.BeanBase
     /// 描述
     /// </summary>
     public readonly string Desc;
+    /// <summary>
+    /// 特性
+    /// </summary>
+    public readonly PassiveEnum Passive;
     /// <summary>
     /// 属性
     /// </summary>
@@ -132,6 +137,7 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -141,6 +147,7 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         + "name:" + Name + ","
         + "type:" + Type + ","
         + "desc:" + Desc + ","
+        + "passive:" + Passive + ","
         + "elementA:" + ElementA + ","
         + "elementB:" + ElementB + ","
         + "raceA:" + RaceA + ","

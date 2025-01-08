@@ -11,11 +11,9 @@
 
 namespace cfg
 { 
-    public enum ItemTypeEnum
+    public enum PassiveEnum
     {
-        地形卡 = 0,
-        道具卡 = 1,
-        不知道 = 2,
+        None = 0,
     }
 
 } 

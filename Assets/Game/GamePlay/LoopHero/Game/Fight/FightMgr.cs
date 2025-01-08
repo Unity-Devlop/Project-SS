@@ -209,6 +209,9 @@ namespace Game.LoopHero
         private async UniTask EndFight()
         {
             _camera.enabled = false;
+            var t1 =  self.EndFight();
+            var t2 =  enemy.EndFight();
+            await UniTask.WhenAll(t1, t2);
             await UniTask.CompletedTask;
         }
 

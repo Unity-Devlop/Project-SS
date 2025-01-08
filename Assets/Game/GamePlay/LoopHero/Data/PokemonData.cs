@@ -2,11 +2,14 @@ using System;
 using cfg;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityToolkit;
 
 namespace Game.LoopHero
 {
     [Serializable]
-    public class PokemonData //: IEquatable<PokemonData>
+    public class PokemonData : Model<PokemonData>
+    //: IEquatable<PokemonData>
     {
         public PokemonEnum id;
 
@@ -16,13 +19,17 @@ namespace Game.LoopHero
         /// 唯一标识
         /// </summary>
         public Guid guid { get; private set; }
-        
+
         public int trainerId;
 
-        [JsonIgnore] public bool alive => health > 0;
+        [JsonIgnore] public bool alive => currentHealth > 0;
         public ushort level;
 
-        public int health;
+        [Sirenix.OdinInspector.HorizontalGroup("Health")]
+        public int baseHealth;
+        [Sirenix.OdinInspector.HorizontalGroup("Health")]
+        public int currentHealth;
+
         public int basePower;
         public int baseDefense;
         public int baseAdaptability;
@@ -87,7 +94,8 @@ namespace Game.LoopHero
             //     guid = Guid.NewGuid();
             // }
             level = (ushort)UnityEngine.Random.Range(1, 100);
-            health = UnityEngine.Random.Range(1, 100);
+            baseHealth = UnityEngine.Random.Range(1, 100);
+            currentHealth = baseHealth;
             basePower = UnityEngine.Random.Range(1, 100);
             baseDefense = UnityEngine.Random.Range(1, 100);
             baseAdaptability = UnityEngine.Random.Range(1, 100);

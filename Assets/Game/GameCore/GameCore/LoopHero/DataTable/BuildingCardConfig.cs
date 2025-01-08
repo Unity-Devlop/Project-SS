@@ -13,40 +13,28 @@ using SimpleJSON;
 
 namespace cfg
 {
-public sealed partial class ItemConfig : Luban.BeanBase
+public sealed partial class BuildingCardConfig : Luban.BeanBase
 {
-    public ItemConfig(JSONNode _buf) 
+    public BuildingCardConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
-        { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ItemTypeEnum)_buf["type"].AsInt; }
-        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
     }
 
-    public static ItemConfig DeserializeItemConfig(JSONNode _buf)
+    public static BuildingCardConfig DeserializeBuildingCardConfig(JSONNode _buf)
     {
-        return new ItemConfig(_buf);
+        return new BuildingCardConfig(_buf);
     }
 
     /// <summary>
     /// ID
     /// </summary>
     public readonly ItemEnum Id;
-    /// <summary>
-    /// 类型
-    /// </summary>
-    public readonly ItemTypeEnum Type;
-    /// <summary>
-    /// 描述
-    /// </summary>
-    public readonly string Desc;
    
-    public const int __ID__ = -764023723;
+    public const int __ID__ = -1084409754;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
-        
-        
         
     }
 
@@ -54,8 +42,6 @@ public sealed partial class ItemConfig : Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "type:" + Type + ","
-        + "desc:" + Desc + ","
         + "}";
     }
 }

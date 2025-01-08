@@ -8,7 +8,7 @@ using UnityToolkit.Collections;
 namespace Game.LoopHero
 {
     [Serializable]
-    public sealed class FightModuleData : ObservationObject<FightModuleData>
+    public sealed class FightModuleData : Model<FightModuleData>
     {
         public FighterData self;
         public FighterData enemy;

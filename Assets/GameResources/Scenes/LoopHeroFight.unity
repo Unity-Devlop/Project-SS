@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemonPrefab: {fileID: 5706739140518435938, guid: 86cd649114659436caa1aeff95714c71, type: 3}
-  trainerPrefab: {fileID: 5706739140518435938, guid: aa06aa355889d48aeb861bf07e4c2d34, type: 3}
+  trainerPrefab: {fileID: 4315391904905485057, guid: 970eebcac2fef49a6af26dd894fb8896, type: 3}
 --- !u!1 &416491943
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemonPrefab: {fileID: 5706739140518435938, guid: 86cd649114659436caa1aeff95714c71, type: 3}
-  trainerPrefab: {fileID: 5706739140518435938, guid: aa06aa355889d48aeb861bf07e4c2d34, type: 3}
+  trainerPrefab: {fileID: 4315391904905485057, guid: 970eebcac2fef49a6af26dd894fb8896, type: 3}
 --- !u!1 &1453290081
 GameObject:
   m_ObjectHideFlags: 0

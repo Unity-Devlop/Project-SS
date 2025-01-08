@@ -48,6 +48,7 @@ namespace Game.LoopHero
             Assert.IsNull(_data);
             _data = data;
             _pokemons.Clear();
+            await UniTask.CompletedTask;
         }
 
 
@@ -79,8 +80,18 @@ namespace Game.LoopHero
             go.transform.localPosition = startPosition;
             await go.transform.DOLocalMoveX(targetPosition.x, 0.5f).SetEase(Ease.Linear);
             var p = go.GetComponent<Pokemon>();
-            await p.Bind(pokemon);
+            await p.EnterBattle(pokemon);
             _pokemons.Add(p);
+        }
+        
+        private async UniTask ExitBattle(PokemonData pokemon)
+        {
+            // TODO 优化查询开销 虽然就 O(6)
+            var view = _pokemons.Find(p => p.data == pokemon);
+            Assert.IsNotNull(view);
+            await view.ExitBattle();
+            _pokemons.Remove(view);
+            GameObject.Destroy(view.gameObject);
         }
 
         public async UniTask RoundStart()
@@ -94,6 +105,17 @@ namespace Game.LoopHero
             var view = _pokemons.Find(p => p.data == action);
             Assert.IsNotNull(view);
             await view.Action();
+        }
+
+        public async UniTask EndFight()
+        {
+            await ExitBattle(_data.teamData.playerData);
+            foreach (var pokemon in _data.teamData.battlePokemonList)
+            {
+                await ExitBattle(pokemon);
+            }
+            // TODO 战斗结束
+            await UniTask.CompletedTask;
         }
     }
 }
