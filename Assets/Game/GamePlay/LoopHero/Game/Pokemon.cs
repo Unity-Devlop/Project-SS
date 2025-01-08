@@ -24,15 +24,28 @@ namespace Game.LoopHero
             OnEnterBattle?.Invoke(data);
         }
 
-        public virtual async UniTask Action()
+        public virtual async UniTask Action(Pokemon target)
         {
             Assert.IsNotNull(data);
             float localY = transform.localPosition.y;
             // TODO 占位攻击动作
-            await transform.DOLocalMoveY(localY + 0.5f, 0.5f);
-            await transform.DOLocalMoveY(localY, 0.5f);
+            await transform.DOLocalMoveY(localY + 0.5f, 0.2f);
+            await transform.DOLocalMoveY(localY, 0.2f);
+            // 计算伤害
+            int damage = FightMath.CalDamage(data, target.data);
+            // 造成伤害
+            await target.TakeDamage(damage);
             OnAction?.Invoke();
             await UniTask.CompletedTask;
+        }
+
+        private async UniTask TakeDamage(int damage)
+        {
+            Assert.IsNotNull(data);
+            data.currentHealth -= damage;
+            data.Trigger();
+            // TODO 实现伤害飘字
+            WordsFloats.Float(transform.position, Vector2.up, damage.ToString(), 0.2f, Color.red);
         }
 
         public async UniTask ExitBattle()

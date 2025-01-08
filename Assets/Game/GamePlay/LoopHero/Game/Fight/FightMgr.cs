@@ -6,6 +6,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 
 namespace Game.LoopHero
 {
@@ -39,14 +40,14 @@ namespace Game.LoopHero
 
         #endregion
 
-        private FightModuleData _data;
+        public FightModuleData data { get; private set; }
 
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public FightState fightState { get; private set; }
 
         private CinemachineCamera _camera;
 
-        [SerializeField] private Fighter self;
+        [SerializeField] private Fighter local;
         [SerializeField] private Fighter enemy;
 
         private BuffTicker _buffTicker;
@@ -60,12 +61,20 @@ namespace Game.LoopHero
         {
         }
 
-
-        public async UniTask StartFight(FightModuleData data, OnFightEnd onFightEnd)
+        public async UniTask StartFight(FightModuleData inputData, OnFightEnd onFightEnd)
         {
+            Assert.IsFalse(inputData.self.teamData.trainerId == inputData.enemy.teamData.trainerId,
+                $"[{nameof(FightMgr)}] 输入数据 双方trainerId不能相同");
+            Assert.IsTrue(inputData.self.canFight, $"[{nameof(FightMgr)}] 输入数据 自己不能战斗");
+            Assert.IsTrue(inputData.enemy.canFight, $"[{nameof(FightMgr)}] 输入数据 敌方不能战斗");
+
+            Assert.IsTrue(inputData.enemy.teamData.Validate(), $"[{nameof(FightMgr)}] 输入数据 敌方数据不合法");
+            Assert.IsTrue(inputData.self.teamData.Validate(), $"[{nameof(FightMgr)}] 输入数据 自己数据不合法");
+
+
             fightState = FightState.None;
-            Assert.IsNull(_data);
-            _data = data;
+            Assert.IsNull(this.data);
+            this.data = inputData;
             await StartFight();
             fightState = FightState.FightStart;
             var result = new FightResult(false, false);
@@ -95,15 +104,15 @@ namespace Game.LoopHero
 
             await EndFight();
             fightState = FightState.EndFight;
-            onFightEnd(in result);
-            _data = null;
+            this.data = null;
             fightState = FightState.None;
+            onFightEnd(in result);
         }
 
 
         private async UniTask RoundStart()
         {
-            var t1 = self.RoundStart();
+            var t1 = local.RoundStart();
             var t2 = enemy.RoundStart();
 
             await UniTask.WhenAll(t1, t2);
@@ -113,7 +122,7 @@ namespace Game.LoopHero
         {
             await UniTask.CompletedTask;
 
-            using var enumerator = _data.CreateBattlePokemonEnumerator();
+            using var enumerator = data.CreateBattlePokemonEnumerator();
             var list = ListPool<PokemonData>.Get();
             while (enumerator.MoveNext())
             {
@@ -130,35 +139,55 @@ namespace Game.LoopHero
             int count = list.Count;
             while (count > 0)
             {
+                if (local.data.canFight == false || enemy.data.canFight == false)
+                {
+                    break;
+                }
+
                 list.Sort((a, b) => b.baseSpeed.CompareTo(a.baseSpeed));
-                PokemonData action = null;
+                PokemonData actor = null;
                 // 本质上是找到速度最快的没有行动过的宝可梦
                 foreach (var pokemon in list)
                 {
                     if (!set.Add(pokemon)) continue;
-                    action = pokemon;
+                    actor = pokemon;
                     count--;
                     break;
                 }
 
-                Assert.IsNotNull(action);
+                Assert.IsNotNull(actor);
+                if (!actor.alive) continue; // 轮到我行动的时候我被打死了
                 // 找到这个宝可梦对应的View 执行行动
-                if (action.trainerId == _data.self.teamData.trainerId)
+                if (actor.trainerId == data.self.teamData.trainerId) // TODO 写一个函数把这个逻辑提取出来
                 {
-                    await self.Action(action);
+                    await RoundingPokemonAction(actor, local, enemy);
                 }
-                else if (action.trainerId == _data.enemy.teamData.trainerId)
+                else if (actor.trainerId == data.enemy.teamData.trainerId)
                 {
-                    await enemy.Action(action);
+                    await RoundingPokemonAction(actor, enemy, local);
                 }
                 else
                 {
-                    throw new NotImplementedException($"[{nameof(FightMgr)}]:未知的trainerId:{action.trainerId}");
+                    throw new NotImplementedException($"[{nameof(FightMgr)}]:未知的trainerId:{actor.trainerId}");
                 }
             }
 
             HashSetPool<PokemonData>.Release(set);
             ListPool<PokemonData>.Release(list);
+        }
+
+        private static async UniTask RoundingPokemonAction(PokemonData actor, Fighter attackFighter,
+            Fighter defenseFighter)
+        {
+            Assert.IsFalse(actor.trainerId == defenseFighter.data.teamData.trainerId);
+            var view = attackFighter.Query(actor);
+            var targetData = FightMath.SearchTarget(actor, defenseFighter.data.teamData.GetBattlePokemonList());
+            var defenseView = defenseFighter.Query(targetData);
+            await view.Action(defenseView);
+            if (!defenseView.data.alive) // actor的行动让target pokemon GG了
+            {
+                await defenseFighter.ExitTarget(defenseView.data);
+            }
         }
 
         private async UniTask RoundEnd()
@@ -170,22 +199,22 @@ namespace Game.LoopHero
         private async UniTask StartFight()
         {
             _camera.enabled = true;
-            await self.Bind(_data.self);
-            await enemy.Bind(_data.enemy);
+            await local.Bind(data.self);
+            await enemy.Bind(data.enemy);
 
-            var t1 = self.FightStart();
+            var t1 = local.FightStart();
             var t2 = enemy.FightStart();
             await UniTask.WhenAll(t1, t2);
 
-            _buffTicker = new BuffTicker(_data.CreateAllPokemonEnumerator(), _data.CreateBuffEnumerator());
+            _buffTicker = new BuffTicker(data.CreateAllPokemonEnumerator(), data.CreateBuffEnumerator());
         }
 
         private async UniTask<FightResult> GetFightResult()
         {
             await UniTask.CompletedTask;
 
-            bool selfAlive = _data.self.canFight;
-            bool enemyAlive = _data.enemy.canFight;
+            bool selfAlive = data.self.canFight;
+            bool enemyAlive = data.enemy.canFight;
 
             if (!selfAlive && !enemyAlive)
             {
@@ -208,9 +237,10 @@ namespace Game.LoopHero
 
         private async UniTask EndFight()
         {
+            GameLogger.Log($"[{this}] EndFight", Color.white);
             _camera.enabled = false;
-            var t1 =  self.EndFight();
-            var t2 =  enemy.EndFight();
+            var t1 = local.EndFight();
+            var t2 = enemy.EndFight();
             await UniTask.WhenAll(t1, t2);
             await UniTask.CompletedTask;
         }
@@ -227,6 +257,24 @@ namespace Game.LoopHero
                 _buffTicker.OnUpdate(Time.deltaTime);
             }
         }
+        // public Pokemon Query(PokemonData id)
+        // {
+        //     Fighter fighter;
+        //     if (id.trainerId == data.self.teamData.trainerId)
+        //     {
+        //         fighter = self;
+        //     }
+        //     else if (id.trainerId == data.enemy.teamData.trainerId)
+        //     {
+        //         fighter = enemy;
+        //     }
+        //     else
+        //     {
+        //         throw new NotImplementedException($"[{nameof(FightMgr)}]:未知的trainerId:{id.trainerId}");
+        //     }
+        //
+        //     return fighter.Query(id);
+        // }
     }
 #if UNITY_EDITOR
     public partial class FightMgr
@@ -238,6 +286,8 @@ namespace Game.LoopHero
         [Sirenix.OdinInspector.Button]
         internal void DebugFight()
         {
+            so.data.enemy.teamData.RecoverHealth();
+            so.data.self.teamData.RecoverHealth();
             GameMgr.Singleton.ToFight(so.data);
         }
         //

@@ -6,7 +6,7 @@ namespace Game.LoopHero
     public class FightModule : IState<GameMgr>
     {
         private FightModuleData _data;
-        private bool _isSelfWin;
+        private bool _isLocalPlayerWin;
         private bool _isFightEnd;
         private FightMgr _mgr;
 
@@ -28,6 +28,11 @@ namespace Game.LoopHero
             if (_isFightEnd)
             {
                 // TODO 传递战斗结果
+                stateMachine.SetParam(nameof(FightSettlementModuleData), new FightSettlementModuleData
+                {
+                    isLocalPlayerWin = _isLocalPlayerWin
+                    
+                });
                 stateMachine.Change<FightSettlementModule>();
             }
         }
@@ -48,7 +53,7 @@ namespace Game.LoopHero
         {
             // TODO 结算数据 恢复一些Buff状态
             _isFightEnd = true;
-            _isSelfWin = result.isSelfWin;
+            _isLocalPlayerWin = result.isSelfWin;
         }
     }
 }

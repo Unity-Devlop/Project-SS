@@ -11,8 +11,8 @@ namespace Game.LoopHero
 {
     public class Fighter : MonoBehaviour
     {
-        [NonSerialized, Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
-        private FighterData _data;
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        public FighterData data { get; private set; }
 
         [Sirenix.OdinInspector.HorizontalGroup("DEBUG")] [Obsolete("TODO 后面删除掉 读表")] // TODO
         public GameObject pokemonPrefab;
@@ -45,8 +45,8 @@ namespace Game.LoopHero
 
         public async UniTask Bind(FighterData data)
         {
-            Assert.IsNull(_data);
-            _data = data;
+            Assert.IsNull(this.data);
+            this.data = data;
             _pokemons.Clear();
             await UniTask.CompletedTask;
         }
@@ -55,11 +55,11 @@ namespace Game.LoopHero
         public async UniTask FightStart()
         {
             // 训练家入场
-            await EnterBattle(_data.teamData.playerData, _trainerPos, trainerPrefab);
+            await EnterBattle(data.teamData.playerData, _trainerPos, trainerPrefab);
             // 宝可梦入场
-            for (var i = 0; i < _data.teamData.battlePokemonList.Count; i++)
+            for (var i = 0; i < data.teamData.battlePokemonList.Count; i++)
             {
-                await EnterBattle(_data.teamData.battlePokemonList[i], _positions[i], pokemonPrefab);
+                await EnterBattle(data.teamData.battlePokemonList[i], _positions[i], pokemonPrefab);
             }
 
             await InitializeFight();
@@ -83,7 +83,7 @@ namespace Game.LoopHero
             await p.EnterBattle(pokemon);
             _pokemons.Add(p);
         }
-        
+
         private async UniTask ExitBattle(PokemonData pokemon)
         {
             // TODO 优化查询开销 虽然就 O(6)
@@ -91,6 +91,7 @@ namespace Game.LoopHero
             Assert.IsNotNull(view);
             await view.ExitBattle();
             _pokemons.Remove(view);
+            GameLogger.Log($"[{this}] ExitBattle {pokemon}");
             GameObject.Destroy(view.gameObject);
         }
 
@@ -100,22 +101,36 @@ namespace Game.LoopHero
             await UniTask.CompletedTask;
         }
 
-        public async UniTask Action(PokemonData action)
-        {
-            var view = _pokemons.Find(p => p.data == action);
-            Assert.IsNotNull(view);
-            await view.Action();
-        }
 
         public async UniTask EndFight()
         {
-            await ExitBattle(_data.teamData.playerData);
-            foreach (var pokemon in _data.teamData.battlePokemonList)
+            await ExitBattle(data.teamData.playerData);
+            foreach (var pokemonData in data.teamData.battlePokemonList)
             {
-                await ExitBattle(pokemon);
+                if (pokemonData.alive)
+                {
+                    await ExitBattle(pokemonData);
+                }
             }
+
             // TODO 战斗结束
             await UniTask.CompletedTask;
+        }
+
+        public Pokemon Query(PokemonData id)
+        {
+            Assert.IsTrue(id.trainerId == data.teamData.trainerId, $"{this} 查询的宝可梦不属于这个训练家");
+            var view = _pokemons.Find(p => p.data == id);
+            Assert.IsNotNull(view, $"{this} 查询的宝可梦不存在");
+            return view;
+        }
+
+        public async UniTask ExitTarget(PokemonData id)
+        {
+            Assert.IsTrue(id.trainerId == data.teamData.trainerId, $"{this} 查询的宝可梦不属于这个训练家");
+            var view = _pokemons.Find(p => p.data == id);
+            Assert.IsNotNull(view);
+            await ExitBattle(id);
         }
     }
 }

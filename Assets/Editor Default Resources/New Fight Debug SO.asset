@@ -18,7 +18,7 @@ MonoBehaviour:
         trainerId: 0
         <playerData>k__BackingField:
           id: 1
-          trainerId: 0
+          <trainerId>k__BackingField: 0
           level: 86
           baseHealth: 43
           currentHealth: 43
@@ -34,10 +34,10 @@ MonoBehaviour:
           _items: []
         <battlePokemonList>k__BackingField:
         - id: 0
-          trainerId: 0
+          <trainerId>k__BackingField: 0
           level: 64
           baseHealth: 69
-          currentHealth: 69
+          currentHealth: -141
           basePower: 98
           baseDefense: 33
           baseAdaptability: 18
@@ -47,10 +47,10 @@ MonoBehaviour:
           additionalAdaptability: 0
           additionalSpeed: 0
         - id: 0
-          trainerId: 0
+          <trainerId>k__BackingField: 0
           level: 28
           baseHealth: 92
-          currentHealth: 92
+          currentHealth: -47
           basePower: 58
           baseDefense: 98
           baseAdaptability: 29
@@ -66,7 +66,7 @@ MonoBehaviour:
         trainerId: 1
         <playerData>k__BackingField:
           id: 1
-          trainerId: 1
+          <trainerId>k__BackingField: 1
           level: 49
           baseHealth: 23
           currentHealth: 23
@@ -82,10 +82,10 @@ MonoBehaviour:
           _items: []
         <battlePokemonList>k__BackingField:
         - id: 0
-          trainerId: 1
+          <trainerId>k__BackingField: 1
           level: 74
           baseHealth: 89
-          currentHealth: 89
+          currentHealth: 21
           basePower: 99
           baseDefense: 96
           baseAdaptability: 66
@@ -95,10 +95,10 @@ MonoBehaviour:
           additionalAdaptability: 0
           additionalSpeed: 0
         - id: 0
-          trainerId: 1
+          <trainerId>k__BackingField: 1
           level: 59
           baseHealth: 3
-          currentHealth: 3
+          currentHealth: -89
           basePower: 69
           baseDefense: 94
           baseAdaptability: 14
@@ -108,7 +108,7 @@ MonoBehaviour:
           additionalAdaptability: 0
           additionalSpeed: 0
         - id: 0
-          trainerId: 1
+          <trainerId>k__BackingField: 1
           level: 25
           baseHealth: 28
           currentHealth: 28

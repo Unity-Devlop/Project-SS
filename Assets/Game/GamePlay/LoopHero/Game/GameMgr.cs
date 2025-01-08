@@ -102,16 +102,30 @@ namespace Game.LoopHero
         protected override void OnDispose()
         {
             GameLogger.Log("LoopHeroGameMgr OnDispose");
-            stateMachine.Stop();
+            try
+            {
+                stateMachine.Stop();
+            }
+            catch (NullReferenceException)
+            {
+                // TODO MonoBehavior 在Editor下退出游戏时 可能会在 GameMgr 销毁前销毁了
+            }
 
             if (UIRoot.SingletonNullable != null)
             {
                 UIRoot.Singleton.Dispose<GamePlayPanel>();
             }
 
-            Addressables.UnloadSceneAsync(_bigMapSceneHandle);
-            Addressables.UnloadSceneAsync(_campSceneHandle);
-            Addressables.UnloadSceneAsync(_fightSceneHandle);
+            try
+            {
+                Addressables.UnloadSceneAsync(_bigMapSceneHandle);
+                Addressables.UnloadSceneAsync(_campSceneHandle);
+                Addressables.UnloadSceneAsync(_fightSceneHandle);
+            }
+            catch (NullReferenceException)
+            {
+                // handle可能在Editor退出时自动释放了
+            }
         }
 
         public void ToCamp()

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 399744602}
   - component: {fileID: 399744604}
   m_Layer: 0
-  m_Name: Self
+  m_Name: Local
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42479c77d8e54ea18aeb2d1a0fb76cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  self: {fileID: 399744604}
+  local: {fileID: 399744604}
   enemy: {fileID: 1450223790}
   so: {fileID: 11400000, guid: 59555b1d0627749c2969a4cf63099421, type: 2}
 --- !u!4 &859978283
