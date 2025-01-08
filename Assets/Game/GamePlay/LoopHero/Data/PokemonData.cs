@@ -20,13 +20,14 @@ namespace Game.LoopHero
         /// </summary>
         public Guid guid { get; private set; }
 
-        public int trainerId;
+        [JsonRequired] [field: SerializeField] public int trainerId { get; private set; }
 
         [JsonIgnore] public bool alive => currentHealth > 0;
         public ushort level;
 
         [Sirenix.OdinInspector.HorizontalGroup("Health")]
         public int baseHealth;
+
         [Sirenix.OdinInspector.HorizontalGroup("Health")]
         public int currentHealth;
 
