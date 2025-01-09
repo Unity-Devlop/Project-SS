@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using cfg;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Game.LoopHero.UI
 {
+#if UNITY_EDITOR
+    [ExecuteAlways]
+#endif
+    [RequireComponent(typeof(HorizontalLayoutGroup))]
     public class UICarContainer : MonoBehaviour
     {
         private List<UICard> _cards;
-        
+
         [SerializeField] private bool autoSizing = true;
-        [SerializeField] public float standardWidth = 100;
+
+        [SerializeField] private float standardWidth = 100;
+
         [SerializeField] public float standardHeight = 150;
         [SerializeField] public int standardCount = 8;
 
@@ -22,48 +25,51 @@ namespace Game.LoopHero.UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+
+        }
+
+        private void Start()
+        {
             _cards = new List<UICard>(GetComponentsInChildren<UICard>());
+            foreach (var card in _cards)
+            {
+                card.pivotPoint.SetParent(transform);
+            }
         }
 
         private void Update()
         {
-            if (!autoSizing) return;
             // 根据手牌的数量 动态调整自己的大小
-            float maxWidth = standardWidth * standardCount;
-            float width = standardWidth * _cards.Count;
-            if (width < maxWidth)
+            if (autoSizing)
             {
+                float maxWidth = standardWidth * standardCount;
+                float width = standardWidth * _cards.Count;
+                width = Mathf.Min(width, maxWidth);
                 _rectTransform.sizeDelta = new Vector2(width, standardHeight);
             }
-            else
-            {
-                _rectTransform.sizeDelta = new Vector2(maxWidth, standardHeight);
-            }
         }
 
-        // private void OnGetCard(ItemEnum id)
-        // {
-        //     ValidateCard(id);
-        //     var itemConfig = Core.Tables.ItemTable.Get(id);
-        //     var cardConfig = Core.Tables.ItemCardTable.Get(id);
-        // }
-        //
-        // private void OnRemoveCard(ItemEnum id)
-        // {
-        //     ValidateCard(id);
-        //     var itemConfig = Core.Tables.ItemTable.Get(id);
-        //     var cardConfig = Core.Tables.ItemCardTable.Get(id);
-        // }
-
-
-        [Conditional("UNITY_ASSERTIONS")]
-        private void ValidateCard(ItemEnum id)
+        public void Add(UICard card)
         {
-            var itemConfig = Core.Tables.ItemTable.Get(id);
-            Assert.IsTrue(itemConfig != null, $"不存在的物品配置:{id}");
-            Assert.IsTrue(itemConfig.Type != ItemTypeEnum.卡牌, $"道具{id}不是卡牌类型的道具");
-            var cardConfig = Core.Tables.ItemCardTable.Get(id);
-            Assert.IsTrue(cardConfig != null, $"不存在的卡牌配置:{id}");
+            card.pivotPoint.SetParent(transform);
+            _cards.Add(card);
         }
+// #if UNITY_EDITOR
+//
+//         private void OnValidate()
+//         {
+//             _rectTransform = GetComponent<RectTransform>();
+//             float targetStandardWidth = _rectTransform.sizeDelta.x / standardCount;
+//             standardWidth = targetStandardWidth;
+//             _rectTransform.sizeDelta = new Vector2(targetStandardWidth * standardCount, standardHeight);
+//         }
+//
+// #endif
+        //
+        // public void Remove(UICard card)
+        // {
+        //     card.pivotPoint.SetParent(null);
+        //     _cards.Remove(card);
+        // }
     }
 }

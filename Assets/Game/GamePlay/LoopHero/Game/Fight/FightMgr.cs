@@ -237,7 +237,7 @@ namespace Game.LoopHero
 
         private async UniTask EndFight()
         {
-            GameLogger.Log($"[{this}] EndFight", Color.white);
+            GameLogger.Log.Debug("[{this}] EndFight", this);
             _camera.enabled = false;
             var t1 = local.EndFight();
             var t2 = enemy.EndFight();

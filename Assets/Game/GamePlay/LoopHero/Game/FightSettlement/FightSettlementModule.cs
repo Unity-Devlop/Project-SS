@@ -12,7 +12,7 @@ namespace Game.LoopHero
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            GameLogger.Log("[FightSettlementModule] OnEnter");
+            GameLogger.Log.Debug("[FightSettlementModule] OnEnter");
             var data = stateMachine.GetParam<FightSettlementModuleData>(nameof(FightSettlementModuleData));
             stateMachine.RemoveParam(nameof(FightSettlementModuleData));
             // TODO 使用数据进行结算
@@ -34,7 +34,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            GameLogger.Log("[FightSettlementModule] OnExit");
+            GameLogger.Log.Debug("[FightSettlementModule] OnExit");
             _settlementEnd = false;
         }
     }

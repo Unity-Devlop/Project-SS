@@ -74,12 +74,13 @@ namespace Game
             string path = prefixPath + typeof(T).Name + "-" + id + ".json";
             if (!File.Exists(path))
             {
-                GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:GetOrDefault<Json> {path} {null}");
+                GameLogger.Log.Information("{data-system},GetOrDefault<Json> {path} {null}", nameof(DataSystem), path,
+                    null);
                 return new T();
             }
 
             var str = File.ReadAllText(path);
-            GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:GetOrDefault<Json> {path} {str}");
+            GameLogger.Log.Information("{data-system},GetOrDefault<Json> {path} {str}", nameof(DataSystem), path, str);
             try
             {
                 var obj = JsonConvert.DeserializeObject<T>(str);
@@ -89,7 +90,7 @@ namespace Game
             }
             catch (JsonSerializationException e)
             {
-                GameLogger.Warning($"<color=red>[{nameof(DataSystem)}]</color>:数据不兼容! {path} {str}");
+                GameLogger.Log.Warning("{data-system},GetOrDefault<Json> {path} {e}", nameof(DataSystem), path, e);
                 File.Delete(path);
                 return new T();
             }
@@ -139,7 +140,7 @@ namespace Game
             string path = prefixPath + typeof(T).Name + "-" + id + ".json";
             var str = JsonConvert.SerializeObject(data, Formatting.Indented);
 // #if UNITY_EDITOR
-            GameLogger.Log($"<color=green>[{nameof(DataSystem)}]</color>:SaveJson {path} {str}");
+            GameLogger.Log.Information("{data-system},Save<Json> {path} {str}", nameof(DataSystem), path, str);
 // #endif
             File.WriteAllText(path, str);
         }
@@ -152,7 +153,8 @@ namespace Game
             {
                 if (Application.isPlaying)
                 {
-                    GameLogger.Exception(new System.Exception("请勿在运行时访问DataSystem.Shared 仅仅在编辑器中使用"));
+                    GameLogger.Log.Error(new System.Exception("请勿在运行时访问DataSystem.Shared 仅仅在编辑器中使用"),
+                        "{data-system},Shared", null);
                 }
 
                 if (_shared != null) return _shared;

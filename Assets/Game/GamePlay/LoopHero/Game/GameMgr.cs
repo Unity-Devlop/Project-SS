@@ -58,7 +58,7 @@ namespace Game.LoopHero
 
         protected override async void OnInit()
         {
-            GameLogger.Log("LoopHeroGameMgr OnInit");
+            GameLogger.Log.Debug("LoopHeroGameMgr OnInit");
 
             _data = Core.Singleton.playData;
 
@@ -101,7 +101,7 @@ namespace Game.LoopHero
 
         protected override void OnDispose()
         {
-            GameLogger.Log("LoopHeroGameMgr OnDispose");
+            GameLogger.Log.Debug("LoopHeroGameMgr OnDispose");
             try
             {
                 stateMachine.Stop();

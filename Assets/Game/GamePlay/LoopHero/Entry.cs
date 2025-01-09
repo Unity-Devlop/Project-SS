@@ -13,7 +13,7 @@ namespace Game.LoopHero
         {
             UIRoot.Singleton.OpenPanel<VersionPanel>();
             UIRoot.Singleton.OpenPanel<DebugPanel>();
-            GameLogger.Log("LoopHeroEntry OnInit");
+            GameLogger.Log.Debug("LoopHeroEntry OnInit");
             initialized = true;
             var core = new GameObject(nameof(Core));
             core.AddComponent<Core>();
@@ -22,7 +22,7 @@ namespace Game.LoopHero
         private void OnDestroy()
         {
             initialized = false;
-            GameLogger.Log("LoopHeroEntry OnDestroy");
+            GameLogger.Log.Debug("LoopHeroEntry OnDestroy");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Game.Flow
                 Addressables.LoadAssetAsync<GameObject>(Global.Get<GameConfig>().playMgrPrefab).Completed +=
                     operation =>
                     {
-                        GameLogger.Log("GamePlayState OnEnter");
+                        GameLogger.Log.Information("GamePlayState OnEnter");
 
                         bindedGameObject = Object.Instantiate(operation.Result);
                         entered = true;
@@ -49,7 +49,7 @@ namespace Game.Flow
 
         public void OnExit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
-            GameLogger.Log("GamePlayState OnExit");
+            GameLogger.Log.Information("GamePlayState OnExit");
             if (bindedGameObject != null)
             {
                 Object.Destroy(bindedGameObject);

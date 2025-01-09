@@ -28,7 +28,8 @@
         "MagicOnion.Unity",
         "MagicOnion.Serialization.MemoryPack",
         "Cysharp.Net.Http.YetAnotherHttpHandler",
-        "MessagePack"
+        "MessagePack",
+        "Serilog.Sinks.Unity3D"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

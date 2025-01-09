@@ -114,3 +114,7 @@ Assets/AddressableAssetsData/link.xml.meta
 # LiteDB Log
 Assets/Editor Default Resources/data-log.db
 Assets/Editor Default Resources/data-log.db.meta
+
+
+# Serilog Log
+[Aa]ssets/Editor Default Resources/log/*

@@ -91,7 +91,7 @@ namespace Game.LoopHero
             Assert.IsNotNull(view);
             await view.ExitBattle();
             _pokemons.Remove(view);
-            GameLogger.Log($"[{this}] ExitBattle {pokemon}");
+            GameLogger.Log.Debug("[{this}] ExitBattle {pokemon}", this, pokemon);
             GameObject.Destroy(view.gameObject);
         }
 

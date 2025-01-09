@@ -72,10 +72,12 @@ namespace Game
         {
             _event = new TypeEventSystem();
 
-            ToolkitLog.infoAction = GameLogger.Log;
-            ToolkitLog.warningAction = GameLogger.Warning;
-            ToolkitLog.errorAction = GameLogger.Error;
+            ToolkitLog.writeLog = false;
+            ToolkitLog.infoAction = GameLogger.Log.Information;
+            ToolkitLog.warningAction = GameLogger.Log.Warning;
+            ToolkitLog.errorAction = GameLogger.Log.Error;
 
+            
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
 
             _systemLocator = new SystemLocator();
