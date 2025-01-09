@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityToolkit;
 
-namespace Game.LoopHero.UI
+namespace UnityToolkit
 {
     public class UICard : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler
     {

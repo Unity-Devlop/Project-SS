@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LoopHero.Game.UI
+namespace UnityToolkit
 {
     public class UICardVisual : MonoBehaviour
     {

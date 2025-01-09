@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using cfg;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.LoopHero
 {

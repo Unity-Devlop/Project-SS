@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
 
-namespace Game.LoopHero.UI
+namespace UnityToolkit
 {
 #if UNITY_EDITOR
     [ExecuteAlways]
@@ -26,7 +26,6 @@ namespace Game.LoopHero.UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-
         }
 
         private void Start()
@@ -50,11 +49,27 @@ namespace Game.LoopHero.UI
             }
         }
 
-        public void Add(UICard card)
+        public delegate UICard SpawnAction(UICarContainer container);
+
+        public delegate void RemoveAction(UICard card);
+
+        public delegate void ConfigCard(UICard card);
+
+        public void Add(SpawnAction spawnAction, ConfigCard configAction)
         {
+            var card = spawnAction(this);
+            configAction(card);
             card.pivotPoint.SetParent(transform);
             _cards.Add(card);
         }
+
+        public void Remove(UICard card, RemoveAction removeAction)
+        {
+            card.pivotPoint.SetParent(null);
+            removeAction(card);
+            _cards.Remove(card);
+        }
+
 // #if UNITY_EDITOR
 //
 //         private void OnValidate()
@@ -77,9 +92,13 @@ namespace Game.LoopHero.UI
         {
             var rectTransform = GetComponent<RectTransform>();
             var pivot = rectTransform.pivot;
+            if (pivot.x != 0)
+            {
+                Debug.LogWarning("UICarContainer's pivot.x should be 0");
+            }
             pivot.x = 0;
             rectTransform.pivot = pivot;
-        }  
+        }
 #endif
     }
 }

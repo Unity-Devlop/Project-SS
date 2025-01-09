@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using cfg;
 using Newtonsoft.Json;
+using UnityToolkit;
 
 
 namespace Game.LoopHero
@@ -10,7 +11,7 @@ namespace Game.LoopHero
     /// 队伍数据
     /// </summary>
     [Serializable]
-    public sealed class TeamData
+    public sealed class TeamData : Model<TeamData>
     {
         [JsonRequired] public int trainerId;
 

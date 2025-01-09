@@ -42,6 +42,7 @@ namespace Game.LoopHero
 
         private async UniTask TakeDamage(int damage)
         {
+            await UniTask.CompletedTask;
             Assert.IsNotNull(data);
             data.currentHealth -= damage;
             data.Trigger();
