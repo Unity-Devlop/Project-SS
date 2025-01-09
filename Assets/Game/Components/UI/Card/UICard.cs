@@ -9,13 +9,14 @@ namespace Game.LoopHero.UI
 {
     public class UICard : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
+        private const float MoveSpeedLimit = 100f;
+
         // 需要锚定到的位置
         public RectTransform pivotPoint { get; private set; }
         private RectTransform _transform;
 
         // Config
         [SerializeField] private Vector3 offset;
-        [SerializeField] private float moveSpeedLimit = 20f;
 
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public bool dragging { get; private set; }
@@ -33,7 +34,6 @@ namespace Game.LoopHero.UI
 
         public void OnDrag(PointerEventData eventData)
         {
-            // _transform.anchoredPosition += eventData.delta;
         }
 
         private void Update()
@@ -43,13 +43,15 @@ namespace Game.LoopHero.UI
                 Vector3 mousePosition = Input.mousePosition;
                 Vector2 targetPosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(mousePosition) - offset;
                 Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-                Vector2 velocity = direction * Mathf.Min(moveSpeedLimit,
+                Vector2 velocity = direction * Mathf.Min(MoveSpeedLimit,
                     Vector2.Distance(transform.position, targetPosition) / Time.deltaTime);
                 transform.Translate(velocity * Time.deltaTime);
                 ClampPosition(); // 限制位置 不能超出屏幕
                 return;
             }
 
+            Assert.IsFalse(dragging);
+            
             if (_autoReset)
             {
                 _transform.anchoredPosition = Vector2.zero;

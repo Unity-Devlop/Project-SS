@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityToolkit;
 
 namespace Game.LoopHero.UI
 {
@@ -71,5 +72,14 @@ namespace Game.LoopHero.UI
         //     card.pivotPoint.SetParent(null);
         //     _cards.Remove(card);
         // }
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            var rectTransform = GetComponent<RectTransform>();
+            var pivot = rectTransform.pivot;
+            pivot.x = 0;
+            rectTransform.pivot = pivot;
+        }  
+#endif
     }
 }
