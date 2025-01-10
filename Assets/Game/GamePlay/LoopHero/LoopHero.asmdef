@@ -18,7 +18,8 @@
         "IngameDebugConsole.Runtime",
         "Unity.Cinemachine",
         "DOTween.Modules",
-        "UniTask.DOTween"
+        "UniTask.DOTween",
+        "LoopHero.Data"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

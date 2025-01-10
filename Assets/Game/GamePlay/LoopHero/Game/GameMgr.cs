@@ -90,7 +90,8 @@ namespace Game.LoopHero
 
             stateMachine.Run<CampModule>();
 
-            UIRoot.Singleton.OpenPanel<GameOperationPanel>();
+            var panel = UIRoot.Singleton.OpenPanel<GameOperationPanel>();
+            panel.Bind(_data.teamData.package);
         }
 
         private void Update()

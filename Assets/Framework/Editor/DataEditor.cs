@@ -11,12 +11,9 @@ namespace Framework.Editor
     [Serializable]
     internal class DataEditor
     {
-        public DataEditor()
+        internal void OnEnable()
         {
-        }
-
-        ~DataEditor()
-        {
+            LoadData();
         }
 
 

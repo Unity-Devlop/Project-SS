@@ -15,11 +15,13 @@ namespace Framework.Editor
         }
 
         private DataEditor _dataEditor;
+
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree();
             tree.Add("FMOD", new FMODEditor(), EditorIcons.Microphone);
             _dataEditor = new DataEditor();
+            _dataEditor.OnEnable();
             tree.Add("Data", _dataEditor, EditorIcons.SettingsCog);
             return tree;
         }

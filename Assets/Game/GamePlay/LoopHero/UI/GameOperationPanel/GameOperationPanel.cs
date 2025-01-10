@@ -12,18 +12,18 @@ namespace Game.LoopHero
     {
         [SerializeField] private UICardContainer cardContainer;
         private UICardConfigurator _configurator;
-        private TeamData _bindData;
+        private PackageData _bindData;
 
         private void Awake()
         {
             _configurator = cardContainer.GetComponent<UICardConfigurator>();
         }
 
-        public void Bind(TeamData data)
+        public void Bind(PackageData data)
         {
             Assert.IsNull(_bindData);
             _bindData = data;
-            foreach (var pair in data.package.items)
+            foreach (var pair in data.items)
             {
                 ItemEnum id = pair.id;
                 var card = cardContainer.Add(_configurator.Spawn);

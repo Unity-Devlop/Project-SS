@@ -13,8 +13,8 @@ namespace cfg
 { 
     public enum ItemTypeEnum
     {
-        卡牌 = 0,
-        不知道 = 1,
+        None = 0,
+        卡牌 = 1,
     }
 
 } 

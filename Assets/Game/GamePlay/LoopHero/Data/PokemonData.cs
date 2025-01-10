@@ -18,6 +18,7 @@ namespace Game.LoopHero
         /// <summary>
         /// 唯一标识
         /// </summary>
+        [JsonRequired]
         public Guid guid { get; private set; }
 
         [JsonRequired] [field: SerializeField] public int trainerId { get; private set; }
