@@ -10,7 +10,7 @@ namespace UnityToolkit
     [ExecuteAlways]
 #endif
     [RequireComponent(typeof(HorizontalLayoutGroup))]
-    public class UICarContainer : MonoBehaviour
+    public class UICardContainer : MonoBehaviour
     {
         private List<UICard> _cards;
 
@@ -49,18 +49,18 @@ namespace UnityToolkit
             }
         }
 
-        public delegate UICard SpawnAction(UICarContainer container);
+        public delegate T SpawnAction<T>(UICardContainer container) where T : UICard;
 
         public delegate void RemoveAction(UICard card);
 
         public delegate void ConfigCard(UICard card);
 
-        public void Add(SpawnAction spawnAction, ConfigCard configAction)
+        public T Add<T>(SpawnAction<T> spawnAction) where T : UICard
         {
             var card = spawnAction(this);
-            configAction(card);
             card.pivotPoint.SetParent(transform);
             _cards.Add(card);
+            return card;
         }
 
         public void Remove(UICard card, RemoveAction removeAction)
@@ -96,6 +96,7 @@ namespace UnityToolkit
             {
                 Debug.LogWarning("UICarContainer's pivot.x should be 0");
             }
+
             pivot.x = 0;
             rectTransform.pivot = pivot;
         }

@@ -1,0 +1,8 @@
+using UnityToolkit;
+
+namespace Game.LoopHero.UI.Common
+{
+    public sealed class UICardBuilding : LoopHeroUICard
+    {
+    }
+}
