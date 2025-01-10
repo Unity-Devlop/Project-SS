@@ -24,7 +24,7 @@ namespace Game.LoopHero
         [ConsoleMethod( "to_bigmap", "进入大地图" )]
         public static void ToBigMap()
         {
-            GameMgr.Singleton.ToBigMap();
+            GameMgr.Singleton.ToBigMap(BigMapData.Fake());
         }
     }
 }

@@ -140,8 +140,9 @@ namespace Game.LoopHero
             stateMachine.Change<FightModule>();
         }
 
-        public void ToBigMap()
+        public void ToBigMap(BigMapData data)
         {
+            stateMachine.SetParam(nameof(BigMapData), data);
             stateMachine.Change<BigMapModule>();
         }
     }

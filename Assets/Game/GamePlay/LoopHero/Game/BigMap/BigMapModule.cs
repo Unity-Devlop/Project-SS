@@ -7,6 +7,8 @@ namespace Game.LoopHero
         public StateMachine<BigMapModule> machine { get; private set; }
         private BigMapMgr _mgr;
 
+        private BigMapData _data;
+
         public void OnInit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
             machine = new StateMachine<BigMapModule>(this);
@@ -18,7 +20,9 @@ namespace Game.LoopHero
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            _mgr.enabled = true;
+            _data = stateMachine.GetParam<BigMapData>(nameof(BigMapData));
+            stateMachine.RemoveParam(nameof(BigMapData));
+            _mgr.Enter(_data);
             machine.Run<WaitForStartState>();
         }
 
@@ -39,7 +43,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            _mgr.enabled = false;
+            _mgr.Exit();
             machine.Stop();
         }
     }

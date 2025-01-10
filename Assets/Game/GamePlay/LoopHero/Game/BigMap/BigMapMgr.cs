@@ -20,44 +20,51 @@ namespace Game.LoopHero
         int mapStartX = -9;
         int mapStartY = -6;
 
-        List<int> OptionOfPath = new List<int> { 18,20,22,24};
+        List<int> OptionOfPath = new List<int> { 18, 20, 22, 24 };
 
         private Vector2Int start = new Vector2Int(0, 5);
         private Vector2Int end = new Vector2Int(0, 4);
 
-        private int pathBound = 6;// 在中心6*6区域生成
+        private int pathBound = 6; // 在中心6*6区域生成
+        private CinemachineCamera cinemachineCamera;
 
-        private void OnEnable()
+        protected override void OnInit()
         {
-            GetComponent<CinemachineCamera>().enabled = true;
-            InitTile();
-            InitMap();
+            cinemachineCamera = GetComponent<CinemachineCamera>();
+            cinemachineCamera.enabled = false;
         }
 
-        private void OnDisable()
+        public void Enter(BigMapData data)
         {
-            GetComponent<CinemachineCamera>().enabled = false;
+            InitTile();
+            InitMap();
+            cinemachineCamera.enabled = true;
+        }
+
+        public void Exit()
+        {
+            cinemachineCamera.enabled = false;
         }
 
         private void InitTile()
         {
-          //  drawTile = assetd
+            //  drawTile = assetd
         }
 
         private void InitMap()
         {
             // 填入地图
-            for (int i = 0;i < mapHeight; i++)
+            for (int i = 0; i < mapHeight; i++)
             {
-                for(int j = 0;j < mapWidth; j++)
+                for (int j = 0; j < mapWidth; j++)
                 {
-                    tileMap.SetTile(new Vector3Int(j+mapStartX, i+mapStartY, 0), bgTile);
+                    tileMap.SetTile(new Vector3Int(j + mapStartX, i + mapStartY, 0), bgTile);
                 }
             }
 
             // 填入路径
             Random random = new Random();
-            var length  = OptionOfPath[ random.Next(OptionOfPath.Count)];
+            var length = OptionOfPath[random.Next(OptionOfPath.Count)];
             InitPath(length);
         }
 
@@ -68,11 +75,10 @@ namespace Game.LoopHero
         {
             List<Vector2Int> path = InitPathData(pathLength);
             if (path == null) return;
-            foreach(var pos in path)
+            foreach (var pos in path)
             {
-                tileMap.SetTile(new Vector3Int(pos.x -pathBound/2, pos.y- pathLength/2, 0), drawTile);
+                tileMap.SetTile(new Vector3Int(pos.x - pathBound / 2, pos.y - pathLength / 2, 0), drawTile);
             }
-            
         }
 
         List<Vector2Int> InitPathData(int pathLength)
@@ -81,7 +87,7 @@ namespace Game.LoopHero
             HashSet<Vector2Int> visited = new HashSet<Vector2Int> { start };
 
             // Start the path with the first move to (1, 5)
-            path.Add(start + new Vector2Int(1,0));
+            path.Add(start + new Vector2Int(1, 0));
             visited.Add(start + new Vector2Int(1, 0));
             path.Add(start + new Vector2Int(2, 0));
             visited.Add(start + new Vector2Int(2, 0)); // 第二步也不可能是向下，这样会和回去的路连通
@@ -92,11 +98,10 @@ namespace Game.LoopHero
         }
 
 
-
-
-        private List<Vector2Int> FindRandomPath(Vector2Int current, Vector2Int end, List<Vector2Int> path, HashSet<Vector2Int> visited, int length)
+        private List<Vector2Int> FindRandomPath(Vector2Int current, Vector2Int end, List<Vector2Int> path,
+            HashSet<Vector2Int> visited, int length)
         {
-            if (path.Count == length )
+            if (path.Count == length)
             {
                 if (current == end)
                 {
@@ -109,18 +114,18 @@ namespace Game.LoopHero
             }
 
             List<Vector2Int> moves = new List<Vector2Int>
-        {
-            new Vector2Int(current.x + 1, current.y),
-            new Vector2Int(current.x - 1, current.y),
-            new Vector2Int(current.x, current.y + 1),
-            new Vector2Int(current.x, current.y - 1)
-        };
+            {
+                new Vector2Int(current.x + 1, current.y),
+                new Vector2Int(current.x - 1, current.y),
+                new Vector2Int(current.x, current.y + 1),
+                new Vector2Int(current.x, current.y - 1)
+            };
 
-            Shuffle(moves);
+            moves.Shuffle();
 
             foreach (var move in moves)
             {
-                if (IsValidMove(path ,move, visited))
+                if (IsValidMove(path, move, visited))
                 {
                     path.Add(move);
                     visited.Add(move);
@@ -139,42 +144,29 @@ namespace Game.LoopHero
             return null;
         }
 
-        private bool IsValidMove(List<Vector2Int> path,Vector2Int position, HashSet<Vector2Int> visited)
+        private bool IsValidMove(List<Vector2Int> path, Vector2Int position, HashSet<Vector2Int> visited)
         {
-            var inBox =  position.x >= 0 && position.x < pathBound && position.y >= 0 && position.y < pathBound && !visited.Contains(position);
+            var inBox = position.x >= 0 && position.x < pathBound && position.y >= 0 && position.y < pathBound &&
+                        !visited.Contains(position);
             if (path.Count > 3 && position != end)
             {
-               
                 var checkConnected = true;
-                for (var i = 0;i< path.Count -1 ;i++)
+                for (var i = 0; i < path.Count - 1; i++)
                 {
                     if (AreAdjacent(position, path[i]))
                     {
-                        return false ;
+                        return false;
                     }
-                    
                 }
-                
+
                 return checkConnected && inBox;
             }
             else
             {
                 return inBox;
             }
-            
         }
 
-        private void Shuffle<T>(List<T> list)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                Random random = new Random();
-                int randomIndex = random.Next(i, list.Count);
-                T temp = list[i];
-                list[i] = list[randomIndex];
-                list[randomIndex] = temp;
-            }
-        }
 
         private bool AreAdjacent(Vector2Int point1, Vector2Int point2)
         {
@@ -186,7 +178,6 @@ namespace Game.LoopHero
 
         public override void OnUpdate()
         {
-            
         }
     }
 }
