@@ -14,6 +14,12 @@ namespace cfg
     public enum PassiveEnum
     {
         None = 0,
+        Evolution = 1,
+        Collecting = 2,
+        SpreadSeed = 3,
+        HugeWeapon = 4,
+        Loyalty = 5,
+        SuperSpeed = 6,
     }
 
 } 

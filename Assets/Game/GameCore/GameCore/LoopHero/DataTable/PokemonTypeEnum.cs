@@ -14,7 +14,7 @@ namespace cfg
     public enum PokemonTypeEnum
     {
         玩家 = 0,
-        非玩家 = 1,
+        普通 = 1,
     }
 
 } 

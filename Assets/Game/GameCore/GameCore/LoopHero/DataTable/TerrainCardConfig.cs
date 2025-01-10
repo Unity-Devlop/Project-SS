@@ -18,6 +18,9 @@ public sealed partial class TerrainCardConfig : Luban.BeanBase
     public TerrainCardConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
+        { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
+        { if(!_buf["description"].IsString) { throw new SerializationException(); }  Description = _buf["description"]; }
+        { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (CardTypeEnum)_buf["type"].AsInt; }
     }
 
     public static TerrainCardConfig DeserializeTerrainCardConfig(JSONNode _buf)
@@ -29,6 +32,9 @@ public sealed partial class TerrainCardConfig : Luban.BeanBase
     /// ID
     /// </summary>
     public readonly ItemEnum Id;
+    public readonly string Name;
+    public readonly string Description;
+    public readonly CardTypeEnum Type;
    
     public const int __ID__ = 311021415;
     public override int GetTypeId() => __ID__;
@@ -36,12 +42,18 @@ public sealed partial class TerrainCardConfig : Luban.BeanBase
     public  void ResolveRef(Tables tables)
     {
         
+        
+        
+        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
+        + "name:" + Name + ","
+        + "description:" + Description + ","
+        + "type:" + Type + ","
         + "}";
     }
 }

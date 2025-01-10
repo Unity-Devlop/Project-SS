@@ -14,7 +14,12 @@ namespace cfg
     public enum RaceEnum
     {
         None = 0,
-        机械 = 1,
+        Ghost = 1,
+        Spirit = 2,
+        Animal = 3,
+        Plant = 4,
+        Robot = 5,
+        Insect = 6,
     }
 
 } 

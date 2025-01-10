@@ -20,6 +20,7 @@ public sealed partial class ItemConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ItemTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
+        { if(!_buf["max_stack"].IsNumber) { throw new SerializationException(); }  MaxStack = _buf["max_stack"]; }
     }
 
     public static ItemConfig DeserializeItemConfig(JSONNode _buf)
@@ -39,12 +40,17 @@ public sealed partial class ItemConfig : Luban.BeanBase
     /// 描述
     /// </summary>
     public readonly string Desc;
+    /// <summary>
+    /// 最大堆叠数量
+    /// </summary>
+    public readonly short MaxStack;
    
     public const int __ID__ = -764023723;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -56,6 +62,7 @@ public sealed partial class ItemConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "type:" + Type + ","
         + "desc:" + Desc + ","
+        + "maxStack:" + MaxStack + ","
         + "}";
     }
 }

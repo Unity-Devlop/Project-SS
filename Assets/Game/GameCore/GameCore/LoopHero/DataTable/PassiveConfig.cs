@@ -18,7 +18,8 @@ public sealed partial class PassiveConfig : Luban.BeanBase
     public PassiveConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (PassiveEnum)_buf["id"].AsInt; }
-        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
+        { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
+        { if(!_buf["description"].IsString) { throw new SerializationException(); }  Description = _buf["description"]; }
     }
 
     public static PassiveConfig DeserializePassiveConfig(JSONNode _buf)
@@ -30,10 +31,8 @@ public sealed partial class PassiveConfig : Luban.BeanBase
     /// ID
     /// </summary>
     public readonly PassiveEnum Id;
-    /// <summary>
-    /// 描述
-    /// </summary>
-    public readonly string Desc;
+    public readonly string Name;
+    public readonly string Description;
    
     public const int __ID__ = 475125033;
     public override int GetTypeId() => __ID__;
@@ -42,13 +41,15 @@ public sealed partial class PassiveConfig : Luban.BeanBase
     {
         
         
+        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
-        + "desc:" + Desc + ","
+        + "name:" + Name + ","
+        + "description:" + Description + ","
         + "}";
     }
 }

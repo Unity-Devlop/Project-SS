@@ -13,8 +13,8 @@ namespace cfg
 { 
     public enum PokemonEnum
     {
-        NO1 = 0,
-        玩家 = 1,
+        玩家 = 0,
+        测试0 = 1,
     }
 
 } 

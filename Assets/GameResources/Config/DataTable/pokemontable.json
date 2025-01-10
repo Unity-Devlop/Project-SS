@@ -1,8 +1,8 @@
 [
   {
     "id": 0,
-    "name": "NO1",
-    "type": 1,
+    "name": "",
+    "type": 0,
     "desc": "",
     "passive": 0,
     "elementA": 1,
@@ -23,7 +23,7 @@
   {
     "id": 1,
     "name": "",
-    "type": 0,
+    "type": 1,
     "desc": "",
     "passive": 0,
     "elementA": 1,
