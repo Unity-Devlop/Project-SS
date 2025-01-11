@@ -22,6 +22,7 @@ public sealed partial class BuffConfig : Luban.BeanBase
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (BuffType)_buf["type"].AsInt; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["only_in_battle"].IsBoolean) { throw new SerializationException(); }  OnlyInBattle = _buf["only_in_battle"]; }
+        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
     }
 
     public static BuffConfig DeserializeBuffConfig(JSONNode _buf)
@@ -46,12 +47,17 @@ public sealed partial class BuffConfig : Luban.BeanBase
     /// 是否只在战斗中存在
     /// </summary>
     public readonly bool OnlyInBattle;
+    /// <summary>
+    /// 效果描述
+    /// </summary>
+    public readonly string Desc;
    
     public const int __ID__ = -1370631787;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -67,6 +73,7 @@ public sealed partial class BuffConfig : Luban.BeanBase
         + "type:" + Type + ","
         + "name:" + Name + ","
         + "onlyInBattle:" + OnlyInBattle + ","
+        + "desc:" + Desc + ","
         + "}";
     }
 }

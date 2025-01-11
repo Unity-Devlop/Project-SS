@@ -20,22 +20,37 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (PokemonEnum)_buf["id"].AsInt; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (PokemonTypeEnum)_buf["type"].AsInt; }
-        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["passive"].IsNumber) { throw new SerializationException(); }  Passive = (PassiveEnum)_buf["passive"].AsInt; }
+        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["elementA"].IsNumber) { throw new SerializationException(); }  ElementA = (ElementEnum)_buf["elementA"].AsInt; }
         { if(!_buf["elementB"].IsNumber) { throw new SerializationException(); }  ElementB = (ElementEnum)_buf["elementB"].AsInt; }
         { if(!_buf["raceA"].IsNumber) { throw new SerializationException(); }  RaceA = (RaceEnum)_buf["raceA"].AsInt; }
         { if(!_buf["raceB"].IsNumber) { throw new SerializationException(); }  RaceB = (RaceEnum)_buf["raceB"].AsInt; }
-        { if(!_buf["base_hp"].IsNumber) { throw new SerializationException(); }  BaseHp = _buf["base_hp"]; }
-        { if(!_buf["max_hp"].IsNumber) { throw new SerializationException(); }  MaxHp = _buf["max_hp"]; }
-        { if(!_buf["base_atk"].IsNumber) { throw new SerializationException(); }  BaseAtk = _buf["base_atk"]; }
-        { if(!_buf["max_atk"].IsNumber) { throw new SerializationException(); }  MaxAtk = _buf["max_atk"]; }
-        { if(!_buf["base_def"].IsNumber) { throw new SerializationException(); }  BaseDef = _buf["base_def"]; }
-        { if(!_buf["max_def"].IsNumber) { throw new SerializationException(); }  MaxDef = _buf["max_def"]; }
-        { if(!_buf["base_speed"].IsNumber) { throw new SerializationException(); }  BaseSpeed = _buf["base_speed"]; }
-        { if(!_buf["max_speed"].IsNumber) { throw new SerializationException(); }  MaxSpeed = _buf["max_speed"]; }
-        { if(!_buf["base_adap"].IsNumber) { throw new SerializationException(); }  BaseAdap = _buf["base_adap"]; }
-        { if(!_buf["max_adap"].IsNumber) { throw new SerializationException(); }  MaxAdap = _buf["max_adap"]; }
+        { if(!_buf["lv1_hp"].IsNumber) { throw new SerializationException(); }  Lv1Hp = _buf["lv1_hp"]; }
+        { if(!_buf["lv2_hp"].IsNumber) { throw new SerializationException(); }  Lv2Hp = _buf["lv2_hp"]; }
+        { if(!_buf["lv3_hp"].IsNumber) { throw new SerializationException(); }  Lv3Hp = _buf["lv3_hp"]; }
+        { if(!_buf["lv4_hp"].IsNumber) { throw new SerializationException(); }  Lv4Hp = _buf["lv4_hp"]; }
+        { if(!_buf["lv5_hp"].IsNumber) { throw new SerializationException(); }  Lv5Hp = _buf["lv5_hp"]; }
+        { if(!_buf["lv1_atk"].IsNumber) { throw new SerializationException(); }  Lv1Atk = _buf["lv1_atk"]; }
+        { if(!_buf["lv2_atk"].IsNumber) { throw new SerializationException(); }  Lv2Atk = _buf["lv2_atk"]; }
+        { if(!_buf["lv3_atk"].IsNumber) { throw new SerializationException(); }  Lv3Atk = _buf["lv3_atk"]; }
+        { if(!_buf["lv4_atk"].IsNumber) { throw new SerializationException(); }  Lv4Atk = _buf["lv4_atk"]; }
+        { if(!_buf["lv5_atk"].IsNumber) { throw new SerializationException(); }  Lv5Atk = _buf["lv5_atk"]; }
+        { if(!_buf["lv1_def"].IsNumber) { throw new SerializationException(); }  Lv1Def = _buf["lv1_def"]; }
+        { if(!_buf["lv2_def"].IsNumber) { throw new SerializationException(); }  Lv2Def = _buf["lv2_def"]; }
+        { if(!_buf["lv3_def"].IsNumber) { throw new SerializationException(); }  Lv3Def = _buf["lv3_def"]; }
+        { if(!_buf["lv4_def"].IsNumber) { throw new SerializationException(); }  Lv4Def = _buf["lv4_def"]; }
+        { if(!_buf["lv5_def"].IsNumber) { throw new SerializationException(); }  Lv5Def = _buf["lv5_def"]; }
+        { if(!_buf["lv1_speed"].IsNumber) { throw new SerializationException(); }  Lv1Speed = _buf["lv1_speed"]; }
+        { if(!_buf["lv2_speed"].IsNumber) { throw new SerializationException(); }  Lv2Speed = _buf["lv2_speed"]; }
+        { if(!_buf["lv3_speed"].IsNumber) { throw new SerializationException(); }  Lv3Speed = _buf["lv3_speed"]; }
+        { if(!_buf["lv4_speed"].IsNumber) { throw new SerializationException(); }  Lv4Speed = _buf["lv4_speed"]; }
+        { if(!_buf["lv5_speed"].IsNumber) { throw new SerializationException(); }  Lv5Speed = _buf["lv5_speed"]; }
+        { if(!_buf["lv1_adap"].IsNumber) { throw new SerializationException(); }  Lv1Adap = _buf["lv1_adap"]; }
+        { if(!_buf["lv2_adap"].IsNumber) { throw new SerializationException(); }  Lv2Adap = _buf["lv2_adap"]; }
+        { if(!_buf["lv3_adap"].IsNumber) { throw new SerializationException(); }  Lv3Adap = _buf["lv3_adap"]; }
+        { if(!_buf["lv4_adap"].IsNumber) { throw new SerializationException(); }  Lv4Adap = _buf["lv4_adap"]; }
+        { if(!_buf["lv5_adap"].IsNumber) { throw new SerializationException(); }  Lv5Adap = _buf["lv5_adap"]; }
     }
 
     public static PokemonConfig DeserializePokemonConfig(JSONNode _buf)
@@ -56,13 +71,13 @@ public sealed partial class PokemonConfig : Luban.BeanBase
     /// </summary>
     public readonly PokemonTypeEnum Type;
     /// <summary>
-    /// 描述
-    /// </summary>
-    public readonly string Desc;
-    /// <summary>
-    /// 特性
+    /// 特点
     /// </summary>
     public readonly PassiveEnum Passive;
+    /// <summary>
+    /// 特点描述
+    /// </summary>
+    public readonly string Desc;
     /// <summary>
     /// 属性
     /// </summary>
@@ -74,51 +89,126 @@ public sealed partial class PokemonConfig : Luban.BeanBase
     public readonly RaceEnum RaceA;
     public readonly RaceEnum RaceB;
     /// <summary>
-    /// 基础生命值
+    /// 1级生命
     /// </summary>
-    public readonly int BaseHp;
+    public readonly int Lv1Hp;
     /// <summary>
-    /// 最大生命值
+    /// 2级生命
     /// </summary>
-    public readonly int MaxHp;
+    public readonly int Lv2Hp;
     /// <summary>
-    /// 基础攻击力
+    /// 3级生命
     /// </summary>
-    public readonly int BaseAtk;
+    public readonly int Lv3Hp;
     /// <summary>
-    /// 最大攻击力
+    /// 4级生命
     /// </summary>
-    public readonly int MaxAtk;
+    public readonly int Lv4Hp;
     /// <summary>
-    /// 基础防御力
+    /// 5级生命
     /// </summary>
-    public readonly int BaseDef;
+    public readonly int Lv5Hp;
     /// <summary>
-    /// 最大防御力
+    /// 1级力量
     /// </summary>
-    public readonly int MaxDef;
+    public readonly int Lv1Atk;
     /// <summary>
-    /// 基础速度
+    /// 2级力量
     /// </summary>
-    public readonly int BaseSpeed;
+    public readonly int Lv2Atk;
     /// <summary>
-    /// 最大速度
+    /// 3级力量
     /// </summary>
-    public readonly int MaxSpeed;
+    public readonly int Lv3Atk;
     /// <summary>
-    /// 基础适应力
+    /// 4级力量
     /// </summary>
-    public readonly int BaseAdap;
+    public readonly int Lv4Atk;
     /// <summary>
-    /// 最大适应力
+    /// 5级力量
     /// </summary>
-    public readonly int MaxAdap;
+    public readonly int Lv5Atk;
+    /// <summary>
+    /// 1级防御
+    /// </summary>
+    public readonly int Lv1Def;
+    /// <summary>
+    /// 2级防御
+    /// </summary>
+    public readonly int Lv2Def;
+    /// <summary>
+    /// 3级防御
+    /// </summary>
+    public readonly int Lv3Def;
+    /// <summary>
+    /// 4级防御
+    /// </summary>
+    public readonly int Lv4Def;
+    /// <summary>
+    /// 5级防御
+    /// </summary>
+    public readonly int Lv5Def;
+    /// <summary>
+    /// 1级速度
+    /// </summary>
+    public readonly int Lv1Speed;
+    /// <summary>
+    /// 2级速度
+    /// </summary>
+    public readonly int Lv2Speed;
+    /// <summary>
+    /// 3级速度
+    /// </summary>
+    public readonly int Lv3Speed;
+    /// <summary>
+    /// 4级速度
+    /// </summary>
+    public readonly int Lv4Speed;
+    /// <summary>
+    /// 5级速度
+    /// </summary>
+    public readonly int Lv5Speed;
+    /// <summary>
+    /// 1级适应
+    /// </summary>
+    public readonly int Lv1Adap;
+    /// <summary>
+    /// 2级适应
+    /// </summary>
+    public readonly int Lv2Adap;
+    /// <summary>
+    /// 3级适应
+    /// </summary>
+    public readonly int Lv3Adap;
+    /// <summary>
+    /// 4级适应
+    /// </summary>
+    public readonly int Lv4Adap;
+    /// <summary>
+    /// 5级适应
+    /// </summary>
+    public readonly int Lv5Adap;
    
     public const int __ID__ = -622808619;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -146,22 +236,37 @@ public sealed partial class PokemonConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "name:" + Name + ","
         + "type:" + Type + ","
-        + "desc:" + Desc + ","
         + "passive:" + Passive + ","
+        + "desc:" + Desc + ","
         + "elementA:" + ElementA + ","
         + "elementB:" + ElementB + ","
         + "raceA:" + RaceA + ","
         + "raceB:" + RaceB + ","
-        + "baseHp:" + BaseHp + ","
-        + "maxHp:" + MaxHp + ","
-        + "baseAtk:" + BaseAtk + ","
-        + "maxAtk:" + MaxAtk + ","
-        + "baseDef:" + BaseDef + ","
-        + "maxDef:" + MaxDef + ","
-        + "baseSpeed:" + BaseSpeed + ","
-        + "maxSpeed:" + MaxSpeed + ","
-        + "baseAdap:" + BaseAdap + ","
-        + "maxAdap:" + MaxAdap + ","
+        + "lv1Hp:" + Lv1Hp + ","
+        + "lv2Hp:" + Lv2Hp + ","
+        + "lv3Hp:" + Lv3Hp + ","
+        + "lv4Hp:" + Lv4Hp + ","
+        + "lv5Hp:" + Lv5Hp + ","
+        + "lv1Atk:" + Lv1Atk + ","
+        + "lv2Atk:" + Lv2Atk + ","
+        + "lv3Atk:" + Lv3Atk + ","
+        + "lv4Atk:" + Lv4Atk + ","
+        + "lv5Atk:" + Lv5Atk + ","
+        + "lv1Def:" + Lv1Def + ","
+        + "lv2Def:" + Lv2Def + ","
+        + "lv3Def:" + Lv3Def + ","
+        + "lv4Def:" + Lv4Def + ","
+        + "lv5Def:" + Lv5Def + ","
+        + "lv1Speed:" + Lv1Speed + ","
+        + "lv2Speed:" + Lv2Speed + ","
+        + "lv3Speed:" + Lv3Speed + ","
+        + "lv4Speed:" + Lv4Speed + ","
+        + "lv5Speed:" + Lv5Speed + ","
+        + "lv1Adap:" + Lv1Adap + ","
+        + "lv2Adap:" + Lv2Adap + ","
+        + "lv3Adap:" + Lv3Adap + ","
+        + "lv4Adap:" + Lv4Adap + ","
+        + "lv5Adap:" + Lv5Adap + ","
         + "}";
     }
 }
