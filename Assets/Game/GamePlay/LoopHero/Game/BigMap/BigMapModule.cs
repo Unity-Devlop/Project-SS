@@ -43,6 +43,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            GameLogger.Log.Debug("[BigMapModule] OnExit");
             _mgr.Exit();
             machine.Stop();
         }

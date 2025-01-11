@@ -17,8 +17,11 @@ namespace Game.LoopHero
 
         public void OnEnter(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
+            _isFightEnd = false;
+            _isLocalPlayerWin = false;
+            
+            GameLogger.Log.Information("FightModule OnEnter");
             _data = stateMachine.GetParam<FightModuleData>(nameof(FightModuleData));
-            _data.CreateTempData();
             stateMachine.RemoveParam(nameof(FightModuleData));
             _mgr.StartFight(_data, OnFightEnd).Forget(); // TODO
         }
@@ -45,7 +48,7 @@ namespace Game.LoopHero
 
         public void OnExit(GameMgr owner, IStateMachine<GameMgr> stateMachine)
         {
-            _data.DestroyTempData();
+            GameLogger.Log.Information("FightModule OnExit");
             _mgr.ExitFight();
         }
 

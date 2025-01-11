@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 using UnityToolkit;
 using UnityToolkit.Collections;
 
@@ -13,25 +14,18 @@ namespace Game.LoopHero
         public FighterData self;
         public FighterData enemy;
 
-        private List<PokemonData> _trainerList;
+        private List<PokemonData> _trainerList = new List<PokemonData>();
 
-        public void DestroyTempData()
-        {
-            _trainerList.Clear();
-            _trainerList = null;
-        }
-
-        public void CreateTempData()
-        {
-            _trainerList = new List<PokemonData>(2)
-            {
-                self.teamData.playerData,
-                enemy.teamData.playerData
-            };
-        }
 
         public IEnumerator<PokemonData> CreateBattlePokemonEnumerator()
         {
+            _trainerList.Clear();
+            _trainerList.Add(self.teamData.playerData);
+            _trainerList.Add(enemy.teamData.playerData);
+            
+            Assert.IsNotNull(_trainerList);
+            Assert.IsNotNull(self.teamData.battlePokemonList);
+            Assert.IsNotNull(enemy.teamData.battlePokemonList);
             return new ListEnumerator<PokemonData>(
                 _trainerList,
                 self.teamData.battlePokemonList,
@@ -41,6 +35,14 @@ namespace Game.LoopHero
 
         public IEnumerator<PokemonData> CreateAllPokemonEnumerator()
         {
+            _trainerList.Clear();
+            _trainerList.Add(self.teamData.playerData);
+            _trainerList.Add(enemy.teamData.playerData);
+            Assert.IsNotNull(_trainerList);
+            Assert.IsNotNull(self.teamData.battlePokemonList);
+            Assert.IsNotNull(self.teamData.candidatePokemonList);
+            Assert.IsNotNull(enemy.teamData.battlePokemonList);
+            Assert.IsNotNull(enemy.teamData.candidatePokemonList);
             return new ListEnumerator<PokemonData>(
                 _trainerList,
                 self.teamData.battlePokemonList,
@@ -52,6 +54,8 @@ namespace Game.LoopHero
 
         public IEnumerator<BuffData> CreateBuffEnumerator()
         {
+            Assert.IsNotNull(self.teamData.currentBuffList);
+            Assert.IsNotNull(enemy.teamData.currentBuffList);
             return new ListEnumerator<BuffData>(
                 self.teamData.currentBuffList,
                 enemy.teamData.currentBuffList

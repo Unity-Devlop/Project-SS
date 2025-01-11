@@ -113,6 +113,7 @@ namespace Game.LoopHero
                 }
             }
 
+            data = null;
             // TODO 战斗结束
             await UniTask.CompletedTask;
         }

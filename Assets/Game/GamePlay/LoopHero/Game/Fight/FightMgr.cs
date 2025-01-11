@@ -40,6 +40,7 @@ namespace Game.LoopHero
 
         #endregion
 
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public FightModuleData data { get; private set; }
 
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
@@ -238,10 +239,11 @@ namespace Game.LoopHero
         private async UniTask EndFight()
         {
             GameLogger.Log.Debug("[{this}] EndFight", this);
-            _camera.enabled = false;
+            data = null;
             var t1 = local.EndFight();
             var t2 = enemy.EndFight();
             await UniTask.WhenAll(t1, t2);
+            _camera.enabled = false;
             await UniTask.CompletedTask;
         }
 
