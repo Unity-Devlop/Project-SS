@@ -7,13 +7,15 @@ using UnityToolkit;
 
 namespace UnityToolkit
 {
+    [AddComponentMenu("")]
     public class UICard : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         private const float MoveSpeedLimit = 100f;
 
         // 需要锚定到的位置
-        public RectTransform pivotPoint { get; private set; }
+        public RectTransform pivotPoint { get; protected set; }
         private RectTransform _transform;
+        private Canvas _canvas;
 
         // Config
         [SerializeField] private Vector3 offset;
@@ -27,11 +29,15 @@ namespace UnityToolkit
         protected override void Awake()
         {
             base.Awake();
-            pivotPoint = transform.parent.GetComponent<RectTransform>();
-            Assert.IsNotNull(pivotPoint);
+            _canvas = GetComponentInParent<Canvas>();
+
             _transform = GetComponent<RectTransform>();
         }
-
+        
+        public void SetSlot(RectTransform slot)
+        {
+            pivotPoint = slot;
+        }
         public void OnDrag(PointerEventData eventData)
         {
         }
@@ -51,7 +57,7 @@ namespace UnityToolkit
             }
 
             Assert.IsFalse(dragging);
-            
+
             if (_autoReset)
             {
                 _transform.anchoredPosition = Vector2.zero;
@@ -72,11 +78,13 @@ namespace UnityToolkit
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            _canvas.overrideSorting = true;
             dragging = true;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            _canvas.overrideSorting = false;
             dragging = false;
         }
     }

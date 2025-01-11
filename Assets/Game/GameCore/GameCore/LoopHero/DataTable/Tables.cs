@@ -20,8 +20,9 @@ public partial class Tables
     public PassiveTable PassiveTable {get; }
     public EnemyPowerTable EnemyPowerTable {get; }
     public TerrainCardTable TerrainCardTable {get; }
-    public ItemCardTable ItemCardTable {get; }
+    public EffectCardTable EffectCardTable {get; }
     public BuildingCardTable BuildingCardTable {get; }
+    public CardIndexTable CardIndexTable {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -31,8 +32,9 @@ public partial class Tables
         PassiveTable = new PassiveTable(loader("passivetable"));
         EnemyPowerTable = new EnemyPowerTable(loader("enemypowertable"));
         TerrainCardTable = new TerrainCardTable(loader("terraincardtable"));
-        ItemCardTable = new ItemCardTable(loader("itemcardtable"));
+        EffectCardTable = new EffectCardTable(loader("effectcardtable"));
         BuildingCardTable = new BuildingCardTable(loader("buildingcardtable"));
+        CardIndexTable = new CardIndexTable(loader("cardindextable"));
         ResolveRef();
     }
     
@@ -44,8 +46,9 @@ public partial class Tables
         PassiveTable.ResolveRef(this);
         EnemyPowerTable.ResolveRef(this);
         TerrainCardTable.ResolveRef(this);
-        ItemCardTable.ResolveRef(this);
+        EffectCardTable.ResolveRef(this);
         BuildingCardTable.ResolveRef(this);
+        CardIndexTable.ResolveRef(this);
     }
 }
 

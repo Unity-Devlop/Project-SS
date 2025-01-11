@@ -1,40 +1,34 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using UnityToolkit;
 
 namespace UnityToolkit
 {
-#if UNITY_EDITOR
-    [ExecuteAlways]
-#endif
     [RequireComponent(typeof(HorizontalLayoutGroup))]
     public class UICardContainer : MonoBehaviour
     {
+        [Sirenix.OdinInspector.ReadOnly, Sirenix.OdinInspector.ShowInInspector]
         private List<UICard> _cards;
 
         [SerializeField] private bool autoSizing = true;
-
-        [SerializeField] private float standardWidth = 100;
-
-        [SerializeField] public float standardHeight = 150;
-        [SerializeField] public int standardCount = 8;
+        [SerializeField] private float standardWidth = 152;
+        [SerializeField] public int maxCount = 8;
 
         private RectTransform _rectTransform;
+        private float _originHeight;
 
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-        }
 
-        private void Start()
-        {
-            _cards = new List<UICard>(GetComponentsInChildren<UICard>());
-            foreach (var card in _cards)
-            {
-                card.pivotPoint.SetParent(transform);
-            }
+            _originHeight = _rectTransform.sizeDelta.y;
+            // 不能有子物体
+            _cards = new List<UICard>();
+            Assert.IsTrue(transform.childCount == 0);
         }
 
         private void Update()
@@ -42,23 +36,21 @@ namespace UnityToolkit
             // 根据手牌的数量 动态调整自己的大小
             if (autoSizing)
             {
-                float maxWidth = standardWidth * standardCount;
-                float width = standardWidth * _cards.Count;
-                width = Mathf.Min(width, maxWidth);
-                _rectTransform.sizeDelta = new Vector2(width, standardHeight);
+                int currentCount = _cards.Count;
+
+                float maxWidth = standardWidth * maxCount;
+                float width = standardWidth * currentCount;
+                width = Mathf.Max(width, maxWidth);
+                _rectTransform.sizeDelta = new Vector2(width, _originHeight);
             }
         }
 
-        public delegate T SpawnAction<T>(UICardContainer container) where T : UICard;
+        // public delegate T SpawnAction<T>(UICardContainer container) where T : UICard;
 
         public delegate void RemoveAction(UICard card);
 
-        public delegate void ConfigCard(UICard card);
-
-        public T Add<T>(SpawnAction<T> spawnAction) where T : UICard
+        public UICard Add(UICard card)
         {
-            var card = spawnAction(this);
-            card.pivotPoint.SetParent(transform);
             _cards.Add(card);
             return card;
         }
@@ -87,19 +79,19 @@ namespace UnityToolkit
         //     card.pivotPoint.SetParent(null);
         //     _cards.Remove(card);
         // }
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            var rectTransform = GetComponent<RectTransform>();
-            var pivot = rectTransform.pivot;
-            if (pivot.x != 0)
-            {
-                Debug.LogWarning("UICarContainer's pivot.x should be 0");
-            }
-
-            pivot.x = 0;
-            rectTransform.pivot = pivot;
-        }
-#endif
+// #if UNITY_EDITOR
+//         private void OnValidate()
+//         {
+//             var rectTransform = GetComponent<RectTransform>();
+//             var pivot = rectTransform.pivot;
+//             if (pivot.x != 0)
+//             {
+//                 Debug.LogWarning("UICarContainer's pivot.x should be 0");
+//             }
+//
+//             pivot.x = 0;
+//             rectTransform.pivot = pivot;
+//         }
+// #endif
     }
 }

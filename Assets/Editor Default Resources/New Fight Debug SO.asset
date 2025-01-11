@@ -17,7 +17,7 @@ MonoBehaviour:
       teamData:
         trainerId: 0
         <playerData>k__BackingField:
-          id: 1
+          id: 0
           <trainerId>k__BackingField: 0
           level: 86
           baseHealth: 43
@@ -33,11 +33,11 @@ MonoBehaviour:
         <package>k__BackingField:
           _items: []
         <battlePokemonList>k__BackingField:
-        - id: 0
+        - id: 1
           <trainerId>k__BackingField: 0
           level: 64
           baseHealth: 69
-          currentHealth: -141
+          currentHealth: -78
           basePower: 98
           baseDefense: 33
           baseAdaptability: 18
@@ -46,11 +46,11 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
-        - id: 0
+        - id: 1
           <trainerId>k__BackingField: 0
           level: 28
           baseHealth: 92
-          currentHealth: -47
+          currentHealth: -61
           basePower: 58
           baseDefense: 98
           baseAdaptability: 29
@@ -65,7 +65,7 @@ MonoBehaviour:
       teamData:
         trainerId: 1
         <playerData>k__BackingField:
-          id: 1
+          id: 0
           <trainerId>k__BackingField: 1
           level: 49
           baseHealth: 23
@@ -81,11 +81,11 @@ MonoBehaviour:
         <package>k__BackingField:
           _items: []
         <battlePokemonList>k__BackingField:
-        - id: 0
+        - id: 1
           <trainerId>k__BackingField: 1
           level: 74
           baseHealth: 89
-          currentHealth: 21
+          currentHealth: 43
           basePower: 99
           baseDefense: 96
           baseAdaptability: 66
@@ -94,11 +94,11 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
-        - id: 0
+        - id: 1
           <trainerId>k__BackingField: 1
           level: 59
           baseHealth: 3
-          currentHealth: -89
+          currentHealth: -65
           basePower: 69
           baseDefense: 94
           baseAdaptability: 14
@@ -107,11 +107,11 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
-        - id: 0
+        - id: 1
           <trainerId>k__BackingField: 1
           level: 25
           baseHealth: 28
-          currentHealth: 28
+          currentHealth: -79
           basePower: 4
           baseDefense: 76
           baseAdaptability: 41

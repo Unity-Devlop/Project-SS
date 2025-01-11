@@ -11,12 +11,12 @@ namespace Game.LoopHero
     public class GameOperationPanel : UIPanel
     {
         [SerializeField] private UICardContainer cardContainer;
-        private UICardConfigurator _configurator;
+        private UICardFactory _factory;
         private PackageData _bindData;
 
         private void Awake()
         {
-            _configurator = cardContainer.GetComponent<UICardConfigurator>();
+            _factory = cardContainer.GetComponent<UICardFactory>();
         }
 
         public void Bind(PackageData data)
@@ -26,9 +26,8 @@ namespace Game.LoopHero
             foreach (var pair in data.items)
             {
                 ItemEnum id = pair.id;
-                var card = cardContainer.Add(_configurator.Spawn);
-                // _configurator.Config(card);       
-                card.Bind(id);
+                var card = _factory.Spawn(cardContainer, id);
+                cardContainer.Add(card);
             }
         }
     }

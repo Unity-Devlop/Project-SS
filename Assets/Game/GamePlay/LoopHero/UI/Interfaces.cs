@@ -6,4 +6,9 @@ namespace Game.LoopHero.UI
     {
         public ItemEnum id { get; }
     }
+
+    public interface ILoopHeroCard
+    {
+        void Bind(ItemEnum id);
+    }
 }

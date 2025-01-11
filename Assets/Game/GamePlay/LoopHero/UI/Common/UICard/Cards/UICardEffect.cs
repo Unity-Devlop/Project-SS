@@ -1,3 +1,4 @@
+using cfg;
 using UnityToolkit;
 
 namespace Game.LoopHero.UI.Common
@@ -5,7 +6,7 @@ namespace Game.LoopHero.UI.Common
     /// <summary>
     /// 道具卡
     /// </summary>
-    public sealed class UICardItem : LoopHeroUICard
+    public sealed class UICardEffect : LoopHeroUICardBase
     {
     }
 }

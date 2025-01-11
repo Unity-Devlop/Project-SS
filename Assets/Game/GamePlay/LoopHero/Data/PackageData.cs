@@ -132,8 +132,8 @@ namespace Game.LoopHero
             foreach (var pair in _items)
             {
                 if (pair.config.Type != ItemTypeEnum.卡牌) continue;
-                var cardCfg = Core.Tables.ItemCardTable.Get(pair.id);
-                if (cardCfg.Type == cardTypeEnum)
+                var cardIndexConfig = Core.Tables.CardIndexTable.Get(pair.id);
+                if (cardIndexConfig.Type == cardTypeEnum)
                 {
                     yield return pair.id;
                 }

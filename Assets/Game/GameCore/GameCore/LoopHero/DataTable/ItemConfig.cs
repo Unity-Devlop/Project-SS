@@ -18,6 +18,7 @@ public sealed partial class ItemConfig : Luban.BeanBase
     public ItemConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
+        { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ItemTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["max_stack"].IsNumber) { throw new SerializationException(); }  MaxStack = _buf["max_stack"]; }
@@ -32,6 +33,7 @@ public sealed partial class ItemConfig : Luban.BeanBase
     /// ID
     /// </summary>
     public readonly ItemEnum Id;
+    public readonly string Name;
     /// <summary>
     /// 类型
     /// </summary>
@@ -54,12 +56,14 @@ public sealed partial class ItemConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
+        + "name:" + Name + ","
         + "type:" + Type + ","
         + "desc:" + Desc + ","
         + "maxStack:" + MaxStack + ","

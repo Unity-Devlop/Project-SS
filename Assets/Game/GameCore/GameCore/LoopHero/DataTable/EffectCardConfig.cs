@@ -13,16 +13,16 @@ using SimpleJSON;
 
 namespace cfg
 {
-public sealed partial class TerrainCardConfig : Luban.BeanBase
+public sealed partial class EffectCardConfig : Luban.BeanBase
 {
-    public TerrainCardConfig(JSONNode _buf) 
+    public EffectCardConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
     }
 
-    public static TerrainCardConfig DeserializeTerrainCardConfig(JSONNode _buf)
+    public static EffectCardConfig DeserializeEffectCardConfig(JSONNode _buf)
     {
-        return new TerrainCardConfig(_buf);
+        return new EffectCardConfig(_buf);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public sealed partial class TerrainCardConfig : Luban.BeanBase
     /// </summary>
     public readonly ItemEnum Id;
    
-    public const int __ID__ = 311021415;
+    public const int __ID__ = -1524549885;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)

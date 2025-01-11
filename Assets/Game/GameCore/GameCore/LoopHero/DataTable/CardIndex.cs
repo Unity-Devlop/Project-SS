@@ -13,36 +13,33 @@ using SimpleJSON;
 
 namespace cfg
 {
-public sealed partial class ItemCardConfig : Luban.BeanBase
+public sealed partial class CardIndex : Luban.BeanBase
 {
-    public ItemCardConfig(JSONNode _buf) 
+    public CardIndex(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
-        { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
-        { if(!_buf["description"].IsString) { throw new SerializationException(); }  Description = _buf["description"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (CardTypeEnum)_buf["type"].AsInt; }
     }
 
-    public static ItemCardConfig DeserializeItemCardConfig(JSONNode _buf)
+    public static CardIndex DeserializeCardIndex(JSONNode _buf)
     {
-        return new ItemCardConfig(_buf);
+        return new CardIndex(_buf);
     }
 
     /// <summary>
     /// ID
     /// </summary>
     public readonly ItemEnum Id;
-    public readonly string Name;
-    public readonly string Description;
+    /// <summary>
+    /// 类型
+    /// </summary>
     public readonly CardTypeEnum Type;
    
-    public const int __ID__ = 1813251589;
+    public const int __ID__ = 1738426242;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
-        
-        
         
         
     }
@@ -51,8 +48,6 @@ public sealed partial class ItemCardConfig : Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "name:" + Name + ","
-        + "description:" + Description + ","
         + "type:" + Type + ","
         + "}";
     }
