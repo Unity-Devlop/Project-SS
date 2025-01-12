@@ -253,6 +253,10 @@ PrefabInstance:
       value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6738876517669680959, guid: 5bfc919cf500c403b8f0ede9cf097dff, type: 3}
+      propertyPath: CustomBlends
+      value: 
+      objectReference: {fileID: 11400000, guid: c5950450bb19daf47a8ed6a940de4079, type: 2}
+    - target: {fileID: 6738876517669680959, guid: 5bfc919cf500c403b8f0ede9cf097dff, type: 3}
       propertyPath: DefaultBlend.Style
       value: 0
       objectReference: {fileID: 0}
