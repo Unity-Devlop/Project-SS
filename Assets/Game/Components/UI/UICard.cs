@@ -11,9 +11,12 @@ namespace UnityToolkit
     public class UICard : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         private const float MoveSpeedLimit = 100f;
+        public event Action<UICard> OnEndDragEvent = delegate { };
+
+        public event Action<UICard> OnBeginDragEvent = delegate { };
 
         // 需要锚定到的位置
-        public RectTransform pivotPoint { get; protected set; }
+        public RectTransform slot { get; protected set; }
         private RectTransform _transform;
         private Canvas _canvas;
 
@@ -23,21 +26,25 @@ namespace UnityToolkit
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public bool dragging { get; private set; }
 
+        public RectTransform rectTransform { get; private set; }
+
         private bool _autoReset = true;
 
 
         protected override void Awake()
         {
+            rectTransform = GetComponent<RectTransform>();
             base.Awake();
             _canvas = GetComponentInParent<Canvas>();
 
             _transform = GetComponent<RectTransform>();
         }
-        
+
         public void SetSlot(RectTransform slot)
         {
-            pivotPoint = slot;
+            this.slot = slot;
         }
+
         public void OnDrag(PointerEventData eventData)
         {
         }
@@ -76,14 +83,15 @@ namespace UnityToolkit
             transform.position = new Vector3(clampedPosition.x, clampedPosition.y, z);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void OnBeginDrag(PointerEventData eventData)
         {
             _canvas.overrideSorting = true;
             dragging = true;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public virtual void OnEndDrag(PointerEventData eventData)
         {
+            OnEndDragEvent(this);
             _canvas.overrideSorting = false;
             dragging = false;
         }

@@ -47,19 +47,29 @@ namespace UnityToolkit
 
         // public delegate T SpawnAction<T>(UICardContainer container) where T : UICard;
 
-        public delegate void RemoveAction(UICard card);
+
+        public delegate void OnAdd(UICard card);
+
+        public delegate void OnRemove(UICard card);
+
+        public event OnAdd OnAddEvent;
+        public event OnRemove OnRemoveEvent;
 
         public UICard Add(UICard card)
         {
             _cards.Add(card);
+            OnAddEvent?.Invoke(card);
             return card;
         }
 
-        public void Remove(UICard card, RemoveAction removeAction)
+        public void Remove(UICard card)
         {
-            card.pivotPoint.SetParent(null);
-            removeAction(card);
+#if UNITY_EDITOR
+            Assert.IsTrue(_cards.Contains(card));
+#endif
+            card.slot.SetParent(null);
             _cards.Remove(card);
+            OnRemoveEvent?.Invoke(card);
         }
 
 // #if UNITY_EDITOR

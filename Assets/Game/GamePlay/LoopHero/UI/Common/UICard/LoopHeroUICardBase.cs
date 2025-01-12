@@ -1,6 +1,7 @@
 ﻿using cfg;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityToolkit;
 
 namespace Game.LoopHero.UI.Common
@@ -9,8 +10,12 @@ namespace Game.LoopHero.UI.Common
     {
         [SerializeField] private TextMeshProUGUI nameText;
 
-        public virtual void Bind(ItemEnum id)
+
+        public int idx { get; private set; }
+
+        public virtual void Bind(ItemEnum id, int idx)
         {
+            this.idx = idx;
             var config = Core.Tables.ItemTable.Get(id);
             nameText.text = config.Name;
         }

@@ -13,7 +13,7 @@ namespace Game.LoopHero.UI.Common
         public GameObject cardEffectPrefab;
         public GameObject cardTerrainPrefab;
 
-        public UICard Spawn(UICardContainer container, ItemEnum id)
+        public UICard Spawn(UICardContainer container, ItemEnum id,int idx)
         {
             var config = Core.Tables.ItemTable.Get(id);
             Assert.IsTrue(config.Type == ItemTypeEnum.卡牌, $"物品{id}不是卡牌!!! 检查配置表");
@@ -40,10 +40,16 @@ namespace Game.LoopHero.UI.Common
             card.SetSlot(cardSlot);
             if (card is ILoopHeroCard loopHeroCard)
             {
-                loopHeroCard.Bind(id);
+                loopHeroCard.Bind(id, idx);
             }
 
             return card;
+        }
+
+        public void DeSpawn(UICard uiCard)
+        {
+            GameLogger.Log.Information("[{0}]DeSpawn Card {1}", nameof(UICardFactory), uiCard);
+            Destroy(uiCard.slot.gameObject);
         }
     }
 }
