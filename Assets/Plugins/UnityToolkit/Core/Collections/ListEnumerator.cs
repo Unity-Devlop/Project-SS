@@ -16,7 +16,7 @@ namespace UnityToolkit.Collections
 
         private int position;
 
-        public ListEnumerator(params List<T>[] lists)
+        public ListEnumerator(params IList<T>[] lists)
         {
             length = 0;
             for (int i = 0; i < lists.Length; i++)
