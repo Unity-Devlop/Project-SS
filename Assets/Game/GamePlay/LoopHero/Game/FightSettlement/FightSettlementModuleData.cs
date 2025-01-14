@@ -1,6 +1,6 @@
 namespace Game.LoopHero
 {
-    public struct FightSettlementModuleData
+    public class FightSettlementModuleData
     {
         public bool isLocalPlayerWin;
     }
