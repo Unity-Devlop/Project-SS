@@ -34,9 +34,13 @@ namespace Game.LoopHero
             }
         }
 
-        [JsonRequired]
-        [SerializeField] private List<PackageItem> _items;
+        [JsonRequired] [SerializeField] private List<PackageItem> _items;
         [JsonIgnore] public IReadOnlyList<PackageItem> items => _items;
+
+        public void Get(int idx,out PackageItem item)
+        {
+            item = _items[idx];
+        }
 
         public void Add(ItemEnum id, ushort count)
         {
@@ -164,7 +168,7 @@ namespace Game.LoopHero
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.HorizontalGroup("Editor")]
         [Sirenix.OdinInspector.Button]
-#endif 
+#endif
         internal void ReBuildIndex()
         {
             for (var i = 0; i < _items.Count; i++)

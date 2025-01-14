@@ -11,15 +11,12 @@
 
 namespace cfg
 { 
-    public enum RaceEnum
+    public enum GroupEnum
     {
         None = 0,
-        Ghost = 1,
-        Spirit = 2,
-        Animal = 3,
-        Plant = 4,
-        机械 = 5,
-        Insect = 6,
+        All = 1,
+        友方 = 2,
+        敌方 = 3,
     }
 
 } 

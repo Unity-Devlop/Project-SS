@@ -85,6 +85,7 @@ namespace UnityToolkit
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
+            OnBeginDragEvent(this);
             _canvas.overrideSorting = true;
             dragging = true;
         }

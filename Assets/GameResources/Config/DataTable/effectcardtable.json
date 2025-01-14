@@ -1,17 +1,121 @@
 [
   {
-    "id": 6
+    "id": 6,
+    "needTarget": true,
+    "targetGroup": 2,
+    "matchRace": 5,
+    "buffListWhenMatchRace1": [
+      11
+    ],
+    "buffParamListWhenMatchRace1": [
+      2
+    ],
+    "buffListWhenMissMatchRace1": [
+      15
+    ],
+    "buffParamListWhenMissMatchRace1": [
+      10
+    ],
+    "matchGroup": 0,
+    "buffListWhenMatchGroup1": [],
+    "buffParamListWhenMatchGroup1": [],
+    "buffListWhenDissMatchGroup1": [],
+    "buffParamListWhenDissMatchGroup1": []
   },
   {
-    "id": 7
+    "id": 7,
+    "needTarget": true,
+    "targetGroup": 2,
+    "matchRace": 5,
+    "buffListWhenMatchRace1": [
+      12,
+      13
+    ],
+    "buffParamListWhenMatchRace1": [
+      1,
+      1
+    ],
+    "buffListWhenMissMatchRace1": [
+      16,
+      17
+    ],
+    "buffParamListWhenMissMatchRace1": [
+      10,
+      10
+    ],
+    "matchGroup": 0,
+    "buffListWhenMatchGroup1": [],
+    "buffParamListWhenMatchGroup1": [],
+    "buffListWhenDissMatchGroup1": [],
+    "buffParamListWhenDissMatchGroup1": []
   },
   {
-    "id": 8
+    "id": 8,
+    "needTarget": true,
+    "targetGroup": 2,
+    "matchRace": 5,
+    "buffListWhenMatchRace1": [
+      14
+    ],
+    "buffParamListWhenMatchRace1": [
+      5
+    ],
+    "buffListWhenMissMatchRace1": [
+      18
+    ],
+    "buffParamListWhenMissMatchRace1": [
+      0.5
+    ],
+    "matchGroup": 0,
+    "buffListWhenMatchGroup1": [],
+    "buffParamListWhenMatchGroup1": [],
+    "buffListWhenDissMatchGroup1": [],
+    "buffParamListWhenDissMatchGroup1": []
   },
   {
-    "id": 9
+    "id": 9,
+    "needTarget": true,
+    "targetGroup": 1,
+    "matchRace": 0,
+    "buffListWhenMatchRace1": [],
+    "buffParamListWhenMatchRace1": [],
+    "buffListWhenMissMatchRace1": [],
+    "buffParamListWhenMissMatchRace1": [],
+    "matchGroup": 2,
+    "buffListWhenMatchGroup1": [
+      20,
+      20,
+      20
+    ],
+    "buffParamListWhenMatchGroup1": [
+      3,
+      3,
+      3
+    ],
+    "buffListWhenDissMatchGroup1": [
+      21
+    ],
+    "buffParamListWhenDissMatchGroup1": [
+      0.8
+    ]
   },
   {
-    "id": 10
+    "id": 10,
+    "needTarget": true,
+    "targetGroup": 3,
+    "matchRace": 0,
+    "buffListWhenMatchRace1": [],
+    "buffParamListWhenMatchRace1": [],
+    "buffListWhenMissMatchRace1": [
+      19
+    ],
+    "buffParamListWhenMissMatchRace1": [
+      30
+    ],
+    "matchGroup": 0,
+    "buffListWhenMatchGroup1": [],
+    "buffParamListWhenMatchGroup1": [],
+    "buffListWhenDissMatchGroup1": [],
+    "buffParamListWhenDissMatchGroup1": []
   }
 ]
