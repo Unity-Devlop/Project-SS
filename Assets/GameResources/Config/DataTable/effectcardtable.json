@@ -2,7 +2,8 @@
   {
     "id": 6,
     "needTarget": true,
-    "targetGroup": 2,
+    "targetType": 1,
+    "targetGroup": 1,
     "matchRace": 5,
     "buffListWhenMatchRace1": [
       11
@@ -25,7 +26,8 @@
   {
     "id": 7,
     "needTarget": true,
-    "targetGroup": 2,
+    "targetType": 1,
+    "targetGroup": 1,
     "matchRace": 5,
     "buffListWhenMatchRace1": [
       12,
@@ -52,7 +54,8 @@
   {
     "id": 8,
     "needTarget": true,
-    "targetGroup": 2,
+    "targetType": 1,
+    "targetGroup": 1,
     "matchRace": 5,
     "buffListWhenMatchRace1": [
       14
@@ -75,13 +78,14 @@
   {
     "id": 9,
     "needTarget": true,
-    "targetGroup": 1,
+    "targetType": 1,
+    "targetGroup": 3,
     "matchRace": 0,
     "buffListWhenMatchRace1": [],
     "buffParamListWhenMatchRace1": [],
     "buffListWhenMissMatchRace1": [],
     "buffParamListWhenMissMatchRace1": [],
-    "matchGroup": 2,
+    "matchGroup": 1,
     "buffListWhenMatchGroup1": [
       20,
       20,
@@ -102,7 +106,8 @@
   {
     "id": 10,
     "needTarget": true,
-    "targetGroup": 3,
+    "targetType": 1,
+    "targetGroup": 2,
     "matchRace": 0,
     "buffListWhenMatchRace1": [],
     "buffParamListWhenMatchRace1": [],

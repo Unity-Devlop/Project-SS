@@ -19,6 +19,7 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
         { if(!_buf["needTarget"].IsBoolean) { throw new SerializationException(); }  NeedTarget = _buf["needTarget"]; }
+        { if(!_buf["targetType"].IsNumber) { throw new SerializationException(); }  TargetType = (EntityTypeEnum)_buf["targetType"].AsInt; }
         { if(!_buf["targetGroup"].IsNumber) { throw new SerializationException(); }  TargetGroup = (GroupEnum)_buf["targetGroup"].AsInt; }
         { if(!_buf["matchRace"].IsNumber) { throw new SerializationException(); }  MatchRace = (RaceEnum)_buf["matchRace"].AsInt; }
         { var __json0 = _buf["buffListWhenMatchRace1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffListWhenMatchRace1 = new System.Collections.Generic.List<BuffEnum>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BuffEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BuffEnum)__e0.AsInt; }  BuffListWhenMatchRace1.Add(__v0); }   }
@@ -45,6 +46,10 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
     /// 是否拖到某个目标上使用
     /// </summary>
     public readonly bool NeedTarget;
+    /// <summary>
+    /// 目标的类型
+    /// </summary>
+    public readonly EntityTypeEnum TargetType;
     /// <summary>
     /// 目标方阵营
     /// </summary>
@@ -108,6 +113,7 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -115,6 +121,7 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "needTarget:" + NeedTarget + ","
+        + "targetType:" + TargetType + ","
         + "targetGroup:" + TargetGroup + ","
         + "matchRace:" + MatchRace + ","
         + "buffListWhenMatchRace1:" + Luban.StringUtil.CollectionToString(BuffListWhenMatchRace1) + ","

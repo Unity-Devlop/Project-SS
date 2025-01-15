@@ -84,13 +84,13 @@ namespace Game.LoopHero
             Assert.IsTrue(item.count == 1);
             var idx = Core.Tables.CardIndexTable.Get(item.id);
             bool success = false;
-            
+
             Ray ray = Global.cameraSystem.mainCamera.ScreenPointToRay(screenPos);
 
 #if UNITY_EDITOR
             UnityEngine.Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 10);
 #endif
-            
+
             switch (idx.Type)
             {
                 case CardTypeEnum.地形卡:
@@ -118,10 +118,27 @@ namespace Game.LoopHero
             return true;
         }
 
-        private bool ExecuteEffectCard(EffectCardConfig config,ref Ray ray)
+        private bool ExecuteEffectCard(EffectCardConfig config, ref Ray ray)
         {
-            // TODO 射线检测 这个卡牌是否拖到了某个怪物上
-            return true;
+            RaycastHit2D hit2D = Physics2D.Raycast(ray.origin, ray.direction);
+
+            // 没有点击到任何东西
+            if (hit2D.collider == null) return false;
+            // 没有点击到目标
+            if (!hit2D.collider.TryGetComponent(out ILoopHeroEntity target) && config.NeedTarget) return false;
+            // 点击到了目标，但是目标类型不对
+            if (!config.TargetType.HasFlag(target.entityType)) return false;
+            // 需要目标有阵营 但是目标没有阵营
+            if (config.TargetGroup != GroupEnum.None && target is not ILoopHeroGroupEntity) return false;
+            // 需要目标有阵营 但是目标阵营不对
+            if (config.TargetGroup != GroupEnum.None && target is ILoopHeroGroupEntity groupEntity &&
+                !groupEntity.groupEnum.HasFlag(config.TargetGroup)) return false;
+            
+            
+            // 1. 阵营匹配与否时给不同的Buff效果
+            
+
+            return false;
         }
 
         #endregion

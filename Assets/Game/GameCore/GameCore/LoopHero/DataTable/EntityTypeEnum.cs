@@ -12,15 +12,15 @@
 namespace cfg
 { 
     [System.Flags]
-    public enum GroupEnum
+    public enum EntityTypeEnum
     {
         /// <summary>
         /// 这里是二进制
         /// </summary>
         None = 0,
-        友方 = 1,
-        敌方 = 2,
-        敌我双方 = 友方|敌方,
+        Pokemon = 1,
+        Building = 2,
+        Terrain = 4,
     }
 
 } 
