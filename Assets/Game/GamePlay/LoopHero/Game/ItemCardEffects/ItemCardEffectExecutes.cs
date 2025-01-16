@@ -42,10 +42,12 @@ namespace Game.LoopHero
             if (pokemon.HasRace(RaceEnum.机械))
             {
                 pokemon.data.AddFightTempSpeed(2);
+                return true;
             }
             else
             {
                 pokemon.data.AddPermanentSpeed(2);
+                return true;
             }
 
             return false;
