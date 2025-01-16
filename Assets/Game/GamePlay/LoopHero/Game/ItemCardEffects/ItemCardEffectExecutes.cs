@@ -25,32 +25,22 @@ namespace Game.LoopHero
             return pokemon.data.config.RaceA == raceEnum || pokemon.data.config.RaceB == raceEnum;
         }
 
-        #endregion
-
-        /// <summary>
-        /// 对目标己方怪兽使用。本次对战中，该怪兽的速度提高10点。如果该怪兽的种族是机械，则改为该怪兽的速度永久提高2点。
-        /// </summary>
-        /// <returns></returns>
-        [EffectForItemCard(ItemEnum.高速升级)]
-        public static bool Exe高速升级(ItemEnum cardId, Collider2D collider2D)
+        static void AddBuff(this Pokemon pokemon, BuffEnum buffEnum, float time)
         {
-            GameLogger.Log.Debug($"Exe高速升级 {cardId} {collider2D}");
-            Assert.IsTrue(cardId == ItemEnum.高速升级);
-            if (collider2D == null) return false;
-            if (!collider2D.TryGetComponent(out Pokemon pokemon)) return false;
-            if (!pokemon.IsMine()) return false;
-            if (pokemon.HasRace(RaceEnum.机械))
+            TeamData data;
+            if (pokemon.data.trainerId == FightMgr.Singleton.data.self.teamData.trainerId)
             {
-                pokemon.data.AddFightTempSpeed(2);
-                return true;
+                data = FightMgr.Singleton.data.self.teamData;
             }
             else
             {
-                pokemon.data.AddPermanentSpeed(2);
-                return true;
+                data = FightMgr.Singleton.data.enemy.teamData;
             }
 
-            return false;
+            if (data == null) return;
+            data.currentBuffList.Add(new BuffData(buffEnum, time, pokemon.data.guid));
         }
+
+        #endregion
     }
 }

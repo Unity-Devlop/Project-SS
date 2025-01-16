@@ -47,23 +47,17 @@ namespace Game.LoopHero
         public int additionalSpeed;
 
 
-        [JsonIgnore] public int finalPower => basePower + additionalPower;
-        [JsonIgnore] public int finalDefense => baseDefense + additionalDefense;
+        [JsonIgnore] public int finalPower => (int)(powerPercent * (basePower + additionalPower + fightTempPower));
+        [JsonIgnore] public int finalDefense => baseDefense + additionalDefense + fightTempDefense;
         [JsonIgnore] public int finalAdaptability => baseAdaptability + additionalAdaptability;
         [JsonIgnore] public int finalSpeed => baseSpeed + additionalSpeed + fightTempSpeed;
 
         [JsonIgnore] public int fightTempSpeed;
+        [JsonIgnore] public int fightTempPower;
+        [JsonIgnore] public int fightTempDefense;
 
 
-        public void AddFightTempSpeed(int i)
-        {
-            fightTempSpeed += i;
-        }
-
-        public void AddPermanentSpeed(int i)
-        {
-            baseSpeed += i;
-        }
+        [JsonRequired] public float powerPercent { get; private set; } = 1;
 
         public static PokemonData New(PokemonEnum id)
         {
@@ -130,5 +124,58 @@ namespace Game.LoopHero
 #endif
 
         #endregion
+
+        public void AddFightTempSpeed(int i)
+        {
+            fightTempSpeed += i;
+        }
+
+        public void AddPermanentSpeed(int i)
+        {
+            baseSpeed += i;
+        }
+
+        public void AddPermanentPower(int i)
+        {
+            basePower += i;
+        }
+
+        public void AddPermanentDefense(int i)
+        {
+            baseDefense += i;
+        }
+
+        public void AddFightTempPower(int i)
+        {
+            fightTempPower += i;
+        }
+
+        public void AddFightTempDefense(int i)
+        {
+            fightTempDefense += i;
+        }
+
+        public void AddPermanentHealth(int i)
+        {
+            baseHealth += i;
+        }
+
+        public void AddTempHealthPercent(float f)
+        {
+            currentHealth += (int)(baseHealth * f);
+            currentHealth = Mathf.Min(currentHealth, baseHealth);
+        }
+
+        public void DecreasePowerPercent(float f)
+        {
+            powerPercent -= f;
+            powerPercent = Mathf.Max(0, powerPercent);
+        }
+
+        public void TakeTrueDamage(int i)
+        {
+            currentHealth -= i;
+            currentHealth = Mathf.Max(0, currentHealth);
+        }
     }
 }

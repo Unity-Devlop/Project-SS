@@ -13,7 +13,7 @@ namespace cfg
 { 
     public enum BuffEnum
     {
-        测试0 = 0,
+        下次攻击伤害三倍 = 0,
         易损 = 1,
         暴虐 = 2,
         吸血 = 3,
