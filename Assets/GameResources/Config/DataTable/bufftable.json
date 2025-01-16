@@ -1,88 +1,66 @@
 [
   {
     "id": 0,
-    "target_type": 0,
-    "type": 0,
     "name": "",
     "only_in_battle": false,
     "desc": ""
   },
   {
     "id": 1,
-    "target_type": 2,
-    "type": 1,
     "name": "易损",
     "only_in_battle": true,
     "desc": "受到高额伤害可触发，此次伤害改为2倍。"
   },
   {
     "id": 2,
-    "target_type": 0,
-    "type": 0,
     "name": "暴虐",
     "only_in_battle": false,
     "desc": "每次攻击伤害提升25%。"
   },
   {
     "id": 3,
-    "target_type": 0,
-    "type": 0,
     "name": "吸血",
     "only_in_battle": false,
     "desc": "攻击后恢复生命，等同于此次攻击造成伤害的25%。"
   },
   {
     "id": 4,
-    "target_type": 0,
-    "type": 0,
     "name": "肉质",
     "only_in_battle": false,
     "desc": "受到的攻击伤害降低25%。"
   },
   {
     "id": 5,
-    "target_type": 0,
-    "type": 1,
     "name": "寄生",
     "only_in_battle": true,
     "desc": "回合结束可触发，受到1点伤害（此伤害无视防御和适应），并且给所有敌方植物分别恢复等量生命。最多叠加三层。"
   },
   {
     "id": 6,
-    "target_type": 2,
-    "type": 1,
     "name": "灼伤",
     "only_in_battle": true,
     "desc": "回合结束可触发，受到等同于最大生命值5%的伤害。此伤害无视防御和适应。"
   },
   {
     "id": 7,
-    "target_type": 0,
-    "type": 1,
     "name": "储藏",
     "only_in_battle": true,
     "desc": "当一个己方怪兽的当前生命低于其最大生命的10%时，消耗一层储藏效果，并使其恢复最大生命20%的生命。最多叠加三层。"
   },
   {
     "id": 8,
-    "target_type": 0,
-    "type": 0,
     "name": "升级",
     "only_in_battle": false,
     "desc": "当道具卡高速升级，装甲升级，和重组升级对机械怪兽生效时，该机械怪兽会获得一层升级效果，并且该升级效果会储存对应的道具卡效果。"
   },
   {
     "id": 9,
-    "target_type": 2,
-    "type": 1,
     "name": "神经毒素",
     "only_in_battle": true,
     "desc": "攻击时触发，有20%的几率使此次攻击失败。受到攻击时，若此次攻击造成高额伤害，消耗一层神经毒素效果，并额外受到等同于最大生命10%的伤害。最多叠加一层。"
   },
   {
     "id": 10,
-    "target_type": 2,
-    "type": 0,
     "name": "高额伤害",
     "only_in_battle": true,
     "desc": "一种特殊的攻击类型，能够触发某些效果。"

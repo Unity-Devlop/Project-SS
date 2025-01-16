@@ -18,8 +18,6 @@ public sealed partial class BuffConfig : Luban.BeanBase
     public BuffConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (BuffEnum)_buf["id"].AsInt; }
-        { if(!_buf["target_type"].IsNumber) { throw new SerializationException(); }  TargetType = (BuffTargetTypeEnum)_buf["target_type"].AsInt; }
-        { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (BuffType)_buf["type"].AsInt; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["only_in_battle"].IsBoolean) { throw new SerializationException(); }  OnlyInBattle = _buf["only_in_battle"]; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
@@ -34,11 +32,6 @@ public sealed partial class BuffConfig : Luban.BeanBase
     /// ID
     /// </summary>
     public readonly BuffEnum Id;
-    /// <summary>
-    /// 目标
-    /// </summary>
-    public readonly BuffTargetTypeEnum TargetType;
-    public readonly BuffType Type;
     /// <summary>
     /// 名字(不填从id解析)
     /// </summary>
@@ -61,16 +54,12 @@ public sealed partial class BuffConfig : Luban.BeanBase
         
         
         
-        
-        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
-        + "targetType:" + TargetType + ","
-        + "type:" + Type + ","
         + "name:" + Name + ","
         + "onlyInBattle:" + OnlyInBattle + ","
         + "desc:" + Desc + ","

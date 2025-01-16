@@ -19,18 +19,6 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ItemEnum)_buf["id"].AsInt; }
         { if(!_buf["needTarget"].IsBoolean) { throw new SerializationException(); }  NeedTarget = _buf["needTarget"]; }
-        { if(!_buf["targetType"].IsNumber) { throw new SerializationException(); }  TargetType = (EntityTypeEnum)_buf["targetType"].AsInt; }
-        { if(!_buf["targetGroup"].IsNumber) { throw new SerializationException(); }  TargetGroup = (GroupEnum)_buf["targetGroup"].AsInt; }
-        { if(!_buf["matchRace"].IsNumber) { throw new SerializationException(); }  MatchRace = (RaceEnum)_buf["matchRace"].AsInt; }
-        { var __json0 = _buf["buffListWhenMatchRace1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffListWhenMatchRace1 = new System.Collections.Generic.List<BuffEnum>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BuffEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BuffEnum)__e0.AsInt; }  BuffListWhenMatchRace1.Add(__v0); }   }
-        { var __json0 = _buf["buffParamListWhenMatchRace1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffParamListWhenMatchRace1 = new System.Collections.Generic.List<float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { float __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  BuffParamListWhenMatchRace1.Add(__v0); }   }
-        { var __json0 = _buf["buffListWhenMissMatchRace1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffListWhenMissMatchRace1 = new System.Collections.Generic.List<BuffEnum>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BuffEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BuffEnum)__e0.AsInt; }  BuffListWhenMissMatchRace1.Add(__v0); }   }
-        { var __json0 = _buf["buffParamListWhenMissMatchRace1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffParamListWhenMissMatchRace1 = new System.Collections.Generic.List<float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { float __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  BuffParamListWhenMissMatchRace1.Add(__v0); }   }
-        { if(!_buf["matchGroup"].IsNumber) { throw new SerializationException(); }  MatchGroup = (GroupEnum)_buf["matchGroup"].AsInt; }
-        { var __json0 = _buf["buffListWhenMatchGroup1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffListWhenMatchGroup1 = new System.Collections.Generic.List<BuffEnum>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BuffEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BuffEnum)__e0.AsInt; }  BuffListWhenMatchGroup1.Add(__v0); }   }
-        { var __json0 = _buf["buffParamListWhenMatchGroup1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffParamListWhenMatchGroup1 = new System.Collections.Generic.List<float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { float __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  BuffParamListWhenMatchGroup1.Add(__v0); }   }
-        { var __json0 = _buf["buffListWhenDissMatchGroup1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffListWhenDissMatchGroup1 = new System.Collections.Generic.List<BuffEnum>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BuffEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BuffEnum)__e0.AsInt; }  BuffListWhenDissMatchGroup1.Add(__v0); }   }
-        { var __json0 = _buf["buffParamListWhenDissMatchGroup1"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffParamListWhenDissMatchGroup1 = new System.Collections.Generic.List<float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { float __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  BuffParamListWhenDissMatchGroup1.Add(__v0); }   }
     }
 
     public static EffectCardConfig DeserializeEffectCardConfig(JSONNode _buf)
@@ -46,72 +34,12 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
     /// 是否拖到某个目标上使用
     /// </summary>
     public readonly bool NeedTarget;
-    /// <summary>
-    /// 目标的类型
-    /// </summary>
-    public readonly EntityTypeEnum TargetType;
-    /// <summary>
-    /// 目标方阵营
-    /// </summary>
-    public readonly GroupEnum TargetGroup;
-    /// <summary>
-    /// 匹配的目标种族
-    /// </summary>
-    public readonly RaceEnum MatchRace;
-    /// <summary>
-    /// 当种族匹配时给的Buff
-    /// </summary>
-    public readonly System.Collections.Generic.List<BuffEnum> BuffListWhenMatchRace1;
-    /// <summary>
-    /// 当种族匹配时给的Buff的参数
-    /// </summary>
-    public readonly System.Collections.Generic.List<float> BuffParamListWhenMatchRace1;
-    /// <summary>
-    /// 当种族不匹配时给的Buff
-    /// </summary>
-    public readonly System.Collections.Generic.List<BuffEnum> BuffListWhenMissMatchRace1;
-    /// <summary>
-    /// 当种族不匹配时给的Buff的参数1
-    /// </summary>
-    public readonly System.Collections.Generic.List<float> BuffParamListWhenMissMatchRace1;
-    /// <summary>
-    /// 匹配的目标阵营
-    /// </summary>
-    public readonly GroupEnum MatchGroup;
-    /// <summary>
-    /// 目标阵匹配时给的Buff
-    /// </summary>
-    public readonly System.Collections.Generic.List<BuffEnum> BuffListWhenMatchGroup1;
-    /// <summary>
-    /// 目标阵匹配时给的Buff的参数
-    /// </summary>
-    public readonly System.Collections.Generic.List<float> BuffParamListWhenMatchGroup1;
-    /// <summary>
-    /// 目标阵营不匹配时给的Buff
-    /// </summary>
-    public readonly System.Collections.Generic.List<BuffEnum> BuffListWhenDissMatchGroup1;
-    /// <summary>
-    /// 目标阵营不匹配时给的Buff的参数
-    /// </summary>
-    public readonly System.Collections.Generic.List<float> BuffParamListWhenDissMatchGroup1;
    
     public const int __ID__ = -1524549885;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
     }
@@ -121,18 +49,6 @@ public sealed partial class EffectCardConfig : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "needTarget:" + NeedTarget + ","
-        + "targetType:" + TargetType + ","
-        + "targetGroup:" + TargetGroup + ","
-        + "matchRace:" + MatchRace + ","
-        + "buffListWhenMatchRace1:" + Luban.StringUtil.CollectionToString(BuffListWhenMatchRace1) + ","
-        + "buffParamListWhenMatchRace1:" + Luban.StringUtil.CollectionToString(BuffParamListWhenMatchRace1) + ","
-        + "buffListWhenMissMatchRace1:" + Luban.StringUtil.CollectionToString(BuffListWhenMissMatchRace1) + ","
-        + "buffParamListWhenMissMatchRace1:" + Luban.StringUtil.CollectionToString(BuffParamListWhenMissMatchRace1) + ","
-        + "matchGroup:" + MatchGroup + ","
-        + "buffListWhenMatchGroup1:" + Luban.StringUtil.CollectionToString(BuffListWhenMatchGroup1) + ","
-        + "buffParamListWhenMatchGroup1:" + Luban.StringUtil.CollectionToString(BuffParamListWhenMatchGroup1) + ","
-        + "buffListWhenDissMatchGroup1:" + Luban.StringUtil.CollectionToString(BuffListWhenDissMatchGroup1) + ","
-        + "buffParamListWhenDissMatchGroup1:" + Luban.StringUtil.CollectionToString(BuffParamListWhenDissMatchGroup1) + ","
         + "}";
     }
 }

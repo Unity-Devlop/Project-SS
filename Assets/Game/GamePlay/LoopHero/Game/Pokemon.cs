@@ -13,7 +13,6 @@ namespace Game.LoopHero
     {
         public RaceEnum raceA => data.config.RaceA;
         public RaceEnum raceB => data.config.RaceB;
-        public EntityTypeEnum entityType => EntityTypeEnum.Pokemon;
         public int trainerId => data.trainerId;
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public PokemonData data { get; private set; }
