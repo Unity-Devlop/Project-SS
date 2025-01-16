@@ -50,8 +50,20 @@ namespace Game.LoopHero
         [JsonIgnore] public int finalPower => basePower + additionalPower;
         [JsonIgnore] public int finalDefense => baseDefense + additionalDefense;
         [JsonIgnore] public int finalAdaptability => baseAdaptability + additionalAdaptability;
-        [JsonIgnore] public int finalSpeed => baseSpeed + additionalSpeed;
+        [JsonIgnore] public int finalSpeed => baseSpeed + additionalSpeed + fightTempSpeed;
 
+        [JsonIgnore] public int fightTempSpeed;
+
+
+        public void AddFightTempSpeed(int i)
+        {
+            fightTempSpeed += i;
+        }
+
+        public void AddPermanentSpeed(int i)
+        {
+            baseSpeed += i;
+        }
 
         public static PokemonData New(PokemonEnum id)
         {

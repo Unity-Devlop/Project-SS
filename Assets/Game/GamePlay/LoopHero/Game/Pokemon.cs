@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Game.LoopHero.UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,6 +11,10 @@ namespace Game.LoopHero
 {
     public class Pokemon : MonoBehaviour
     {
+        public RaceEnum raceA => data.config.RaceA;
+        public RaceEnum raceB => data.config.RaceB;
+        public EntityTypeEnum entityType => EntityTypeEnum.Pokemon;
+        public int trainerId => data.trainerId;
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         public PokemonData data { get; private set; }
 
@@ -57,5 +63,6 @@ namespace Game.LoopHero
             data = null;
             await UniTask.CompletedTask;
         }
+
     }
 }

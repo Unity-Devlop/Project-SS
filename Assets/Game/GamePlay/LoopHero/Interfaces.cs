@@ -22,11 +22,7 @@ namespace Game.LoopHero.UI
     {
         public GroupEnum groupEnum { get; }
     }
-
-    public interface ILoopHeroPokemon : ILoopHeroEntity
-    {
-    }
-
+    
     public interface ILoopHeroBuilding : ILoopHeroEntity
     {
     }

@@ -40,6 +40,7 @@ namespace Game.LoopHero
         protected override void OnInit()
         {
             _tables = new Tables(TableLoad);
+            ItemCardEffects.GenerateAll();
             playData = Global.Get<DataSystem>().GetOrDefault<GamePlayData>(GameDataID);
             if (playData.newGame)
             {

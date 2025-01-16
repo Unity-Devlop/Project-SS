@@ -1,5 +1,6 @@
 using System;
 using cfg;
+using Game.LoopHero.CardEffect;
 using Game.LoopHero.UI;
 using Game.LoopHero.UI.Common;
 using TMPro;
@@ -122,23 +123,7 @@ namespace Game.LoopHero
         {
             RaycastHit2D hit2D = Physics2D.Raycast(ray.origin, ray.direction);
 
-            // 没有点击到任何东西
-            if (hit2D.collider == null) return false;
-            // 没有点击到目标
-            if (!hit2D.collider.TryGetComponent(out ILoopHeroEntity target) && config.NeedTarget) return false;
-            // 点击到了目标，但是目标类型不对
-            if (!config.TargetType.HasFlag(target.entityType)) return false;
-            // 需要目标有阵营 但是目标没有阵营
-            if (config.TargetGroup != GroupEnum.None && target is not ILoopHeroGroupEntity) return false;
-            // 需要目标有阵营 但是目标阵营不对
-            if (config.TargetGroup != GroupEnum.None && target is ILoopHeroGroupEntity groupEntity &&
-                !groupEntity.groupEnum.HasFlag(config.TargetGroup)) return false;
-            
-            
-            // 1. 阵营匹配与否时给不同的Buff效果
-            
-
-            return false;
+            return ItemCardEffects.Execute((config.Id, hit2D.collider));
         }
 
         #endregion
