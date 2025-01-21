@@ -19,5 +19,21 @@ namespace UnityToolkit
             s_pool.Release(stack);
         }
     }
+    //
+    // public static class QueuePool<T>
+    // {
+    //     private static readonly ObjectPool<Queue<T>> s_pool =
+    //         new ObjectPool<Queue<T>>(() => new Queue<T>(), null, s => s.Clear());
+    //
+    //     public static Queue<T> Get()
+    //     {
+    //         return s_pool.Get();
+    //     }
+    //
+    //     public static void Release(Queue<T> queue)
+    //     {
+    //         s_pool.Release(queue);
+    //     }
+    // }
 }
 #endif

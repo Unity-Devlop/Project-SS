@@ -1,12 +1,15 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using cfg;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
+using UnityToolkit;
 
 namespace Game.LoopHero
 {
@@ -51,7 +54,7 @@ namespace Game.LoopHero
         [SerializeField] private Fighter local;
         [SerializeField] private Fighter enemy;
 
-        private BuffTicker _buffTicker;
+        // private BuffTicker _buffTicker;
 
         protected override void OnInit()
         {
@@ -84,20 +87,37 @@ namespace Game.LoopHero
                    fightState != FightState.None
                   )
             {
+                // 4️死的都要退场
+
                 await UniTask.DelayFrame(1, cancellationToken: destroyCancellationToken);
+
+                GameLogger.Log.Information("[{this}] RoundStart", this);
                 await RoundStart();
                 result = await GetFightResult();
                 if (result.isFightEnd) break;
                 fightState = FightState.RoundStart;
 
                 await UniTask.DelayFrame(1, cancellationToken: destroyCancellationToken);
+                // await CandidateReplaceDead();
+                GameLogger.Log.Information("[{this}] Rounding", this);
                 await Rounding();
                 result = await GetFightResult();
                 if (result.isFightEnd) break;
                 fightState = FightState.Rounding;
 
                 await UniTask.DelayFrame(1, cancellationToken: destroyCancellationToken);
+                // await CandidateReplaceDead();
+                GameLogger.Log.Information("[{this}] RoundEnd", this);
                 await RoundEnd();
+
+                // 死了的都应该退场
+                Assert.IsTrue(local.CheckDeadPokemon() && enemy.CheckDeadPokemon());
+
+                // 如果玩家操作了候补区域 则应该都替换到战斗区域
+                var t1 = TryEnterCandidate(local);
+                var t2 = TryEnterCandidate(enemy);
+                await UniTask.WhenAll(t1, t2);
+
                 result = await GetFightResult();
                 if (result.isFightEnd) break;
                 fightState = FightState.RoundEnd;
@@ -110,6 +130,103 @@ namespace Game.LoopHero
             onFightEnd(in result);
         }
 
+        private async UniTask TryEnterCandidate(Fighter fighter)
+        {
+            var teamData = fighter.data.teamData;
+            Assert.IsTrue(teamData.battlePokemonList.Count <= TeamData.MaxBattlePokemonCount,
+                $"[{nameof(FightMgr)}] 战斗队伍数量超过上限");
+            Assert.IsTrue(teamData.candidatePokemonQueue.Count <= TeamData.MaxBattlePokemonCount,
+                $"[{nameof(FightMgr)}] 候补队伍数量超过上限");
+
+            if (teamData.candidatePokemonQueue.Count == 0) return;
+
+            List<int> emptyIndex = ListPool<int>.Get();
+            List<int> deadIndex = ListPool<int>.Get();
+            for (int i = 0; i < TeamData.MaxBattlePokemonCount; i++) // 找到可以候补的位置
+            {
+                if (i >= teamData.battlePokemonList.Count) // 一个没有使用的位置
+                {
+                    Assert.IsTrue(fighter.CheckPositionEmpty(i), $"[{fighter}] 位置{i}不为空");
+                    emptyIndex.Add(i);
+                    continue;
+                }
+
+                if (!teamData.battlePokemonList[i].alive) // 一个被死亡宝可梦占据的位置
+                {
+                    deadIndex.Add(i);
+                    continue;
+                }
+            }
+
+            // 有候补的位置&有候补的宝可梦
+            GameLogger.Log.Debug(
+                "[{fighter}] 候补队伍数量:{teamData.candidatePokemonQueue.Count} 空闲位置:{candidateIndex} 死亡位置:{deadIndex}",
+                fighter,
+                teamData.candidatePokemonQueue.Count,
+                JsonConvert.SerializeObject(emptyIndex),
+                JsonConvert.SerializeObject(deadIndex));
+            // 先替换死的
+            while (deadIndex.Count > 0 && teamData.candidatePokemonQueue.Count > 0)
+            {
+                int index = deadIndex[deadIndex.Count - 1];
+                deadIndex.RemoveAt(deadIndex.Count - 1);
+                var candidate = teamData.candidatePokemonQueue.Dequeue();
+
+                Assert.IsNotNull(candidate);
+                Assert.IsFalse(teamData.battlePokemonList[index].alive);
+                GameLogger.Log.Debug("[{fighter}] 候补宝可梦:{candidate} 替换到位置:{index} {selfTeam.battlePokemonList[index]}",
+                    fighter.gameObject.name,
+                    candidate.id.ToString(), index, teamData.battlePokemonList[index].id.ToString());
+                teamData.battlePokemonList[index] = candidate;
+                await fighter.EnterBattle(candidate, index);
+            }
+
+            // 再替换空的
+            while (emptyIndex.Count > 0 && teamData.candidatePokemonQueue.Count > 0)
+            {
+                int index = emptyIndex[emptyIndex.Count - 1];
+                emptyIndex.RemoveAt(emptyIndex.Count - 1);
+                var candidate = teamData.candidatePokemonQueue.Dequeue();
+
+                Assert.IsNotNull(candidate);
+                GameLogger.Log.Debug("[{fighter}] 候补宝可梦 添加到位置:{index} 剩余空闲位置宝可梦:{emptyIndex}", fighter.gameObject.name,
+                    index, JsonConvert.SerializeObject(emptyIndex));
+
+
+                teamData.battlePokemonList.Add(candidate);
+                await fighter.EnterBattle(candidate, index);
+            }
+
+            // while (candidateIndex.Count > 0 && teamData.candidatePokemonQueue.Count > 0)
+            // {
+            //     int index = candidateIndex[candidateIndex.Count - 1];
+            //     candidateIndex.RemoveAt(candidateIndex.Count - 1);
+            //     var candidate = teamData.candidatePokemonQueue.Dequeue();
+            //
+            //     Assert.IsNotNull(candidate);
+            //     if (index < teamData.battlePokemonList.Count)
+            //     {
+            //         // 这里是替换死掉的宝可梦
+            //         Assert.IsFalse(teamData.battlePokemonList[index].alive);
+            //         GameLogger.Log.Debug("[{fighter}] 候补宝可梦:{candidate} 替换到位置:{index} {selfTeam.battlePokemonList[index]}",
+            //             fighter.gameObject.name,
+            //             candidate, index, teamData.battlePokemonList[index]);
+            //         teamData.battlePokemonList[index] = candidate;
+            //         await fighter.EnterBattle(candidate, index);
+            //         continue;
+            //     }
+            //
+            //     // 这里是单纯的新出场
+            //     GameLogger.Log.Debug("[{fighter}] 候补宝可梦 添加到位置:{index}", fighter.gameObject.name, index);
+            //     teamData.battlePokemonList.Add(candidate);
+            //     await fighter.EnterBattle(candidate, index);
+            // }
+
+
+            ListPool<int>.Release(emptyIndex);
+            ListPool<int>.Release(deadIndex);
+            await UniTask.CompletedTask;
+        }
 
         private async UniTask RoundStart()
         {
@@ -193,6 +310,7 @@ namespace Game.LoopHero
 
         private async UniTask RoundEnd()
         {
+            // TODO 回合结束 准备下一回合
             await UniTask.CompletedTask;
         }
 
@@ -207,7 +325,7 @@ namespace Game.LoopHero
             var t2 = enemy.FightStart();
             await UniTask.WhenAll(t1, t2);
 
-            _buffTicker = new BuffTicker(data.CreateAllPokemonEnumerator(), data.CreateBuffEnumerator());
+            // _buffTicker = new BuffTicker(data.CreateAllPokemonEnumerator(), data.CreateBuffEnumerator());
         }
 
         private async UniTask<FightResult> GetFightResult()
@@ -256,9 +374,11 @@ namespace Game.LoopHero
         {
             if (fightState != FightState.None)
             {
-                _buffTicker.OnUpdate(Time.deltaTime);
+                // _buffTicker.OnUpdate(Time.deltaTime);
             }
         }
+
+
         // public Pokemon Query(PokemonData id)
         // {
         //     Fighter fighter;
@@ -289,10 +409,12 @@ namespace Game.LoopHero
         internal void DebugFight()
         {
             so.data.enemy.teamData.RecoverHealth();
+            so.data.enemy.teamData.battlePokemonList.RemoveAll(pokemonData => pokemonData.id == PokemonEnum.烈火领主);
             so.data.self.teamData.RecoverHealth();
+            so.data.self.teamData.battlePokemonList.RemoveAll(pokemonData => pokemonData.id == PokemonEnum.烈火领主);
             GameMgr.Singleton.ToFight(so.data);
         }
-        //
+
         // private void OnGUI()
         // {
         //     if (_data == null) return;

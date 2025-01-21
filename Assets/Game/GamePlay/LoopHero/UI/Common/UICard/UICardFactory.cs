@@ -38,7 +38,7 @@ namespace Game.LoopHero.UI.Common
             var card = Instantiate(prefab, cardSlot.transform).GetComponent<UICard>();
             Assert.IsNotNull(card);
             card.SetSlot(cardSlot);
-            if (card is ILoopHeroCard loopHeroCard)
+            if (card is IUICard loopHeroCard)
             {
                 loopHeroCard.Bind(id, idx);
             }

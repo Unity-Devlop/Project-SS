@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using cfg;
 using SimpleJSON;
 using UnityEngine;
@@ -8,6 +9,27 @@ namespace Game.LoopHero
 {
     public class Core : MonoSingleton<Core>
     {
+        #region Fast Access
+
+        private static TypeEventSystem _event;
+
+        /// <summary>
+        /// 事件系统
+        /// </summary>
+        public static TypeEventSystem Event
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if (_event == null)
+                {
+                    _event = new TypeEventSystem();
+                }
+
+                return _event;
+            }
+        }
+
         /// <summary>
         /// 数据表
         /// </summary>
@@ -33,12 +55,16 @@ namespace Game.LoopHero
             return JSON.Parse(asset.text);
         }
 
+        #endregion
+
+
         protected override bool DontDestroyOnLoad() => true;
         internal const int GameDataID = 1;
         public GamePlayData playData { get; private set; }
 
         protected override void OnInit()
         {
+            _event = new TypeEventSystem();
             _tables = new Tables(TableLoad);
             ItemCardEffects.GenerateAll();
             playData = Global.Get<DataSystem>().GetOrDefault<GamePlayData>(GameDataID);

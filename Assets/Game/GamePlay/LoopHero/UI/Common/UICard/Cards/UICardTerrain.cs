@@ -3,7 +3,7 @@ using UnityToolkit;
 
 namespace Game.LoopHero.UI.Common
 {
-    public sealed class UICardTerrain : LoopHeroUICardBase
+    public sealed class UiuiCardTerrain : LoopHeroUIUICardBase
     {
     }
 }

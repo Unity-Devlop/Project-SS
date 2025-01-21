@@ -11,9 +11,19 @@ namespace UnityToolkit
     public class UICard : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         private const float MoveSpeedLimit = 100f;
-        public event Action<UICard> OnEndDragEvent = delegate { };
+        public static event Action<UICard> OnEndDragEvent = delegate { };
 
-        public event Action<UICard> OnBeginDragEvent = delegate { };
+        public static event Action<UICard> OnBeginDragEvent = delegate { };
+
+        public static event Action<UICard> OnDragEvent = delegate { };
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void RuntimeInitializeOnLoad()
+        {
+            OnEndDragEvent = delegate { };
+            OnBeginDragEvent = delegate { };
+            OnDragEvent = delegate { };
+        }
 
         // 需要锚定到的位置
         public RectTransform slot { get; protected set; }
@@ -47,6 +57,7 @@ namespace UnityToolkit
 
         public void OnDrag(PointerEventData eventData)
         {
+            OnDragEvent(this);
         }
 
         private void Update()

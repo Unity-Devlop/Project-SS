@@ -57,15 +57,25 @@ namespace Game.LoopHero
         [JsonIgnore] public int fightTempDefense;
 
 
-        [JsonRequired] public float powerPercent { get; private set; } = 1;
+        /// <summary>
+        /// 威力有效百分比
+        /// </summary>
+        [JsonRequired]
+        public float powerPercent { get; private set; } = 1;
 
-        public static PokemonData New(PokemonEnum id)
+        public static PokemonData New(PokemonEnum id,int trainerId)
         {
             return new PokemonData()
             {
                 id = id,
+                trainerId = trainerId,
                 guid = Guid.NewGuid()
             };
+        }
+
+        public override string ToString()
+        {
+            return $"{id}-{trainerId}-{guid}";
         }
 
         // public override int GetHashCode()
@@ -125,14 +135,39 @@ namespace Game.LoopHero
 
         #endregion
 
+// --------------------- TEMP ---------------------
+        public void AddTempHealthPercent(float f)
+        {
+            currentHealth += (int)(baseHealth * f);
+            currentHealth = Mathf.Min(currentHealth, baseHealth);
+            GameLogger.Log.Debug("战斗临时血量增加{0}", (int)(baseHealth * f));
+        }
+
+        public void AddFightTempPower(int i)
+        {
+            fightTempPower += i;
+            GameLogger.Log.Debug("战斗临时攻击增加{0}", i);
+        }
+
+        public void AddFightTempDefense(int i)
+        {
+            fightTempDefense += i;
+            GameLogger.Log.Debug("战斗临时防御增加{0}", i);
+        }
+
         public void AddFightTempSpeed(int i)
         {
             fightTempSpeed += i;
+            GameLogger.Log.Debug("战斗临时速度增加{0}", i);
         }
+// --------------------- TEMP ---------------------
 
-        public void AddPermanentSpeed(int i)
+
+// --------------------- Permanent ---------------------
+
+        public void AddPermanentHealth(int i)
         {
-            baseSpeed += i;
+            baseHealth += i;
         }
 
         public void AddPermanentPower(int i)
@@ -145,25 +180,9 @@ namespace Game.LoopHero
             baseDefense += i;
         }
 
-        public void AddFightTempPower(int i)
+        public void AddPermanentSpeed(int i)
         {
-            fightTempPower += i;
-        }
-
-        public void AddFightTempDefense(int i)
-        {
-            fightTempDefense += i;
-        }
-
-        public void AddPermanentHealth(int i)
-        {
-            baseHealth += i;
-        }
-
-        public void AddTempHealthPercent(float f)
-        {
-            currentHealth += (int)(baseHealth * f);
-            currentHealth = Mathf.Min(currentHealth, baseHealth);
+            baseSpeed += i;
         }
 
         public void DecreasePowerPercent(float f)
@@ -171,6 +190,9 @@ namespace Game.LoopHero
             powerPercent -= f;
             powerPercent = Mathf.Max(0, powerPercent);
         }
+
+// --------------------- Permanent ---------------------
+
 
         public void TakeTrueDamage(int i)
         {

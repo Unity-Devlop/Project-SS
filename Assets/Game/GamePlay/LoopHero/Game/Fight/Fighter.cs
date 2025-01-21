@@ -6,6 +6,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityToolkit;
 
 namespace Game.LoopHero
 {
@@ -25,12 +26,14 @@ namespace Game.LoopHero
         private Transform _trainerPos;
 
         private Trainer _trainer;
+
+        // private Pokemon[] _pokemons;
         private List<Pokemon> _pokemons;
 
         private void Awake()
         {
+            // _pokemons = new Pokemon[6];
             _pokemons = new List<Pokemon>(6);
-
             _positions = new Transform[6];
 
             _positions[0] = transform.Find("P0");
@@ -47,7 +50,6 @@ namespace Game.LoopHero
         {
             Assert.IsNull(this.data);
             this.data = data;
-            _pokemons.Clear();
             await UniTask.CompletedTask;
         }
 
@@ -62,18 +64,23 @@ namespace Game.LoopHero
                 await EnterBattle(data.teamData.battlePokemonList[i], _positions[i], pokemonPrefab);
             }
 
-            await InitializeFight();
-        }
-
-        private async UniTask InitializeFight()
-        {
             // TODO 战斗开始效果结算
             await UniTask.CompletedTask;
+        }
+
+        internal async UniTask EnterBattle(PokemonData pokemonData, int idx)
+        {
+#if UNITY_EDITOR
+            Assert.IsTrue(_positions[idx].GetComponentInChildren<Pokemon>() == null,
+                $"{gameObject.name}位置 {idx} 已经有宝可梦了");
+#endif
+            await EnterBattle(pokemonData, _positions[idx], pokemonPrefab);
         }
 
         private async UniTask EnterBattle(PokemonData pokemon, Transform target, GameObject prefab)
         {
             var go = Instantiate(prefab, target.position, Quaternion.identity, target);
+            GameLogger.Log.Debug("[{this}] EnterBattle {idx} {pokemon}", gameObject.name, target.name, pokemon);
             // DOTWEEN 移动
             Vector3 targetPosition = go.transform.localPosition;
             Vector3 startPosition = targetPosition - new Vector3(2, 0, 0);
@@ -91,7 +98,7 @@ namespace Game.LoopHero
             Assert.IsNotNull(view);
             await view.ExitBattle();
             _pokemons.Remove(view);
-            GameLogger.Log.Debug("[{this}] ExitBattle {pokemon}", this, pokemon);
+            GameLogger.Log.Debug("[{this}] ExitBattle {idx} {pokemon}", this, view.transform.parent.name, pokemon);
             GameObject.Destroy(view.gameObject);
         }
 
@@ -132,6 +139,23 @@ namespace Game.LoopHero
             var view = _pokemons.Find(p => p.data == id);
             Assert.IsNotNull(view);
             await ExitBattle(id);
+        }
+
+        public bool CheckDeadPokemon()
+        {
+            foreach (var position in _positions)
+            {
+                var pokemon = position.GetComponentInChildren<Pokemon>();
+                if (pokemon == null) continue;
+                if (!pokemon.data.alive) return false;
+            }
+
+            return true;
+        }
+
+        public bool CheckPositionEmpty(int i)
+        {
+            return _positions[i].GetComponentInChildren<Pokemon>() == null;
         }
     }
 }

@@ -30,14 +30,27 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
         <package>k__BackingField:
-          _items: []
+          _items:
+          - id: 6
+            count: 1
+          - id: 7
+            count: 1
+          - id: 8
+            count: 1
+          - id: 9
+            count: 1
+          - id: 10
+            count: 1
         <battlePokemonList>k__BackingField:
         - id: 1
           <trainerId>k__BackingField: 0
           level: 64
-          baseHealth: 69
-          currentHealth: -78
+          baseHealth: 1000
+          currentHealth: 1000
           basePower: 98
           baseDefense: 33
           baseAdaptability: 18
@@ -46,11 +59,14 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
         - id: 1
           <trainerId>k__BackingField: 0
           level: 28
-          baseHealth: 92
-          currentHealth: -61
+          baseHealth: 1000
+          currentHealth: 966
           basePower: 58
           baseDefense: 98
           baseAdaptability: 29
@@ -59,7 +75,58 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
-        <candidatePokemonList>k__BackingField: []
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
+        - id: 5
+          <trainerId>k__BackingField: 0
+          level: 0
+          baseHealth: 100
+          currentHealth: 102
+          basePower: 0
+          baseDefense: 0
+          baseAdaptability: 0
+          baseSpeed: 0
+          additionalPower: 0
+          additionalDefense: 0
+          additionalAdaptability: 0
+          additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
+        - id: 5
+          <trainerId>k__BackingField: 0
+          level: 0
+          baseHealth: 100
+          currentHealth: -80
+          basePower: 0
+          baseDefense: 0
+          baseAdaptability: 0
+          baseSpeed: 0
+          additionalPower: 0
+          additionalDefense: 0
+          additionalAdaptability: 0
+          additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
+        - id: 5
+          <trainerId>k__BackingField: 0
+          level: 0
+          baseHealth: 100
+          currentHealth: 100
+          basePower: 0
+          baseDefense: 0
+          baseAdaptability: 0
+          baseSpeed: 0
+          additionalPower: 0
+          additionalDefense: 0
+          additionalAdaptability: 0
+          additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
+        <packagePokemonList>k__BackingField: []
         <currentBuffList>k__BackingField: []
     enemy:
       teamData:
@@ -78,14 +145,17 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
         <package>k__BackingField:
           _items: []
         <battlePokemonList>k__BackingField:
         - id: 1
           <trainerId>k__BackingField: 1
           level: 74
-          baseHealth: 89
-          currentHealth: 43
+          baseHealth: 1000
+          currentHealth: 1000
           basePower: 99
           baseDefense: 96
           baseAdaptability: 66
@@ -94,11 +164,14 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
         - id: 1
           <trainerId>k__BackingField: 1
           level: 59
-          baseHealth: 3
-          currentHealth: -65
+          baseHealth: 1000
+          currentHealth: 954
           basePower: 69
           baseDefense: 94
           baseAdaptability: 14
@@ -107,11 +180,14 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
         - id: 1
           <trainerId>k__BackingField: 1
           level: 25
-          baseHealth: 28
-          currentHealth: -79
+          baseHealth: 1000
+          currentHealth: 825
           basePower: 4
           baseDefense: 76
           baseAdaptability: 41
@@ -120,5 +196,8 @@ MonoBehaviour:
           additionalDefense: 0
           additionalAdaptability: 0
           additionalSpeed: 0
-        <candidatePokemonList>k__BackingField: []
+          fightTempSpeed: 0
+          fightTempPower: 0
+          fightTempDefense: 0
+        <packagePokemonList>k__BackingField: []
         <currentBuffList>k__BackingField: []

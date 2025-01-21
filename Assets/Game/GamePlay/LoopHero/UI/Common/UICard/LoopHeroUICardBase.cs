@@ -6,7 +6,7 @@ using UnityToolkit;
 
 namespace Game.LoopHero.UI.Common
 {
-    public abstract class LoopHeroUICardBase : UICard, ILoopHeroCard
+    public abstract class LoopHeroUIUICardBase : UICard, IUICard
     {
         [SerializeField] private TextMeshProUGUI nameText;
 

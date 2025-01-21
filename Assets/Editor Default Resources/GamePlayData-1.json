@@ -23,39 +23,14 @@
       "additionalAdaptability": 0,
       "additionalSpeed": 0,
       "guid": "00000000-0000-0000-0000-000000000000",
-      "trainerId": 0
+      "trainerId": 0,
+      "powerPercent": 1.0
     },
     "package": {
-      "_items": [
-        {
-          "idx": 0,
-          "id": 6,
-          "count": 1
-        },
-        {
-          "idx": 1,
-          "id": 7,
-          "count": 1
-        },
-        {
-          "idx": 2,
-          "id": 8,
-          "count": 1
-        },
-        {
-          "idx": 3,
-          "id": 9,
-          "count": 1
-        },
-        {
-          "idx": 4,
-          "id": 10,
-          "count": 1
-        }
-      ]
+      "_items": []
     },
     "battlePokemonList": [],
-    "candidatePokemonList": [],
+    "packagePokemonList": [],
     "currentBuffList": []
   }
 }

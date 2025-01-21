@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 namespace Game.LoopHero
 {
@@ -26,6 +27,12 @@ namespace Game.LoopHero
                 {
                     var pokemon = teamData.battlePokemonList[i];
                     flag |= pokemon.alive;
+                }
+
+                foreach (var pokemonData in teamData.candidatePokemonQueue)
+                {
+                    Assert.IsTrue(pokemonData.alive);
+                    flag |= pokemonData.alive;
                 }
 
                 return flag;

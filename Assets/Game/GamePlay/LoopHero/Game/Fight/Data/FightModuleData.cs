@@ -22,7 +22,7 @@ namespace Game.LoopHero
             _trainerList.Clear();
             _trainerList.Add(self.teamData.playerData);
             _trainerList.Add(enemy.teamData.playerData);
-            
+
             Assert.IsNotNull(_trainerList);
             Assert.IsNotNull(self.teamData.battlePokemonList);
             Assert.IsNotNull(enemy.teamData.battlePokemonList);
@@ -40,15 +40,17 @@ namespace Game.LoopHero
             _trainerList.Add(enemy.teamData.playerData);
             Assert.IsNotNull(_trainerList);
             Assert.IsNotNull(self.teamData.battlePokemonList);
-            Assert.IsNotNull(self.teamData.candidatePokemonList);
+            Assert.IsNotNull(self.teamData.candidatePokemonQueue);
             Assert.IsNotNull(enemy.teamData.battlePokemonList);
-            Assert.IsNotNull(enemy.teamData.candidatePokemonList);
+            Assert.IsNotNull(enemy.teamData.candidatePokemonQueue);
             return new ListEnumerator<PokemonData>(
                 _trainerList,
                 self.teamData.battlePokemonList,
-                self.teamData.candidatePokemonList,
+                // self.teamData.candidatePokemonQueue,
+                self.teamData.packagePokemonList,
                 enemy.teamData.battlePokemonList,
-                enemy.teamData.candidatePokemonList
+                // enemy.teamData.candidatePokemonQueue
+                enemy.teamData.packagePokemonList
             );
         }
 

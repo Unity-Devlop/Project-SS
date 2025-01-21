@@ -6,6 +6,7 @@ using Game.LoopHero.UI.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityToolkit;
 
@@ -15,23 +16,41 @@ namespace Game.LoopHero
     {
         [SerializeField] private UICardContainer cardContainer;
         private UICardFactory _factory;
+
         private PackageData _bindData;
-        [SerializeField] private RectTransform useCardArea;
+        // [SerializeField] private RectTransform useCardArea;
 
-        #region DEMO DEBUG
+        // #region DEMO DEBUG
+        //
+        // [SerializeField] private GameObject debugUseCardArea;
+        //
+        // #endregion
 
-        [SerializeField] private GameObject debugUseCardArea;
 
-        #endregion
-
+        // private ICardEffectExecute _cardEffectExecute;
 
         private void Awake()
         {
             _factory = cardContainer.GetComponent<UICardFactory>();
             cardContainer.OnAddEvent += OnAddCard;
             cardContainer.OnRemoveEvent += OnRemoveCard;
+            // _cardEffectExecute = new UICardEffectExecute(this);
+        }
 
-            debugUseCardArea.gameObject.SetActive(false);
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            UICard.OnBeginDragEvent += OnBeginDragCard;
+            UICard.OnDragEvent += OnDragCard;
+            UICard.OnEndDragEvent += OnEndDragCard;
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            UICard.OnBeginDragEvent -= OnBeginDragCard;
+            UICard.OnDragEvent -= OnDragCard;
+            UICard.OnEndDragEvent -= OnEndDragCard;
         }
 
 
@@ -52,39 +71,57 @@ namespace Game.LoopHero
         // TODO 职责分离
         private void OnRemoveCard(UICard card)
         {
-            card.OnEndDragEvent -= OnEndDragCard;
-            card.OnBeginDragEvent -= OnBeginDragCard;
+            // card.OnEndDragEvent -= OnEndDragCard;
+            // card.OnDragEvent -= OnDragCard;
+            // card.OnBeginDragEvent -= OnBeginDragCard;
         }
+
 
         // TODO 职责分离
         private void OnAddCard(UICard card)
         {
-            card.OnEndDragEvent += OnEndDragCard;
-            card.OnBeginDragEvent += OnBeginDragCard;
+            // card.OnEndDragEvent += OnEndDragCard;
+            // card.OnDragEvent += OnDragCard;
+            // card.OnBeginDragEvent += OnBeginDragCard;
         }
 
         private void OnBeginDragCard(UICard obj)
         {
-            debugUseCardArea.gameObject.SetActive(true);
+            // debugUseCardArea.gameObject.SetActive(true);
+        }
+
+        private void OnDragCard(UICard obj)
+        {
         }
 
         // TODO 职责分离
-        private void OnEndDragCard(UICard obj)
+        private void OnEndDragCard(UICard uiCard)
         {
-            debugUseCardArea.gameObject.SetActive(false);
-            Vector3 screenPos = UIRoot.Singleton.UICamera.WorldToScreenPoint(obj.transform.position);
-            if (!RectTransformUtility.RectangleContainsScreenPoint(useCardArea,
-                    new Vector2(screenPos.x, screenPos.y),
-                    UIRoot.Singleton.UICamera)) return;
-            GameLogger.Log.Information("[{0}]Use Card {1}", nameof(GameOperationPanel), obj);
-            // TODO 职责分离
-            if (obj is not ILoopHeroCard loopHeroCard) return;
-            _bindData.Get(loopHeroCard.idx, out var item);
+            // // debugUseCardArea.gameObject.SetActive(false);
+            // Vector3 screenPos = UIRoot.Singleton.UICamera.WorldToScreenPoint(obj.transform.position);
+            // // if (!RectTransformUtility.RectangleContainsScreenPoint(useCardArea,
+            // //         new Vector2(screenPos.x, screenPos.y),
+            // //         UIRoot.Singleton.UICamera)) return;
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            GameLogger.Log.Information("[{0}]OnEndDragCard UICard {1}", nameof(GameOperationPanel), uiCard);
+            if (uiCard is not IUICard loopHeroCard) return;
+            var success = TryExecuteCard(loopHeroCard);
+            if (success)
+            {
+                cardContainer.Remove(uiCard);
+                _bindData.Remove(loopHeroCard.idx, 1);
+                _factory.DeSpawn(uiCard);
+            }
+        }
 
+        private bool TryExecuteCard(IUICard card)
+        {
+            Vector3 screenPos = UIRoot.Singleton.UICamera.WorldToScreenPoint(card.transform.position);
+            _bindData.Get(card.idx, out var item);
 
             Assert.IsTrue(item.count == 1);
             var idx = Core.Tables.CardIndexTable.Get(item.id);
-            bool success = false;
+            bool success;
 
             Ray ray = Global.cameraSystem.mainCamera.ScreenPointToRay(screenPos);
 
@@ -106,20 +143,16 @@ namespace Game.LoopHero
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (success)
-            {
-                cardContainer.Remove(obj);
-                _bindData.Remove(loopHeroCard.idx, 1);
-                _factory.DeSpawn(obj);
-            }
+            return success;
         }
 
-        private bool ExecuteTerrainCard(TerrainCardConfig config)
+
+        private static bool ExecuteTerrainCard(TerrainCardConfig config)
         {
             return true;
         }
 
-        private bool ExecuteEffectCard(EffectCardConfig config, ref Ray ray)
+        private static bool ExecuteEffectCard(EffectCardConfig config, ref Ray ray)
         {
             RaycastHit2D hit2D = Physics2D.Raycast(ray.origin, ray.direction);
 

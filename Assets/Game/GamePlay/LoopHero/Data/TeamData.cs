@@ -14,6 +14,7 @@ namespace Game.LoopHero
     public sealed class TeamData : Model<TeamData>
     {
         [JsonRequired] public int trainerId;
+        [JsonIgnore] public const int MaxBattlePokemonCount = 6;
 
         [JsonRequired]
         [field: UnityEngine.SerializeField]
@@ -27,9 +28,16 @@ namespace Game.LoopHero
         [field: UnityEngine.SerializeField]
         public List<PokemonData> battlePokemonList { get; private set; } // 战斗队伍
 
+        /// <summary>
+        /// 只会在战斗中存在的数据
+        /// </summary>
+        [JsonIgnore]
+        [field: UnityEngine.SerializeField]
+        public Queue<PokemonData> candidatePokemonQueue { get; private set; } = new Queue<PokemonData>(); // 候选队伍
+
         [JsonRequired]
         [field: UnityEngine.SerializeField]
-        public List<PokemonData> candidatePokemonList { get; private set; } // 候选队伍
+        public List<PokemonData> packagePokemonList { get; private set; } // 背包中的宝可梦
 
         /// <summary>
         /// 当前的buff列表
@@ -54,6 +62,11 @@ namespace Game.LoopHero
 
         public bool Validate()
         {
+            if (battlePokemonList.Count > MaxBattlePokemonCount)
+            {
+                return false;
+            }
+
             // TODO 暂时只检验宝可梦的trainerID
             if (playerData.trainerId != trainerId)
             {
@@ -68,7 +81,7 @@ namespace Game.LoopHero
                 }
             }
 
-            foreach (var pokemonData in candidatePokemonList)
+            foreach (var pokemonData in packagePokemonList)
             {
                 if (pokemonData.trainerId != trainerId)
                 {
@@ -94,7 +107,7 @@ namespace Game.LoopHero
                 setMethod.Invoke(pokemonData, new object[] { trainerId });
             }
 
-            foreach (var pokemonData in candidatePokemonList)
+            foreach (var pokemonData in candidatePokemonQueue)
             {
                 setMethod.Invoke(pokemonData, new object[] { trainerId });
             }
@@ -109,7 +122,7 @@ namespace Game.LoopHero
                 pokemonData.currentHealth = pokemonData.baseHealth;
             }
 
-            foreach (var pokemonData in candidatePokemonList)
+            foreach (var pokemonData in packagePokemonList)
             {
                 pokemonData.currentHealth = pokemonData.baseHealth;
             }
