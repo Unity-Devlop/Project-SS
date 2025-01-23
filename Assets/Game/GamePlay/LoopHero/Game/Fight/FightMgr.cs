@@ -109,6 +109,9 @@ namespace Game.LoopHero
                 // await CandidateReplaceDead();
                 GameLogger.Log.Information("[{this}] RoundEnd", this);
                 await RoundEnd();
+                // 不应该超过队伍上限
+                Assert.IsTrue(local.data.teamData.battlePokemonList.Count <= TeamData.MaxBattlePokemonCount,
+                    $"[{nameof(FightMgr)}] 战斗队伍数量超过上限");
 
                 // 死了的都应该退场
                 Assert.IsTrue(local.CheckDeadPokemon() && enemy.CheckDeadPokemon());
@@ -144,14 +147,15 @@ namespace Game.LoopHero
             List<int> deadIndex = ListPool<int>.Get();
             for (int i = 0; i < TeamData.MaxBattlePokemonCount; i++) // 找到可以候补的位置
             {
-                if (i >= teamData.battlePokemonList.Count) // 一个没有使用的位置
+                var position = fighter.positions[i];
+                var pokemon = position.GetComponentInChildren<Pokemon>();
+                if (pokemon == null)
                 {
-                    Assert.IsTrue(fighter.CheckPositionEmpty(i), $"[{fighter}] 位置{i}不为空");
                     emptyIndex.Add(i);
                     continue;
                 }
 
-                if (!teamData.battlePokemonList[i].alive) // 一个被死亡宝可梦占据的位置
+                if (!pokemon.data.alive)
                 {
                     deadIndex.Add(i);
                     continue;
@@ -194,6 +198,7 @@ namespace Game.LoopHero
 
 
                 teamData.battlePokemonList.Add(candidate);
+                Assert.IsTrue(teamData.battlePokemonList.Count <= TeamData.MaxBattlePokemonCount);
                 await fighter.EnterBattle(candidate, index);
             }
 
@@ -299,12 +304,19 @@ namespace Game.LoopHero
         {
             Assert.IsFalse(actor.trainerId == defenseFighter.data.teamData.trainerId);
             var view = attackFighter.Query(actor);
-            var targetData = FightMath.SearchTarget(actor, defenseFighter.data.teamData.GetBattlePokemonList());
-            var defenseView = defenseFighter.Query(targetData);
+            var defenseData = FightMath.SearchTarget(actor, defenseFighter.data.teamData.GetBattlePokemonList());
+            var defenseView = defenseFighter.Query(defenseData);
+            Assert.IsTrue(defenseFighter.data.teamData.battlePokemonList.Contains(defenseView.data) ||
+                          defenseFighter.data.teamData.playerData == defenseView.data);
             await view.Action(defenseView);
             if (!defenseView.data.alive) // actor的行动让target pokemon GG了
             {
-                await defenseFighter.ExitTarget(defenseView.data);
+                await defenseFighter.ExitTarget(defenseData);
+// #if UNITY_EDITOR
+                Assert.IsTrue(defenseFighter.data.teamData.battlePokemonList.Contains(defenseData),
+                    $"[{nameof(FightMgr)}] {defenseFighter} {defenseData}不在战斗队伍中");
+// #endif
+                defenseFighter.data.teamData.battlePokemonList.Remove(defenseData);
             }
         }
 

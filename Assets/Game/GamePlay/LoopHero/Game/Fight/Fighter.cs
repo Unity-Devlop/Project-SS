@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Game.LoopHero
         public GameObject trainerPrefab;
 
         private Transform[] _positions;
+        public IReadOnlyList<Transform> positions => _positions;
         private Transform _trainerPos;
 
         private Trainer _trainer;
@@ -74,6 +76,7 @@ namespace Game.LoopHero
             Assert.IsTrue(_positions[idx].GetComponentInChildren<Pokemon>() == null,
                 $"{gameObject.name}位置 {idx} 已经有宝可梦了");
 #endif
+            Assert.IsTrue(pokemonData.id != PokemonEnum.玩家);
             await EnterBattle(pokemonData, _positions[idx], pokemonPrefab);
         }
 
@@ -93,6 +96,7 @@ namespace Game.LoopHero
 
         private async UniTask ExitBattle(PokemonData pokemon)
         {
+            // Assert.IsTrue(data.teamData.battlePokemonList.Contains(pokemon));
             // TODO 优化查询开销 虽然就 O(6)
             var view = _pokemons.Find(p => p.data == pokemon);
             Assert.IsNotNull(view);
@@ -100,6 +104,8 @@ namespace Game.LoopHero
             _pokemons.Remove(view);
             GameLogger.Log.Debug("[{this}] ExitBattle {idx} {pokemon}", this, view.transform.parent.name, pokemon);
             GameObject.Destroy(view.gameObject);
+            
+            // Assert.IsTrue(data.teamData.battlePokemonList.Contains(pokemon));
         }
 
         public async UniTask RoundStart()
@@ -133,12 +139,13 @@ namespace Game.LoopHero
             return view;
         }
 
-        public async UniTask ExitTarget(PokemonData id)
+        public async UniTask ExitTarget(PokemonData targetData)
         {
-            Assert.IsTrue(id.trainerId == data.teamData.trainerId, $"{this} 查询的宝可梦不属于这个训练家");
-            var view = _pokemons.Find(p => p.data == id);
+            Assert.IsTrue(data.teamData.battlePokemonList.Contains(targetData));
+            Assert.IsTrue(targetData.trainerId == data.teamData.trainerId, $"{this} 查询的宝可梦不属于这个训练家");
+            var view = _pokemons.Find(p => p.data == targetData);
             Assert.IsNotNull(view);
-            await ExitBattle(id);
+            await ExitBattle(targetData);
         }
 
         public bool CheckDeadPokemon()
